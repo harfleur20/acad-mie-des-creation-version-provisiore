@@ -1590,6 +1590,94 @@ header img{
     text-decoration: none;
 }
 
+/* Ajouter un compteur animation de cours */
+
+.card-image {
+    position: relative; /* Indispensable pour le positionnement absolu */
+}
+
+/* Style pour le texte d'introduction */
+.countdown-intro-text {
+    position: absolute;
+    top: 50%; /* Positionnement vertical au milieu */
+    left: 50%;
+    transform: translate(-50%, -100%); /* MODIFIÉ : Déplace le texte de 100% de sa propre hauteur vers le haut */
+    
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.9);
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-weight: 500;
+    line-height: 1.2rem;
+    font-size: 0.9em;
+    text-align: center;
+    z-index: 10;
+    
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease;
+}
+
+/* Styles pour le compteur */
+.countdown {
+    position: absolute;
+    top: 50%; /* Positionnement vertical au milieu */
+    left: 50%;
+    transform: translate(-50%, 10%); /* MODIFIÉ : Déplace le compteur de 10% de sa propre hauteur vers le bas */
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background-color: rgba(236, 7, 7, 0.9);
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    z-index: 10;
+    
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease;
+}
+
+/* Styles pour les éléments internes du compteur */
+.countdown-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.countdown-value {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #fff;
+    line-height: 1;
+}
+
+.countdown-label {
+    font-size: 0.75rem;
+    font-weight: normal;
+    text-transform: uppercase;
+    color: #fff;
+    margin-top: 4px;
+}
+
+.countdown-separator {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #fff;
+    line-height: 1;
+}
+
+/* Effet de survol : les deux éléments disparaissent */
+.card-bloc:hover .countdown-intro-text,
+.card-bloc:hover .countdown {
+    opacity: 0;
+    visibility: hidden;
+}
+
 
 
 

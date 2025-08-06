@@ -37,32 +37,6 @@ const sections = document.querySelectorAll("section[id]");
   });
 
   //Animation car de formation en ligne
-
-  function updateCountdowns() {
-  const countdowns = document.querySelectorAll('.countdown');
-
-  countdowns.forEach(div => {
-    const startDate = new Date(div.getAttribute('data-start'));
-    const now = new Date();
-    const diff = startDate - now;
-
-    if (diff <= 0) {
-      div.style.display = 'none'; // cache si la date est passée
-      return;
-    }
-
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-    const minutes = Math.floor((diff / (1000 * 60)) % 60);
-
-    div.innerHTML = `<span class="compteur-label">Débute dans :</span> ${days}j ${hours}h ${minutes}min`;
-    div.style.display = 'block';
-  });
-}
-
-setInterval(updateCountdowns, 1000);
-updateCountdowns();
-
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 // Place à l'animation hero-header
