@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Création des éléments HTML du compteur pour cette carte
             const introText = document.createElement('p');
             introText.className = 'countdown-intro-text';
-            introText.textContent = 'Cette formation débutera dans :';
+            introText.textContent = 'Réserve ta place, la formation débute dans :';
 
             const countdown = document.createElement('div');
             countdown.className = 'countdown';

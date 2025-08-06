@@ -1605,11 +1605,11 @@ header img{
     
     color: #fff;
     background-color: rgba(0, 0, 0, 0.9);
-    padding: 5px 10px;
+    padding: 5px 15px;
     border-radius: 5px;
     font-weight: 500;
-    line-height: 1.2rem;
-    font-size: 0.9em;
+    line-height: 1.1rem;
+    font-size: 0.8em;
     text-align: center;
     z-index: 10;
     
@@ -1687,46 +1687,241 @@ header img{
     visibility: hidden;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* Place à la section media querry*/
-
-@media (max-width: 768px) {
-  .partie-haute {
-    flex-direction: column;
-    gap: 2rem;
-  }
-
-  .partie-gauche,
-  .partie-droite {
-    width: 100%;
-    justify-content: center;
-    text-align: center;
-  }
-
-  .apropo-contenair .partie-basse {
-    flex-direction: column;
-    align-items: center;
-    gap: 2rem;
-  }
+.btn-link.mobile-btn {
+    display: none;
 }
 
+/* ----------------------------------------------
+RESPONSIVE TABLETTE | MOBILE | PC
+---------------------------------------------- */
+
+@media (max-width: 1450px) {
+
+    /* --- GESTION DE L'EN-TÊTE --- */
+   
+    #navbar {
+        padding-left: 7rem;
+        padding-right: 7rem;
+    }
+    
+    header .desktop-btn {
+        display: none;
+    }
+
+    header nav ul {
+        display: none;
+    }
+
+    /* Styles pour l'icône hamburger et l'icône de fermeture */
+    .menu-toggle {
+        display: block;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: var(--couleur-principale);
+        z-index: 1001; 
+    }
+    
+    .menu-toggle .close-icon {
+        display: none;
+        /* Ajout du style pour la couleur */
+        color: var(--couleur-texte-clair);
+    }
+    
+    .menu-toggle.active .fa-bars {
+        display: none; 
+    }
+    
+    .menu-toggle.active .close-icon {
+        display: block;
+    }
+
+    /* --- STYLES DU MENU MOBILE --- */
+    .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 60%;
+        max-width: 280px;
+        height: 100vh;
+        background-color: var(--couleur-principale);
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        z-index: 999;
+        box-shadow: -5px 0 15px rgba(0,0,0,0.2);
+        transition: right 0.3s ease-in-out;
+        padding-top: 5rem;
+    }
+    
+    .nav-links.active {
+        right: 0;
+    }
+
+    .nav-links ul {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        padding: 0;
+        list-style: none;
+        margin-top: 4rem;
+    }
+    
+    .nav-links ul li {
+        width: 100%;
+        padding: 0.4rem 0;
+        text-align: center;
+    }
+
+    .nav-links ul li a {
+        text-decoration: none;
+        color: var(--couleur-texte-clair);
+        font-size: 1rem;
+    }
+
+    .nav-links ul li a:hover {
+        color: var(--couleur-secondaire);
+    }
+
+    header .nav-links .mobile-btn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 70%;
+        margin: 2rem auto 0;
+        padding: 0.6rem 1.2rem;
+        border-radius: 50px;
+        background-color: var(--couleur-secondaire);
+        color: var(--couleur-texte-clair);
+        font-size: 0.9rem;
+    }
+    
+    header .nav-links .mobile-btn:hover {
+        background-color: #fff;
+        color: var(--couleur-principale);
+    }
+
+
+   /* Place au hero section */
+/* Empile les éléments de la section Hero */
+    #hero {
+       display: flex; /* Passe en une seule colonne */
+        text-align: center;
+        height: auto;
+    }
+
+    #hero .hero-gauche {
+        width: 100%;
+        text-align: center;
+    }
+
+    #hero .hero-gauche p {
+        max-width: 100%;
+        margin-bottom: 2rem;
+    }
+
+    #hero .hero-droite {
+        width: 100%;
+        margin-top: 2rem;
+    }
+
+    #hero .hero-droite img {
+        max-width: 80%; /* Assure que l'image ne dépasse pas */
+        margin: 0 auto;
+
+    }
+
+#hero {
+    padding: 4rem 7rem; /* Réduit le padding */
+
+}
+
+.hero-gauche{
+    margin-bottom: 2.5rem;
+}
+
+#hero .hero-gauche h2 {
+    font-size: clamp(2rem, 3vw, 2rem); /* Utilisation de clamp pour une taille de police fluide */
+}
+
+#hero .hero-gauche p {
+    font-size: clamp(1rem, 2vw, 1.2rem);
+}
+
+#hero .hero-droite img {
+    max-width: 80%; /* Ajuste la taille de l'image */
+}
+
+/* Place à la section apropos */
+#apropos .partie-droite img {
+    max-width: 500px;
+    margin-left: 2.5rem;
+    align-items: center;
+}
+
+#apropos .partie-droite
+ {  
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+#apropos .partie-gauche
+ {  
+    
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.bloc-list-card{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 3.5rem;
+}
+
+.pre-list-card {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 3.5rem;
+}
+
+/* section avec la bannière */
+#banner .banner-container .banner-right 
+{
+    margin-left: 20rem;
+}
+
+#instant-video .partie-haut-video h2 
+{
+    width: 100%;
+}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media (max-width: 992px) {
+
+    #hero{
+        display: flex;
+        flex-direction: column;
+    }
+}

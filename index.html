@@ -15,7 +15,12 @@
  
 <header id="navbar">
     <img src="/Assets/logo_academie_hd.png" alt="logo-AcDesCreatifs" width="" height="">
-    <nav>
+    
+    <div class="menu-toggle">
+        <i class="fa-solid fa-bars"></i>
+        <i class="fa-solid fa-times close-icon"></i> </div>
+    
+    <nav class="nav-links">
         <ul>
             <li><a href="#">Acceuil</a></li>
             <li><a href="#apropos">A propos</a></li>
@@ -23,9 +28,19 @@
             <li><a href="#form-en-presentiel">Formation en présentiel</a></li>
             <li><a href="#formateur">Notre Equipe</a></li>
             <li><a href="#instant-video">Vidéos</a></li>
+            
+            <li>
+                <a href="https://www.google.com" class="btn-link mobile-btn">
+                    <div class="icon">
+                        <i class="fa-solid fa-bolt"></i>
+                        Se former maintenant
+                    </div>
+                </a>
+            </li>
         </ul>
     </nav>
-    <a href="https://www.google.com" class="btn-link">
+    
+    <a href="https://www.google.com" class="btn-link desktop-btn">
         <div class="icon">
             <i class="fa-solid fa-bolt"></i>
             Se former maintenant
@@ -39,7 +54,7 @@
     <div class="hero-gauche">
         <h2>
             Meilleur Centre de Formation
-            pour les graphistes et les <br>
+            pour les graphistes et les
             Métiers du Digital
         </h2>
         <p>
@@ -720,6 +735,7 @@
 <script src="script.js"></script>
 <script src="/animation-compteur.js"></script>
 <script src="/compteur-presentiel.js"></script>
+<script src="/menu-burger.js"></script>
 </body>
 </html>
 
