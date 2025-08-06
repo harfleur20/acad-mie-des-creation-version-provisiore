@@ -1678,6 +1678,15 @@ header img{
     visibility: hidden;
 }
 
+/* Effet de survol : les éléments du compteur disparaissent sur les deux types de cartes */
+.card-image:hover .countdown-intro-text,
+.card-image:hover .countdown,
+.presentiel-card-image:hover .countdown-intro-text,
+.presentiel-card-image:hover .countdown {
+    opacity: 0;
+    visibility: hidden;
+}
+
 
 
 
