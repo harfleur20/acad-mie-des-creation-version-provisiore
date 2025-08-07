@@ -1810,6 +1810,19 @@ RESPONSIVE TABLETTE | MOBILE | PC
         height: auto;
     }
 
+    #hero .hero-gauche
+ {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #hero .hero-gauche .btn-hero {
+        padding: 1rem 1.3rem;
+    }
+
     #hero .hero-gauche {
         width: 100%;
         text-align: center;
@@ -1858,6 +1871,85 @@ RESPONSIVE TABLETTE | MOBILE | PC
     margin-left: 2.5rem;
     align-items: center;
 }
+
+.apropo-contenair .partie-basse{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 2rem;
+}
+
+.bg-progres-container .bg-progres-haut p {
+    width: 100%;
+}
+.bg-progres-container .bg-progres-haut h2 {
+    width: 100%;
+}
+
+/* Place à la section formateur */
+
+#formateur .formateur-contenair-bas{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+    padding: 2rem 7rem;
+}
+
+#formateur .formateur-card{
+    flex: 1 1 45%;
+    max-width: 45%;
+}
+
+/* Responsive section news letter */
+
+.news-letter{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 1rem;
+}
+
+.news-droit h2{
+    font-size: clamp(1rem, 1.6rem, 1.6rem);
+    margin-bottom: 0.5rem;
+
+}
+.news-droit p{
+    font-size: clamp(0.9rem, 1.2rem, 1.2rem);
+    margin-bottom: 1.1rem;
+
+}
+
+.btn-news{
+    margin-right: 0;
+}
+
+.presen-bloc-gauche{
+    width: 50%;
+}
+.presen-bloc-gauche h2{
+    line-height: 2.1rem;
+}
+.bloc-de-gauche{
+    width: 50%;
+}
+.bloc-de-gauche h2{
+    line-height: 2.1rem;
+}
+
+#banniere-prog .btn-prog {
+        white-space: nowrap;
+        padding: 0.6rem 0.8rem;
+    }
+    
+    .footer-content{
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+
 
 #apropos .partie-droite
  {  
