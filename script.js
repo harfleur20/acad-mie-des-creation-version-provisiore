@@ -40,21 +40,32 @@ const sections = document.querySelectorAll("section[id]");
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 // Place à l'animation hero-header
+// Place à l'animation hero-header
 const canvas = document.getElementById('floatingCanvas');
 const ctx = canvas.getContext('2d');
 
 let circles = [];
+let resizeTimeout;
 
-// Fonction pour redimensionner le canvas ET recréer les cercles
+// Fonction pour configurer le canvas et les cercles
 function setupCanvasAndCircles() {
+    // Utilisez la taille de la section hero, pas la fenêtre
     const heroSection = document.getElementById('hero');
-    canvas.width = heroSection.clientWidth;
-    canvas.height = heroSection.clientHeight;
+    const newWidth = heroSection.clientWidth;
+    const newHeight = heroSection.clientHeight;
+
+    // Vérifiez si les dimensions ont vraiment changé pour éviter les recalculs inutiles
+    if (canvas.width === newWidth && canvas.height === newHeight) {
+        return;
+    }
+
+    canvas.width = newWidth;
+    canvas.height = newHeight;
 
     // Réinitialise le tableau de cercles avant de les recréer
     circles = [];
     
-    // Création de cercles flottants (réduit à 15)
+    // Création de cercles flottants
     for (let i = 0; i < 15; i++) {
         circles.push({
             x: Math.random() * canvas.width,
@@ -66,13 +77,16 @@ function setupCanvasAndCircles() {
     }
 }
 
-// Appelez la fonction au chargement de la page
+// Appelez la fonction une première fois au chargement
 setupCanvasAndCircles();
 
-// Écoutez les changements de taille de la fenêtre et réinitialisez le canvas et les cercles
-window.addEventListener('resize', setupCanvasAndCircles);
+// Écoutez l'événement 'resize' avec une technique de "débounce"
+window.addEventListener('resize', function() {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(setupCanvasAndCircles, 250);
+});
 
-
+// Fonction d'animation principale
 function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -91,7 +105,7 @@ function animate() {
     requestAnimationFrame(animate);
 }
 
-// Lancez l'animation une fois
+// Lancez l'animation
 animate();
 
     //animation scroll-navbar
