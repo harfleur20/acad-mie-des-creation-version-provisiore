@@ -2006,7 +2006,7 @@ RESPONSIVE TABLETTE | MOBILE | PC
     body{
         overflow-x: hidden;
     }
-    
+
     #navbar, #hero, #apropos, #banniere-prog, #formateur, #bg-progres, #album, #instant-video, #temoignage, #note-info {
         padding: 2rem 2.5rem;
     }
@@ -2072,6 +2072,10 @@ RESPONSIVE TABLETTE | MOBILE | PC
         font-size: 1rem !important;
         padding: 0.7rem 0.7rem !important;
 
+    }
+
+    html{
+        overflow-x: hidden;
     }
 
 }
