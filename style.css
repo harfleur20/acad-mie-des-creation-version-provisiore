@@ -2002,6 +2002,11 @@ RESPONSIVE TABLETTE | MOBILE | PC
 }
 
 @media (max-width: 1024px) {
+
+    body{
+        overflow-x: hidden;
+    }
+    
     #navbar, #hero, #apropos, #banniere-prog, #formateur, #bg-progres, #album, #instant-video, #temoignage, #note-info {
         padding: 2rem 2.5rem;
     }
@@ -2032,6 +2037,7 @@ RESPONSIVE TABLETTE | MOBILE | PC
         flex-direction: column;
         padding: 2rem 2rem;
         text-align: center;
+        height: auto;
     }
 
     .hero-gauche p{

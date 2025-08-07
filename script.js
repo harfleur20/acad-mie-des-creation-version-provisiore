@@ -40,49 +40,59 @@ const sections = document.querySelectorAll("section[id]");
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 // Place à l'animation hero-header
+const canvas = document.getElementById('floatingCanvas');
+const ctx = canvas.getContext('2d');
 
- const canvas = document.getElementById('floatingCanvas');
-  const ctx = canvas.getContext('2d');
+let circles = [];
 
-  let circles = [];
+// Fonction pour redimensionner le canvas ET recréer les cercles
+function setupCanvasAndCircles() {
+    const heroSection = document.getElementById('hero');
+    canvas.width = heroSection.clientWidth;
+    canvas.height = heroSection.clientHeight;
 
-  function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  }
+    // Réinitialise le tableau de cercles avant de les recréer
+    circles = [];
+    
+    // Création de cercles flottants (réduit à 15)
+    for (let i = 0; i < 15; i++) {
+        circles.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            radius: 5 + Math.random() * 15,
+            speed: 0.3 + Math.random() * 0.5,
+            opacity: 0.2 + Math.random() * 0.4,
+        });
+    }
+}
 
-  window.addEventListener('resize', resizeCanvas);
-  resizeCanvas();
+// Appelez la fonction au chargement de la page
+setupCanvasAndCircles();
 
-  // Création de cercles flottants (réduit à 15)
-  for (let i = 0; i < 15; i++) {
-    circles.push({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      radius: 5 + Math.random() * 15,
-      speed: 0.3 + Math.random() * 0.5,
-      opacity: 0.2 + Math.random() * 0.4,
-    });
-  }
+// Écoutez les changements de taille de la fenêtre et réinitialisez le canvas et les cercles
+window.addEventListener('resize', setupCanvasAndCircles);
 
-  function animate() {
+
+function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     circles.forEach(c => {
-      ctx.beginPath();
-      ctx.arc(c.x, c.y, c.radius, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(255, 255, 255, ${c.opacity})`;
-      ctx.fill();
+        ctx.beginPath();
+        ctx.arc(c.x, c.y, c.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 255, 255, ${c.opacity})`;
+        ctx.fill();
 
-      c.y -= c.speed;
-      if (c.y + c.radius < 0) {
-        c.y = canvas.height + Math.random() * 100;
-        c.x = Math.random() * canvas.width;
-      }
+        c.y -= c.speed;
+        if (c.y + c.radius < 0) {
+            c.y = canvas.height + Math.random() * 100;
+            c.x = Math.random() * canvas.width;
+        }
     });
     requestAnimationFrame(animate);
-    }
-    animate();
+}
+
+// Lancez l'animation une fois
+animate();
 
     //animation scroll-navbar
 
