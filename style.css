@@ -2000,6 +2000,41 @@ RESPONSIVE TABLETTE | MOBILE | PC
 }
 }
 
+@media (max-width: 1024px) {
+    #navbar, #hero, #apropos, #banniere-prog, #formateur, #bg-progres, #album, #instant-video, #temoignage, #note-info {
+        padding: 2rem 2.5rem;
+    }
+
+    #navbar {
+        height: 65px;
+    }
+
+    #navbar img{
+        max-width: 90px;
+        margin-left: -0.9rem;
+    }
+
+    .menu-toggle i{
+        width: 10px;
+        height: auto;
+    }
+
+    .nav-links {
+        width: 70%;
+        max-width: 300px;
+    }
+
+    #hero{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .hero-gauche{
+        
+    }
+
+}
+
 
     
     
