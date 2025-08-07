@@ -1253,7 +1253,7 @@ header img{
     height: 400px;
     background: url(/Assets/banner-1.jpg) no-repeat center center/cover;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
 }
 
@@ -1264,13 +1264,15 @@ header img{
     object-fit: cover;
 }
 
-#banner .banner-container .banner-right{
+#banner .banner-container .banner-right
+{
     width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-left: 30rem;
+    margin-left: 20rem;
+    padding: 0 1rem;
 }
 
 #banner .banner-container .banner-right h2{
@@ -1999,21 +2001,5 @@ RESPONSIVE TABLETTE | MOBILE | PC
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-@media (max-width: 992px) {
-
-    #hero{
-        display: flex;
-        flex-direction: column;
-    }
-}
+    
+    
