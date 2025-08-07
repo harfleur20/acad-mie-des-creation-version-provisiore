@@ -144,8 +144,21 @@ header img{
     align-items: center;
     padding: 0 7rem;
     overflow: hidden;
+    background: url(/Assets/bg-ac-22.jpg) no-repeat center center/cover;
+    z-index: 1;
     position: relative;
 }
+
+#hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(rgba(31, 138, 129, 0.9), rgba(4, 31, 81, 0.9));
+    z-index: -1; 
+    }
 
 #hero .hero-gauche{
     width: 50%;
@@ -2001,18 +2014,31 @@ RESPONSIVE TABLETTE | MOBILE | PC
 }
 }
 
+/* ---------------------------------------------------------
+RESPONSIVE TABLETTE | MOBILE | PC : 1024px
+........................................................ */
+
 @media (max-width: 1024px) {
 
-    body{
+     html{
         overflow-x: hidden;
+    }
+
+    body{
+        padding-top: 60px;
     }
 
     #navbar, #hero, #apropos, #banniere-prog, #formateur, #bg-progres, #album, #instant-video, #temoignage, #note-info {
         padding: 2rem 2.5rem;
     }
 
-    #navbar {
-        height: 65px;
+   #navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    z-index: 1000; /* Assurez-vous qu'il reste au-dessus */
     }
 
     #navbar img{
@@ -2038,7 +2064,21 @@ RESPONSIVE TABLETTE | MOBILE | PC
         padding: 2rem 2rem;
         text-align: center;
         height: auto;
+        background: url(/Assets/bg-ac-1.jpg) no-repeat center center/cover;
+        position: relative;
+        z-index: 1;
     }
+
+    #hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(rgba(31, 138, 129, 0.9), rgba(4, 31, 81, 0.9));
+    z-index: -1; 
+}
 
     .hero-gauche p{
         line-height: 1.3rem;
@@ -2074,10 +2114,7 @@ RESPONSIVE TABLETTE | MOBILE | PC
 
     }
 
-    html{
-        overflow-x: hidden;
-    }
-
+   
 }
 
 
