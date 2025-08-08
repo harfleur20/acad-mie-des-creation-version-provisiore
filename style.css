@@ -2086,7 +2086,7 @@ RESPONSIVE TABLETTE | MOBILE | PC : 1024px
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: linear-gradient(rgba(31, 138, 129, 0.9), rgba(4, 31, 81, 0.9));
+    background-image: linear-gradient(rgba(31, 138, 129, 0.9), rgba(4, 31, 81, 0.8));
     z-index: -1; 
 }
 
@@ -2096,7 +2096,7 @@ RESPONSIVE TABLETTE | MOBILE | PC : 1024px
         width: 100% !important;
     }
     .hero-gauche h2{
-        line-height: 2.2rem;
+        line-height: 2.3rem;
         font-weight: 700;
     }
 
@@ -2378,7 +2378,7 @@ RESPONSIVE TABLETTE | MOBILE | PC : 1024px
      }
 
         .note-info-contenair .note-info-gauche h2{
-            font-size: clamp(1.1em, 2vw, 1.3em);
+            font-size: clamp(1.05em, 2vw, 1.3em);
             margin-bottom: 1rem;
             line-height: 1.4em
         }
@@ -2386,18 +2386,36 @@ RESPONSIVE TABLETTE | MOBILE | PC : 1024px
         .note-info-contenair .note-info-gauche h3{
             text-align: center;
             margin-bottom: 1.6rem;
-            margin-top: 1.6rem
+            margin-top: 1rem;
+        }
+        .note-info-contenair .note-info-gauche p{
+            text-align: center;
+            font-size: clamp(0.5rem, 1rem, 1rem);
+            width: 85%;
+            margin-bottom: 0.9rem;
         }
 
         .solid-icon{
-            margin-bottom: 2rem
+            margin: 1rem 2rem;
+            font-size: 1.5rem;
+            padding: 0.7rem 1rem !important;
         }
      .note-info-droite img{
         display: none
      }
-
+    
      #formateur .formateur-container-haut img{
           width: 80px;
+    }
+
+     #formateur .formateur-container-haut{
+          width: 100%;
+    }
+
+     #formateur .formateur-container-haut h2{
+        width: 75%;
+        font-size: clamp(1.3rem, 2vw, 1.6rem);
+        margin-bottom: 1rem; 
     }
 
      #formateur .formateur-contenair-bas{
@@ -2421,6 +2439,114 @@ RESPONSIVE TABLETTE | MOBILE | PC : 1024px
     text-align: center;
     margin-bottom: 2rem;
    }
+
+   .album-container .part-haut-al{
+    width: 100%;
+    text-align: center;
+   }
+   .album-container .part-haut-al h2{
+    font-size: clamp(1.3rem, 2vw, 1.6rem);
+    width: 85%;
+    line-height: 1.7rem;
+   }
+
+   .album-container .part-haut-al p{
+    font-size: clamp(1.05rem, 1vw, 1.3rem);
+   }
+
+   #instant-video .partie-haut-video{
+    width: 100%;
+   }
+
+   #instant-video .partie-haut-video h2{
+    width: 85%;
+    font-size: clamp(1.3rem, 2vw, 1.6rem);
+    line-height: 1.7rem;
+   }
+
+   #instant-video .partie-haut-video p{
+    font-size: clamp(1.05rem, 1vw, 1.3rem);
+    width: 95%;
+    margin-bottom: 1.5rem;
+   }
+
+   .temge-title h2{
+    font-size: clamp(1.3rem, 2vw, 1.6rem);
+   }
+
+    .temge-title p{
+     font-size: clamp(0.8rem, 1.05rem, 1.05rem);
+     width: 85%;
+    }
+
+   .temge-title h2{
+    font-size: clamp(1.3rem, 2vw, 1.6rem);
+   }
+
+   .t-list-container{
+    margin-bottom: 1.5rem;
+   }
+
+   .bg-progres-container .bg-progres-haut{
+    width: 100%;
+   }
+   
+   .bg-progres-container .bg-progres-haut p{
+    font-size: clamp(0.8rem, 1.05rem, 1.05rem);
+   }
+
+   .bg-progres-container .bg-progres-haut h2{
+    font-size: clamp(0.8rem, 1.3rem, 1.3rem);
+    width: 85%;
+    margin-bottom: 2rem;
+   }
+
+   #banner{
+    display: none;
+   }
+
+   .bg-prog-bas .prog-card img{
+        width: 100px;
+        height: 100px;
+   }
+
+   .prog-bas-container{
+    margin-top: -1rem;
+   }
+
+    .bg-prog-bas .prog-card .prog-carte-cercle-1{
+    width: 150px;
+    height: 150px;
+    }
+
+    .bg-prog-bas .prog-card .prog-carte-cercle-2{
+    width: 150px;
+    height: 150px;
+    }
+
+    .bg-prog-bas .prog-card .prog-carte-cercle-3{
+    width: 150px;
+    height: 150px;
+    }
+
+    .bg-prog-bas .prog-card .prog-carte-cercle-4{
+    width: 150px;
+    height: 150px;
+    }
+
+    .bg-prog-bas .prog-card .prog-carte-cercle-5{
+    width: 150px;
+    height: 150px;
+    }
+
+    .formateur-contenair-bas .formateur-carte{
+        margin-bottom: -2rem;
+    }
+    
+    .formateur-contenair-bas{
+        margin-top: -2rem !important;
+    }
+
 }
 
 
