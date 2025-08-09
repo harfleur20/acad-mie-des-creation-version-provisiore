@@ -1,10 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 :root {
-    --primary-blue: #2575fc;
-    --dark-blue: #0a2540;
+    --primary-blue: #1C8480;
+    --dark-blue: #1f2352;
     --light-gray: #f7f9fc;
-    --text-color: #333;
+    --text-color: #1f2352;
     --border-color: #e6ebf1;
     --white-color: #ffffff;
 }
@@ -21,37 +22,14 @@ body {
     line-height: 1.6;
 }
 
+
 .container {
     max-width: 1100px;
     margin: 0 auto;
     padding: 0 20px;
 }
 
-/* Header */
-.main-header {
-    background-color: var(--white-color);
-    border-bottom: 1px solid var(--border-color);
-    padding: 1rem 0;
-}
 
-.main-header .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.main-header .logo {
-    font-weight: 700;
-    font-size: 1.5rem;
-    color: var(--dark-blue);
-}
-
-.main-header nav a {
-    margin-left: 20px;
-    text-decoration: none;
-    color: var(--text-color);
-    font-weight: 700;
-}
 
 /* Hero Section */
 .hero-section {
@@ -60,7 +38,6 @@ body {
 
 .hero-section .container {
     display: flex;
-    gap: 2rem;
 }
 
 .hero-content {
@@ -68,7 +45,7 @@ body {
 }
 
 .hero-content h1 {
-    font-size: 2.8rem;
+    font-size: 2.5rem;
     font-weight: 900;
     color: var(--dark-blue);
 }
@@ -76,33 +53,20 @@ body {
 .hero-content p {
     font-size: 1.2rem;
     margin-bottom: 2rem;
+    width: 85%;
 }
 
 .video-preview {
     position: relative;
     cursor: pointer;
+    margin-bottom: 1rem;
 }
 
 .video-preview img {
-    max-width: 100%;
+    max-width: 450px;
+    width: 100%;
     border-radius: 8px;
     box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-}
-
-.play-button {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 80px;
-    height: 80px;
-    background: rgba(255, 255, 255, 0.8);
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 2rem;
-    color: var(--primary-blue);
 }
 
 .hero-sidebar {
@@ -131,19 +95,126 @@ body {
     margin-right: 10px;
 }
 
+.compteur-js{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--light-gray);
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 1.5rem;
+}
+
+.compteur{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    color: red;
+}
+
+.compteur i {
+    font-size: 1.5rem;
+    color: red;
+}
+
+.countdown-timer {
+    display: flex;
+    gap: 5px;
+    font-size: 1.5rem;
+    font-weight: 800;
+}
+
+.compteur-js h3{
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--dark-blue);
+    margin-bottom: 0.3rem;
+    color: red;
+}
+
+.price-slider{
+    display: flex;
+    flex-direction: column;
+}
+
+.price{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    margin-top: -0.9rem;
+}
+
+.price-1{
+    font-size: 2.6rem;
+    font-weight: 800;
+    color: var(--dark-blue);
+    margin-bottom: 0.5rem;
+}
+
+.original-price{
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #8d8d8d;
+    text-decoration: line-through;
+    margin-top: -1.2rem;
+    margin-bottom: 1.5rem;
+}
+
+.share-social{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 1.5rem;
+    margin-top: 1.3rem;
+}
+
+.social-icons {
+    display: flex;
+    gap: 10px;
+}
+
+.social-icons a {
+    color: var(--primary-blue);
+    font-size: 1rem;
+    text-decoration: none;
+}
+
+.news-droit h2{
+    color: #fff;
+}
+
+.footer-contact h2{
+    text-align: left;
+}
+
+.footer-links h2{
+    text-align: left;
+}
+
+
+
 .cta-button {
-    display: block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
     width: 100%;
     padding: 1rem;
     background-color: var(--primary-blue);
-    color: var(--white-color);
+    color: #fff;
     border: none;
     border-radius: 5px;
-    font-size: 1.2rem;
+    font-size: clamp(1rem, 2vw + 0.5rem, 1.2rem);
     font-weight: 700;
     cursor: pointer;
     text-align: center;
     margin-bottom: 0.5rem;
+    text-decoration: none;
 }
 
 .hero-sidebar small {
@@ -280,6 +351,26 @@ h2 {
 
 /* Responsive Design */
 @media (max-width: 992px) {
+    .hero-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .hero-content h1{
+        font-size: clamp(2.1rem, 2vw + 1rem, 2.2rem);
+        margin-bottom: 0.5rem;
+    }
+
+    .news-droit h2{
+        color: #fff;
+        width: 80%;
+    }
+
+    .hero-content p{
+        text-align: center;
+    }
+
     .hero-section .container {
         flex-direction: column;
     }
@@ -288,6 +379,10 @@ h2 {
         text-align: center;
     }
     .certificate-content h2 {
+        text-align: center;
+    }
+
+    .footer-links h2{
         text-align: center;
     }
 }

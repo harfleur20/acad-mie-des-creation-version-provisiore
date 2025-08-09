@@ -2422,7 +2422,6 @@ RESPONSIVE TABLETTE | MOBILE | PC : 1024px
           display: flex;
           justify-content: center;
           flex-wrap: wrap;
-          gap: 2rem;
           padding: 2rem 0;
      }
     
@@ -2532,6 +2531,11 @@ RESPONSIVE TABLETTE | MOBILE | PC : 1024px
     .bg-prog-bas .prog-card .prog-carte-cercle-4{
     width: 150px;
     height: 150px;
+    }
+
+    .form-container{
+         display: flex;
+        flex-wrap: wrap;
     }
 
     .bg-prog-bas .prog-card .prog-carte-cercle-5{
