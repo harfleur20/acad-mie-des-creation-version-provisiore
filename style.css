@@ -175,6 +175,10 @@ header img{
     justify-content: center;
 }
 
+.hero-gauche img{
+    display: none;
+}
+
 #hero .hero-gauche h2{
     font-size: 2.7rem;
     line-height: 3.45rem;
@@ -232,6 +236,14 @@ header img{
     margin-top: 4rem;
     object-fit: contain;
     position:absolute;
+}
+
+.mobil-text{
+    display: none;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 2rem;
+    justify-content: center;
 }
 
 
@@ -2101,15 +2113,34 @@ RESPONSIVE TABLETTE | MOBILE | PC : 1024px
         line-height: 1.3rem;
         font-size: 0.6rem;
         width: 100% !important;
+        margin-bottom: 2.5rem;
+        display: none;
     }
     .hero-gauche h2{
-        line-height: 2.3rem;
-        font-weight: 700;
+        display: none;
+    }
+
+    .mobil-text{
+        display: flex;
+        width: 100%;
+        text-align: center;
+        margin-bottom: 2rem;
+        justify-content: center;
     }
 
     #hero .hero-gauche {
         width: 100%;
-        margin-bottom: 0;
+        margin-bottom: 2.1rem;
+    }
+
+    .hero-gauche img{
+        display: flex;
+        width: 90%;
+        height: auto;
+        max-width: 100%;
+        object-fit: cover;
+        margin-bottom: 2rem;
+        margin-top: 1.2rem;
     }
 
     .hero-droite img {
