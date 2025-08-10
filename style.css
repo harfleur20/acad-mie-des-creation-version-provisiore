@@ -99,6 +99,10 @@ header img{
     gap: 0.3rem;
 }
 
+.menu-toggle{
+    display: none;
+}
+
 .btn-link .icon i{
     width: 20px;
     height: 20px;
