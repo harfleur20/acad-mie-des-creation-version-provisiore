@@ -545,4 +545,13 @@ h2 {
     .price-1 {
         font-size: clamp(2rem, 2vw + 0.5rem, 2.5rem);
     }
+
+    .compteur{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .countdown-timer{
+        font-size: 1.2rem;
+    }
 }
