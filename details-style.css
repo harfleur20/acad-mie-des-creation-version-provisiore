@@ -52,6 +52,8 @@ header{
     font-size: 2.5rem;
     font-weight: 900;
     color: var(--dark-blue);
+    line-height: 3rem;
+    margin-bottom: 1rem;
 }
 
 .hero-content p {
@@ -176,10 +178,23 @@ header{
 .original-price{
     font-size: 1.8rem;
     font-weight: 800;
-    color: #8d8d8d;
+    color: #1b4947;
     text-decoration: line-through;
     margin-top: -1.2rem;
     margin-bottom: 1.5rem;
+}
+
+.mod-paiement {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1.5rem;
+}
+
+.mod-paiement img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
 }
 
 .share-social{
@@ -393,8 +408,9 @@ h2 {
     }
     .hero-content h1{
         font-size: clamp(2rem, 2vw + 1rem, 2rem);
-        margin-bottom: 0.5rem;
-        line-height: 2rem;
+        margin-bottom: 1rem;
+        line-height: 2.5rem;
+        text-align: center;
     }
 
     .container h2{
