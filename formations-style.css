@@ -1,0 +1,165 @@
+/* --- Section Hero (Bannière) --- */
+#hero-formations {
+    width: 100%; height: 40vh; min-height: 250px;
+    background: url('/Assets/bg-mobile.jpg') no-repeat center center/cover;
+    position: relative; display: flex; justify-content: center; align-items: center;
+    color: #fff; text-align: center;
+}
+#hero-formations::before {
+    content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background-image: linear-gradient(rgba(31, 138, 129, 0.8), rgba(4, 31, 81, 0.8));
+    z-index: 1; 
+}
+.hero-formations-content { position: relative; z-index: 2; }
+.hero-formations-content h1 { font-size: 2.8rem; font-weight: 800; }
+
+/* --- Section des Filtres (Nouveaux Onglets) --- */
+#filters {
+    padding: 2rem 7rem 0; /* Pas de padding en bas pour se coller à la grille */
+    background-color: #f7f9fc;
+}
+.category-filters {
+    display: flex;
+    justify-content: center; /* Centre les onglets */
+    gap: 0.5rem;
+    border-bottom: 1px solid #ddd;
+}
+.filter-btn {
+    padding: 1rem 1.5rem;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1rem;
+    color: #555;
+    position: relative;
+    transition: color 0.3s ease;
+}
+.filter-btn::after {
+    content: '';
+    position: absolute;
+    bottom: -1px; /* Se positionne sur la bordure */
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: var(--couleur-secondaire);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+.filter-btn:hover {
+    color: var(--couleur-principale);
+}
+.filter-btn.active {
+    color: var(--couleur-secondaire);
+}
+.filter-btn.active::after {
+    transform: scaleX(1);
+}
+
+/* --- Section de la grille des formations --- */
+#toutes-les-formations {
+    padding: 3rem 7rem 4rem;
+    background-color: #f7f9fc;
+}
+.formations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2.5rem;
+}
+
+/* --- Design des Cartes (carré) --- */
+.card-bloc {
+    /* background-color: #fff; border-radius: 8px; */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    overflow: hidden; display: flex; flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card-bloc:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+.card-image {
+    position: relative; width: 100%;
+    aspect-ratio: 1 / 1; overflow: hidden;
+}
+.card-image img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 0.4s ease;
+}
+.card-bloc:hover .card-image img { transform: scale(1.05); }
+.card-content {
+    padding: 1rem; display: flex; flex-direction: column;
+    flex-grow: 1;
+}
+.card-title {
+    font-size: 1.1rem; 
+    font-weight: 700; 
+    margin-bottom: 0.75rem;
+    color: var(--couleur-principale);
+}
+.card-details {
+    display: flex; 
+    align-items: center; 
+    gap: 0.5rem;
+    font-size: 0.9rem; color: #555;
+    /* margin-bottom: 1rem; */
+}
+.card-details i { color: var(--couleur-secondaire); }
+.card-button {
+    margin-top: auto; padding: 0.4rem 1rem; border-radius: 5px;
+    border: var(--couleur-principale) solid 1px; 
+    color: var(--couleur-principale);
+    text-align: center; 
+    text-decoration: none; font-weight: 500;
+    transition: all 0.3s ease-in-out;
+}
+
+.card-button{
+    margin-top: 1rem;
+}
+.card-button:hover { 
+    border: var(--couleur-secondaire) solid 1px;
+    transform: scale(1.03); 
+}
+
+.card-image .overlay {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(to top, rgba(8, 84, 138, 0.9), rgba(1, 12, 59, 0.9), rgba(0,0,0,0.4)); 
+    color: #fff; display: flex; justify-content: center; flex-direction: column;
+    align-items: center; padding: 1rem; text-align: center;
+    opacity: 0; transition: opacity 0.4s ease;
+}
+.card-image:hover .overlay { opacity: 1; }
+
+/* Classe pour cacher/montrer les cartes avec une transition */
+.card-bloc {
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.card-bloc.hide {
+    opacity: 0;
+    transform: scale(0.9);
+    display: none; /* On le cache complètement après la transition */
+}
+
+/* --- Responsive Design --- */
+@media (max-width: 1024px) {
+    #filters { padding: 1.5rem 2rem 0; }
+    #toutes-les-formations { padding: 2rem; }
+    .hero-formations-content h1 { font-size: 2rem; }
+
+    .card-bloc{
+        margin: 0 auto; /* Centre les cartes */
+        width: 85%; /* Limite la largeur des cartes */
+    }
+
+    #hero-formations{
+        height: 20vh; min-height: 200px;
+        background: url('/Assets/bg-mobile.jpg') no-repeat center center/cover;
+    }
+
+    .hero-formations-content h1{
+      width: 90%;  
+      line-height: 2.3rem;
+    }
+
+}
