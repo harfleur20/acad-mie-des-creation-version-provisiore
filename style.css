@@ -8,6 +8,14 @@
     box-sizing: border-box;
 }
 
+button,
+input[type="submit"],
+input[type="email"] {
+    -webkit-appearance: none; /* La ligne magique pour Safari */
+    -moz-appearance: none;
+    appearance: none;
+}
+
 html{
     font-family: "Poppins", sans-serif;
     scroll-behavior: smooth;
@@ -2041,6 +2049,19 @@ RESPONSIVE TABLETTE | MOBILE | PC
 {
     width: 100%;
 }
+
+.note-info-contenair .note-info-gauche{
+    width: 75%;
+}
+
+.note-info-contenair .note-info-droite{
+    display: none;
+}
+
+.note-info-contenair .note-info-gauche h2{
+  width: 90%;
+}
+
 }
 
 /* ---------------------------------------------------------

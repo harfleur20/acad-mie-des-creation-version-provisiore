@@ -123,47 +123,58 @@ animate();
 
 // Place à l'animation de la section apropos (Version Corrigée)
 
+// Place à l'animation de la section apropos (Version finale compatible Android)
+
 document.addEventListener("DOMContentLoaded", () => {
-  const section = document.querySelector('#apropos');
-  if (!section) return;
+    const section = document.querySelector('#apropos');
+    if (!section) return;
 
-  const counters = section.querySelectorAll('.partie-basse span[data-target]');
-  let hasAnimated = false; // On utilise un simple "drapeau"
+    const counters = section.querySelectorAll('.partie-basse span[data-target]');
+    let hasAnimated = false; // Un drapeau pour s'assurer que l'animation ne se lance qu'une fois
 
-  function animateCounters() {
-    counters.forEach(counter => {
-      counter.innerText = '0'; // reset à zéro
-      const target = +counter.getAttribute('data-target');
-      const duration = 2000; // Durée de l'animation en millisecondes
-      const increment = target / (duration / 20); // Incrément pour une animation fluide
+    // La fonction qui vérifie si l'élément est visible à l'écran
+    function checkVisibilityAndAnimate() {
+        if (hasAnimated) return; // Si l'animation a déjà eu lieu, on ne fait rien
 
-      const updateCount = () => {
-        const current = +counter.innerText;
-        if (current < target) {
-          counter.innerText = `${Math.ceil(current + increment)}`;
-          setTimeout(updateCount, 20);
-        } else {
-          counter.innerText = target; // Assure que la valeur finale est exacte
+        const rect = section.getBoundingClientRect();
+        const isVisible = (rect.top <= window.innerHeight) && (rect.bottom >= 0);
+
+        // Si la section est visible
+        if (isVisible) {
+            animateCounters();
+            hasAnimated = true;
+            // Une fois l'animation lancée, on arrête d'écouter le scroll pour optimiser
+            window.removeEventListener('scroll', checkVisibilityAndAnimate);
         }
-      };
-      updateCount();
-    });
-  }
+    }
 
-  const observer = new IntersectionObserver((entries, observerInstance) => {
-    entries.forEach(entry => {
-      // Si la section entre dans le champ de vision ET que l'animation n'a pas encore eu lieu
-      if (entry.isIntersecting && !hasAnimated) {
-        animateCounters();
-        hasAnimated = true; // On met le drapeau à "vrai" pour ne pas relancer
-        observerInstance.unobserve(section); // On arrête d'observer pour optimiser
-      }
-    });
-  }, {
-    threshold: 0.5 // Se déclenche quand 50% de la section est visible
-  });
+    // La fonction qui anime les chiffres
+    function animateCounters() {
+        counters.forEach(counter => {
+            counter.innerText = '0'; // On remet à 0 avant de démarrer
 
-  observer.observe(section);
+            const target = +counter.getAttribute('data-target');
+            const duration = 1500; // Durée de 1.5 secondes, un bon compromis
+            const increment = target / (duration / 20);
+
+            const updateCount = () => {
+                const current = +counter.innerText;
+                if (current < target) {
+                    counter.innerText = `${Math.ceil(current + increment)}`;
+                    setTimeout(updateCount, 20);
+                } else {
+                    counter.innerText = target;
+                }
+            };
+            updateCount();
+        });
+    }
+
+    // On attache la fonction de vérification à l'événement de défilement (scroll)
+    window.addEventListener('scroll', checkVisibilityAndAnimate);
+
+    // On vérifie une première fois au chargement, au cas où la section est déjà visible
+    checkVisibilityAndAnimate();
 });
 
 // Animation de la section instant video
