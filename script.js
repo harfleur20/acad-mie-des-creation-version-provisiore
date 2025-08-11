@@ -121,45 +121,46 @@ animate();
   });
 
 
-// Place à l'animation de la section apropos
+// Place à l'animation de la section apropos (Version Corrigée)
 
 document.addEventListener("DOMContentLoaded", () => {
   const section = document.querySelector('#apropos');
   if (!section) return;
 
   const counters = section.querySelectorAll('.partie-basse span[data-target]');
-  let animationCount = 0; // Nombre de fois que l'animation s'est lancée
+  let hasAnimated = false; // On utilise un simple "drapeau"
 
   function animateCounters() {
     counters.forEach(counter => {
       counter.innerText = '0'; // reset à zéro
-      const updateCount = () => {
-        const target = +counter.getAttribute('data-target');
-        const current = +counter.innerText;
-        const increment = target / 100;
+      const target = +counter.getAttribute('data-target');
+      const duration = 2000; // Durée de l'animation en millisecondes
+      const increment = target / (duration / 20); // Incrément pour une animation fluide
 
+      const updateCount = () => {
+        const current = +counter.innerText;
         if (current < target) {
-          counter.innerText = Math.ceil(current + increment);
+          counter.innerText = `${Math.ceil(current + increment)}`;
           setTimeout(updateCount, 20);
         } else {
-          counter.innerText = target;
+          counter.innerText = target; // Assure que la valeur finale est exacte
         }
       };
       updateCount();
     });
   }
 
-  const observer = new IntersectionObserver((entries) => {
+  const observer = new IntersectionObserver((entries, observerInstance) => {
     entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        if (animationCount < 2) {
-          animateCounters();
-          animationCount++;
-        }
+      // Si la section entre dans le champ de vision ET que l'animation n'a pas encore eu lieu
+      if (entry.isIntersecting && !hasAnimated) {
+        animateCounters();
+        hasAnimated = true; // On met le drapeau à "vrai" pour ne pas relancer
+        observerInstance.unobserve(section); // On arrête d'observer pour optimiser
       }
     });
   }, {
-    threshold: 0.5
+    threshold: 0.5 // Se déclenche quand 50% de la section est visible
   });
 
   observer.observe(section);
