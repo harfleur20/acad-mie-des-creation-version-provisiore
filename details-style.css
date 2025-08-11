@@ -98,6 +98,8 @@ header{
     border: 1px solid var(--border-color);
 }
 
+/* Cache le compteur par défaut pour éviter le flash */
+
 .hero-sidebar h3 {
     margin-bottom: 1rem;
 }
@@ -117,7 +119,7 @@ header{
 }
 
 .compteur-js{
-    display: flex;
+    display: none; /* Cache le compteur par défaut */
     flex-direction: column;
     align-items: center;
     justify-content: center;
