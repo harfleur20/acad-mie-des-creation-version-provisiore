@@ -425,6 +425,10 @@ h2 {
         line-height: 1.2rem;
     }
 
+    .hero-section .container {
+        align-items: center; /* Rétablit le centrage pour le mobile */
+    }
+
     .learning-section p, .target-audience-section p, .market-demand-section p {
         font-size: 1.05rem;
         width: 90%;
