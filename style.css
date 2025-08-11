@@ -1719,8 +1719,8 @@ header img{
 }
 
 /* Effet de survol : les deux éléments disparaissent */
-.card-bloc:hover .countdown-intro-text,
-.card-bloc:hover .countdown {
+.card-image:hover .countdown-intro-text,
+.card-image:hover .countdown {
     opacity: 0;
     visibility: hidden;
 }

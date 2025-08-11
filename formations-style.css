@@ -157,9 +157,22 @@
         background: url('/Assets/bg-mobile.jpg') no-repeat center center/cover;
     }
 
+    .hero-formations-content{
+        display: flex; 
+        flex-direction: column; 
+        align-items: center;
+        justify-content: center; 
+        width: 100%;
+    }
+
     .hero-formations-content h1{
       width: 90%;  
       line-height: 2.3rem;
+    }
+
+    .filter-btn {
+        padding: 0.8rem 1.2rem; /* Ajuste le padding pour les petits écrans */
+        font-size: 0.9rem; /* Réduit la taille de police */
     }
 
 }
