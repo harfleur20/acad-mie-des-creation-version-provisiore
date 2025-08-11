@@ -42,6 +42,7 @@ header{
 
 .hero-section .container {
     display: flex;
+    align-items: flex-start;
 }
 
 .hero-content {
@@ -65,7 +66,7 @@ header{
 .back-btn a{
     margin-bottom: 1rem;
     display: inline-block;
-    color: #8c8c8c;
+    color: var(--primary-blue);
     border-radius: 5px;
     text-decoration: none;
     transition: all 0.3s ease-in-out
