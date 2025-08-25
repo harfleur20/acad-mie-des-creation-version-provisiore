@@ -213,3 +213,19 @@ document.addEventListener("DOMContentLoaded", () => {
       playBtn.style.display = 'block';
     });
   });
+
+  // Partie-preloader
+
+window.addEventListener('load', function() {
+    // Sélectionne l'élément preloader
+    const preloader = document.getElementById('preloader');
+
+    // Assurez-vous que l'élément existe avant de continuer
+    if (preloader) {
+        // Ajoute la classe 'hidden' qui va le masquer
+        preloader.style.opacity = '0'; // On passe l'opacité à 0 pour la transition
+        preloader.addEventListener('transitionend', function() {
+            preloader.style.display = 'none'; // Une fois la transition finie, on le cache complètement
+        }, { once: true }); // 'once: true' assure que l'événement ne s'exécute qu'une seule fois
+    }
+});
