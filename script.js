@@ -229,3 +229,40 @@ window.addEventListener('load', function() {
         }, { once: true }); // 'once: true' assure que l'événement ne s'exécute qu'une seule fois
     }
 });
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  const popupOverlay = document.querySelector('.popup-overlay');
+  const popupClose = document.querySelector('.popup-close');
+  const showPopupButton = document.querySelector('.show-popup-button'); // Un bouton pour afficher la pop-up si vous en avez un
+
+  // Fonction pour afficher la pop-up
+  const openPopup = () => {
+    popupOverlay.classList.add('active');
+  };
+
+  // Fonction pour fermer la pop-up
+  const closePopup = () => {
+    popupOverlay.classList.remove('active');
+  };
+
+  // Événements
+  // 1. Fermer la pop-up en cliquant sur la croix
+  popupClose.addEventListener('click', closePopup);
+
+  // 2. Fermer la pop-up en cliquant sur l'arrière-plan
+  popupOverlay.addEventListener('click', (event) => {
+    if (event.target === popupOverlay) {
+      closePopup();
+    }
+  });
+
+  // 3. Afficher la pop-up après un certain délai ou une action
+  // Par exemple, après 2 secondes (2000 ms)
+  setTimeout(openPopup, 2000); 
+
+  // Ou en cliquant sur un bouton
+  // if (showPopupButton) {
+  //   showPopupButton.addEventListener('click', openPopup);
+  // }
+});

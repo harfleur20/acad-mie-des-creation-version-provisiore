@@ -1795,6 +1795,130 @@ header img{
     display: none;
 }
 
+/* Place au popup */
+
+/* Styles pour le conteneur principal de la pop-up */
+.popup-overlay {
+  position: fixed; /* Reste en place même en défilant */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Arrière-plan semi-transparent */
+  display: flex; /* Centrer le contenu */
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Assure que la pop-up est au-dessus du reste du contenu */
+  /* Ajoutez cette ligne pour masquer la pop-up par défaut */
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s, opacity 0.5s ease;
+}
+
+/* Rendre la pop-up visible */
+.popup-overlay.active {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Styles pour le contenu de la boîte modale */
+.popup-content {
+  background: url(/Assets/img-bg-popup.png) no-repeat center fixed;
+  background-size: cover;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  max-width: 700px; /* Taille maximale de la pop-up */
+  width: 90%; /* Pour une bonne gestion sur les petits écrans */
+  position: relative;
+  transform: scale(0.9); /* Démarrage de l'animation */
+  transition: transform 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column; /* Organise les éléments en colonne */
+  text-align: center;
+}
+
+.popup-overlay.active .popup-content {
+  transform: scale(1); /* Animation de l'ouverture */
+}
+
+/* Styles pour le bouton de fermeture */
+.popup-close {
+  position: absolute;
+  background-color: #d5e0df;
+  top: -10px;
+  right: -10px;
+  font-size: 2em;
+  border-radius: 200px;
+  width: 50px;
+  height: 50px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #02052a;
+}
+
+/* Styles pour le contenu interne */
+.popup-inner {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  margin: 0.9rem auto;
+}
+
+.popup-image {
+  flex: 1;
+}
+
+.popup-image img {
+  max-width: 100%;
+  height: auto;
+}
+
+.popup-text {
+  flex: 1;
+  text-align: left;
+}
+
+.popup-text h2{
+    margin-bottom: 0.7rem;
+    color: #fff;
+    line-height: 1.8rem;
+    width: 90%;
+    font-size: 1.4rem;
+}
+.popup-text p{
+    margin-bottom:0.5rem;
+    color: #fff;
+    width: 90%;
+}
+
+#free{
+    margin-bottom: 1.7rem;
+}
+
+
+.popup-button{
+  background-color: #1F2352;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.8rem;
+  cursor: pointer;
+  border-radius: 5px;
+  text-decoration: none;
+  font-size: clamp(0.6rem, 1.1rem, 1.1rem);
+  margin-top: 1.9rem !important;
+  font-family: 'Lato';
+  font-weight: 800;
+  transition: all 0.3s ease-in-out;
+
+}
+
+.popup-button:hover{
+    background-color: #fff;
+    color: var(--couleur-principale);
+}
+
 /* ----------------------------------------------
 RESPONSIVE TABLETTE | MOBILE | PC
 ---------------------------------------------- */
@@ -2753,6 +2877,52 @@ RESPONSIVE TABLETTE | MOBILE | PC : 1024px
         width: 65%;
         margin-bottom: 2rem;
     }
+}
+
+@media (max-width: 600px) {
+      #free{
+        display: none;
+    }
+
+    .popup-content{
+        background: url(/Assets/img-bg-mobile.png) no-repeat cover !important;
+    }
+
+    .popup-inner{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        width: 100%;
+    }
+
+    .popup-text{
+        text-align: center;
+        width: 100%;
+    }
+    .popup-text h2{
+        font-size: clamp(1rem, 1.3rem, 1.3rem);
+        text-align: center;
+        width: 100%;
+    }
+    .popup-text p{
+        font-size: clamp(0.5rem, 0.9rem, 0.9rem);
+        text-align: center;
+        margin-bottom: 2.5rem;
+        width: 100%;
+    }
+
+    .popup-image img {
+    max-width: 85%;
+    height: auto;
+}
+
+.popup-button{
+    font-size: clamp(0.5rem, 1.3rem, 1.3rem)!important;
+    padding: 1rem 2rem;
+    font-weight: 800;
+}
 
 }
 
