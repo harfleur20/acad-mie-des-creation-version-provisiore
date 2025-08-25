@@ -216,7 +216,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Partie-preloader
 
-window.addEventListener('load', function() {
+window.addEventListener('DOMContentLoaded', function() {
     // Sélectionne l'élément preloader
     const preloader = document.getElementById('preloader');
 
