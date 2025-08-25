@@ -2883,11 +2883,6 @@ RESPONSIVE TABLETTE | MOBILE | PC : 1024px
       #free{
         display: none;
     }
-
-    .popup-content{
-        background: url(/Assets/img-bg-mobile.png) no-repeat cover !important;
-    }
-
     .popup-inner{
         display: flex;
         flex-direction: column;
