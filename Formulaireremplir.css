@@ -221,18 +221,19 @@
 }
 
 .cta-button {
-    background: var(--couleur-secondaire);
-    color: #fff;
+    border: var(--couleur-secondaire) 1px solid;
+    color: var(--couleur-principale);
     flex-grow: 1;
 }
 .cta-button:hover {
     background: #17a29d;
     transform: translateY(-4px);
+    color: #fff;
     box-shadow: 0 8px 20px rgba(28, 132, 128, 0.2);
 }
 
 .secondary-button {
-    background-color: #e9ecef;
+    border: #062340 1px solid;
     color: var(--couleur-principale);
     border: 2px solid transparent;
 }
