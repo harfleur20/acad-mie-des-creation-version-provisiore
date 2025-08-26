@@ -280,3 +280,25 @@ document.addEventListener('DOMContentLoaded', () => {
     // Le setTimeout initial pour la pop-up est supprimé car il est géré par le script du préchargeur.
 });
 
+//Place à la partie avec les Cookies
+
+document.addEventListener('DOMContentLoaded', () => {
+    const cookieBanner = document.querySelector('.cookie-banner');
+    const acceptBtn = document.querySelector('.cookie-accept-btn');
+    const cookieName = 'cookiesAccepted';
+
+    // Vérifie si l'utilisateur a déjà accepté
+    if (!localStorage.getItem(cookieName)) {
+        // Si non, on affiche la bannière
+        cookieBanner.style.display = 'flex';
+    }
+
+    // Gère le clic sur le bouton "J'accepte"
+    acceptBtn.addEventListener('click', () => {
+        // Enregistre le choix dans le stockage local pour le retenir
+        localStorage.setItem(cookieName, 'true');
+        // Cache la bannière
+        cookieBanner.style.display = 'none';
+    });
+});
+
