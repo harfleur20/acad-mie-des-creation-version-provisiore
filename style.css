@@ -1932,7 +1932,7 @@ header img{
   color: var(--couleur-principale);
   text-align: center;
   z-index: 1000;
-  display: flex;
+  display:none;
   justify-content: center;
   align-items: center;
   gap: 20px;
