@@ -214,55 +214,69 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Partie-preloader
+  // Partie-preloader & Popup
 
 window.addEventListener('load', function() {
-    // Sélectionne l'élément preloader
+    // Sélectionne le préchargeur
     const preloader = document.getElementById('preloader');
 
-    // Assurez-vous que l'élément existe avant de continuer
     if (preloader) {
-        // Ajoute la classe 'hidden' qui va le masquer
-        preloader.style.opacity = '0'; // On passe l'opacité à 0 pour la transition
+        // Déclenche l'animation de fondu
+        preloader.style.opacity = '0'; 
+
+        // Quand l'animation est finie, on le masque complètement
         preloader.addEventListener('transitionend', function() {
-            preloader.style.display = 'none'; // Une fois la transition finie, on le cache complètement
-        }, { once: true }); // 'once: true' assure que l'événement ne s'exécute qu'une seule fois
+            preloader.style.display = 'none';
+
+            // --- C'est ici que l'on déclenche l'affichage de la pop-up ---
+            
+            // On attend 1 seconde (1000 ms) après que le préchargeur a disparu
+            // pour afficher la pop-up, pour laisser le temps à l'utilisateur de voir la page.
+            setTimeout(openPopup, 1000); 
+
+        }, { once: true });
+        
+        // Option de sécurité : si la transition ne fonctionne pas (par exemple si le CSS est manquant),
+        // on masque quand même le préchargeur et on affiche la pop-up après un court délai.
+        setTimeout(function() {
+            preloader.style.display = 'none';
+            setTimeout(openPopup, 1000);
+        }, 600);
     }
 });
 
+// --- Voici la partie de votre code pour la pop-up, que l'on place à part ---
+
+// Cette fonction est désormais globale, donc accessible depuis le script du préchargeur.
+const openPopup = () => {
+    const popupOverlay = document.querySelector('.popup-overlay');
+    if (popupOverlay) {
+        popupOverlay.classList.add('active');
+    }
+};
 
 document.addEventListener('DOMContentLoaded', () => {
-  const popupOverlay = document.querySelector('.popup-overlay');
-  const popupClose = document.querySelector('.popup-close');
-  const showPopupButton = document.querySelector('.show-popup-button'); // Un bouton pour afficher la pop-up si vous en avez un
+    const popupOverlay = document.querySelector('.popup-overlay');
+    const popupClose = document.querySelector('.popup-close');
 
-  // Fonction pour afficher la pop-up
-  const openPopup = () => {
-    popupOverlay.classList.add('active');
-  };
-
-  // Fonction pour fermer la pop-up
-  const closePopup = () => {
-    popupOverlay.classList.remove('active');
-  };
-
-  // Événements
-  // 1. Fermer la pop-up en cliquant sur la croix
-  popupClose.addEventListener('click', closePopup);
-
-  // 2. Fermer la pop-up en cliquant sur l'arrière-plan
-  popupOverlay.addEventListener('click', (event) => {
-    if (event.target === popupOverlay) {
-      closePopup();
+    // Fermeture de la pop-up en cliquant sur la croix
+    if (popupClose) {
+        popupClose.addEventListener('click', () => {
+            if (popupOverlay) {
+                popupOverlay.classList.remove('active');
+            }
+        });
     }
-  });
 
-  // 3. Afficher la pop-up après un certain délai ou une action
-  // Par exemple, après 2 secondes (2000 ms)
-  setTimeout(openPopup, 2000); 
+    // Fermeture de la pop-up en cliquant sur l'arrière-plan
+    if (popupOverlay) {
+        popupOverlay.addEventListener('click', (event) => {
+            if (event.target === popupOverlay) {
+                popupOverlay.classList.remove('active');
+            }
+        });
+    }
 
-  // Ou en cliquant sur un bouton
-  // if (showPopupButton) {
-  //   showPopupButton.addEventListener('click', openPopup);
-  // }
+    // Le setTimeout initial pour la pop-up est supprimé car il est géré par le script du préchargeur.
 });
+
