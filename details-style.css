@@ -163,12 +163,13 @@ header{
     flex-direction: column;
 }
 
-#verouillé-1{
+/* #verouillé-1{
     pointer-events: none;
     background-color: rgb(255, 182, 182);
     color: #1f2352;
-    /* background-color: rgb(219, 219, 219); */
-}
+    background-color: rgb(219, 219, 219);
+} */
+
 #verouillé-2{
     pointer-events: none;
      /* background-color: rgb(255, 182, 182);
@@ -177,9 +178,9 @@ header{
 }
 #verouillé-3{
     pointer-events: none;
-     /* background-color: rgb(255, 182, 182);
-    color: #1f2352; */
-    background-color: rgb(219, 219, 219);
+     background-color: rgb(255, 182, 182);
+    color: #1f2352;
+    /* background-color: rgb(219, 219, 219); */
 }
 /* #verouillé-4{
     pointer-events: none;
