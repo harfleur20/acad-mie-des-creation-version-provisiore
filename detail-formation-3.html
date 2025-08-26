@@ -320,6 +320,30 @@
 <script src="/js-description.js"></script>
 <script src="/detail-compteur.js"></script>
 
+<!-- //Fletch injection javascript -->
+ 
+<script>
+  fetch('cookie-banner.html')
+    .then(response => {
+      // On s'assure que le fichier a bien été trouvé
+      if (!response.ok) {
+        throw new Error('Fichier cookie-banner.html introuvable.');
+      }
+      return response.text();
+    })
+    .then(html => {
+      // On injecte le HTML à la fin du body
+      document.body.insertAdjacentHTML('beforeend', html);
+      
+      // TRES IMPORTANT : On lance la logique des cookies APRES avoir ajouté le HTML
+      initializeCookieBanner();
+    })
+    .catch(error => {
+      console.error("Erreur lors du chargement du bandeau des cookies:", error);
+    });
+</script>
+
+
 <!-- Start of LiveChat (www.livechat.com) code -->
 <script>
     window.__lc = window.__lc || {};
@@ -333,17 +357,6 @@
 
 
 </body>
-
-<!-- Place à la partie cookies -->
-
-<div class="cookie-banner">
-  <p>
-    Nous utilisons des cookies pour vous offrir la meilleure expérience. En continuant à naviguer, vous acceptez notre utilisation des cookies.
-    <a href="/cgu.html" class="cookie-policy-link">En savoir plus.</a>
-  </p>
-  <button class="cookie-accept-btn">J'accepte</button>
-</div>
-
 </html>
 
             

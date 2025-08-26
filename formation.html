@@ -265,6 +265,31 @@
 <script src="/menu-burger.js"></script>
 <script src="/compteur-presentiel.js"></script>
 <script src="/formations-filters.js"></script> 
+<script src="/script.js"></script> 
+
+<!-- //Fletch injection javascript -->
+ 
+<script>
+  fetch('cookie-banner.html')
+    .then(response => {
+      // On s'assure que le fichier a bien été trouvé
+      if (!response.ok) {
+        throw new Error('Fichier cookie-banner.html introuvable.');
+      }
+      return response.text();
+    })
+    .then(html => {
+      // On injecte le HTML à la fin du body
+      document.body.insertAdjacentHTML('beforeend', html);
+      
+      // TRES IMPORTANT : On lance la logique des cookies APRES avoir ajouté le HTML
+      initializeCookieBanner();
+    })
+    .catch(error => {
+      console.error("Erreur lors du chargement du bandeau des cookies:", error);
+    });
+</script>
+
     
 </body>
 </html>
