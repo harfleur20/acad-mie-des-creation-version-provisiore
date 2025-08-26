@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="Formulaireremplir.css">
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
         integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -68,9 +69,9 @@
                         <i class="fa-solid fa-graduation-cap"></i>
                     </div>
                 </div>
-                
+
                 <form id="multiStepForm" name="inscription" method="POST" data-netlify="true">
-                    
+
                     <div id="phase1" class="form-phase active">
                         <div class="form-header">
                             <h2>Vos Informations Personnelles</h2>
@@ -78,7 +79,7 @@
                         </div>
                         <div class="form-group">
                             <label for="nom">Nom & Prénom</label>
-                            <input type="text" id="nom" name="nom" placeholder="Ex: Jean Dupont" required>
+                            <input type="text" id="nom" name="nom" placeholder="Ex: Kameni Pauline" required>
                             <div class="error-message"></div>
                         </div>
                         <div class="form-group">
@@ -92,23 +93,50 @@
                             </select>
                             <div class="error-message"></div>
                         </div>
+
                         <div class="form-group">
-                            <label for="whatsapp">Numéro WhatsApp (9 chiffres)</label>
+                            <label for="pays">Pays de résidence</label>
+                            <select id="pays" name="pays" required>
+                                <option value="" disabled selected>-- Sélectionnez votre pays --</option>
+                                <option value="Cameroun">Cameroun</option>
+                                <option value="Côtedivoire">Côte d'ivoire</option>
+                                <option value="Sénégal">Sénégal</option>
+                                <option value="Gabon">Gabon</option>
+                                <option value="Bénin">Bénin</option>
+                                <option value="Congo-Brazza">Congo-Brazza</option>
+                                <option value="Congo-Kinshasa">Congo-Kinshasa</option>
+                                <option value="Mali">Mali</option>
+                                <option value="Burkina Faso">Burkina Faso</option>
+                                <option value="France">France</option>
+                                <option value="Belgique">Belgique</option>
+                                <option value="Allemagne">Allemagne</option>
+                                <option value="USA">USA</option>
+                                <option value="Canada">Canada</option>
+                                <option value="Suisse">Suisse</option>
+                                <option value="Autre">Autre</option>
+                            </select>
+                            <div class="error-message"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="whatsapp">Numéro WhatsApp (fonctionnel)</label>
                             <input type="tel" id="whatsapp" name="whatsapp" placeholder="Ex: 680950319" required>
                             <div class="error-message"></div>
                         </div>
                         <div class="form-group">
                             <label for="email">Adresse Email</label>
-                            <input type="email" id="email" name="email" placeholder="Ex: contact@academiecreatif.com" required>
+                            <input type="email" id="email" name="email" placeholder="Ex: contact@academiecreatif.com"
+                                required>
                             <div class="error-message"></div>
                         </div>
                         <div class="form-buttons">
-                            <button type="button" id="nextBtn" class="cta-button">Suivant <i class="fa-solid fa-arrow-right"></i></button>
+                            <button type="button" id="nextBtn" class="cta-button">Suivant <i
+                                    class="fa-solid fa-arrow-right"></i></button>
                         </div>
                     </div>
 
                     <div id="phase2" class="form-phase">
-                         <div class="form-header">
+                        <div class="form-header">
                             <h2>Votre Projet de Formation</h2>
                             <p>Dites-nous en plus sur vos objectifs.</p>
                         </div>
@@ -125,19 +153,25 @@
                         </div>
                         <div class="form-group">
                             <label>Préférence pour les horaires</label>
-                             <div class="radio-container">
-                                <label><input type="radio" name="horaires" value="Cours du Jour" checked><span>Cours du Jour</span></label>
-                                <label><input type="radio" name="horaires" value="Cours du Soir"><span>Cours du Soir</span></label>
-                                <label><input type="radio" name="horaires" value="Adaptable"><span>Adaptable</span></label>
+                            <div class="radio-container">
+                                <label><input type="radio" name="horaires" value="Cours du Jour" checked><span>Cours du
+                                        Jour</span></label>
+                                <label><input type="radio" name="horaires" value="Cours du Soir"><span>Cours du
+                                        Soir</span></label>
+                                <label><input type="radio" name="horaires"
+                                        value="Adaptable"><span>Adaptable</span></label>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="attentes">Qu'attendez-vous de nous ? (Optionnel)</label>
-                            <textarea id="attentes" name="attentes" rows="4" placeholder="Vos objectifs, vos questions..."></textarea>
+                            <textarea id="attentes" name="attentes" rows="4"
+                                placeholder="Vos objectifs, vos questions..."></textarea>
                         </div>
                         <div class="form-buttons">
-                            <button type="button" id="prevBtn" class="secondary-button"><i class="fa-solid fa-arrow-left"></i> Précédent</button>
-                            <button type="submit" class="cta-button">Soumettre <i class="fa-solid fa-paper-plane"></i></button>
+                            <button type="button" id="prevBtn" class="secondary-button"><i
+                                    class="fa-solid fa-arrow-left"></i> Précédent</button>
+                            <button type="submit" class="cta-button">Soumettre <i
+                                    class="fa-solid fa-paper-plane"></i></button>
                         </div>
                     </div>
 
@@ -145,7 +179,8 @@
                         <div class="success-content">
                             <i class="fa-solid fa-trophy success-icon"></i>
                             <h2>Félicitations !</h2>
-                            <p>Votre demande d'inscription a bien été envoyée. Nous allons vous contacter très prochainement par mail ou par WhatsApp pour la finaliser.</p>
+                            <p>Votre demande d'inscription a bien été envoyée. Nous allons vous contacter très
+                                prochainement par mail ou par WhatsApp pour la finaliser.</p>
                             <a href="index.html" class="cta-button">Retour à l'accueil</a>
                         </div>
                     </div>
@@ -246,9 +281,14 @@
     <a href="https://wa.me/message/DMISDTO4HCUDC1" target="_blank" rel="noopener no-referrer">
         <img src="/Media-links/logo-whatsapp.png" alt="logo-whatsapp"></a>
 </div> -->
+
+
+
     <script src="script.js"></script>
     <script src="/remplirscript.js"></script>
     <script src="/menu-burger.js"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
 
     <!-- //Fletch cookies injecté par javascript -->
 

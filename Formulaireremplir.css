@@ -242,6 +242,10 @@
     border-color: #ced4da;
 }
 
+.iti {
+    width: 100%; /* Permet au champ de prendre toute la largeur disponible */
+}
+
 /* =============================================
    STYLES POUR LA VALIDATION DES ERREURS
    ============================================= */
