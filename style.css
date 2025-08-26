@@ -1812,13 +1812,14 @@ header img{
   /* Ajoutez cette ligne pour masquer la pop-up par défaut */
   visibility: hidden;
   opacity: 0;
-  transition: visibility 0s, opacity 0.5s ease;
+  transition: opacity 0.5s ease, visibility 0s 0.5s;
 }
 
 /* Rendre la pop-up visible */
 .popup-overlay.active {
   visibility: visible;
   opacity: 1;
+  transition-delay: 0s;
 }
 
 /* Styles pour le contenu de la boîte modale */
