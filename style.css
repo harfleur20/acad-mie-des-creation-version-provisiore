@@ -1909,8 +1909,7 @@ header img{
   text-decoration: none;
   font-size: clamp(0.6rem, 1.1rem, 1.1rem);
   margin-top: 1.9rem !important;
-  font-family: 'Lato';
-  font-weight: 800;
+  font-weight: 600;
   transition: all 0.3s ease-in-out;
 
 }
