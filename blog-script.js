@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // --- VARIABLES GLOBALES POUR GÉRER L'ÉTAT DU BLOG ---
 let allPosts = []; // Stocke tous les articles chargés une seule fois
 let currentPosts = []; // Stocke les articles actuellement affichés (filtrés ou non)
-const postsPerPage = 3; // On affiche 3 articles par page
+const postsPerPage = 2; // On affiche 3 articles par page
 let currentPage = 1;
 
 /**
