@@ -205,8 +205,9 @@ function loadRecentPosts(allPosts, currentPostId) {
     recentPostsContainer.innerHTML = html;
 }
 
+// CORRECTION : On retire encodeURIComponent de la variable 'url'
 function setupShareLinks(title) {
-    const url = encodeURIComponent(window.location.href);
+    const url = window.location.href; // L'URL n'est plus encodée
     const text = encodeURIComponent(title);
     
     document.getElementById('share-facebook').href = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
