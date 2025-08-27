@@ -1,0 +1,172 @@
+/* =============================================
+   STYLES COMPLETS ET FINALS POUR LE BLOG
+   ============================================= */
+
+   #navbar{
+    z-index: 10000;
+   }
+
+/* --- Page Principale du Blog (blog.html) --- */
+#blog-hero {
+    background: linear-gradient(rgba(28, 132, 128, 0.9), rgba(31, 35, 82, 0.9)), url('Assets/bg-mobile.jpg') no-repeat center center/cover;
+    color: #fff;
+    text-align: center;
+    padding: 4rem 2rem;
+}
+
+/* Style pour la catégorie active dans la sidebar */
+.category-list li a.active {
+    color: var(--couleur-secondaire);
+    font-weight: bold;
+}
+
+#blog-hero h1 { font-size: 2.8rem; }
+#blog-hero p { font-size: 1.2rem; opacity: 0.9; }
+
+#blog-layout { display: flex; gap: 2.5rem; max-width: 1200px; margin: 3rem auto; padding: 0 2rem; }
+.posts-container { flex: 3; }
+.sidebar { flex: 1; position: sticky; top: 100px; align-self: flex-start; }
+
+.post-card { background: #fff; border-radius: 10px; box-shadow: 0 5px 20px rgba(0,0,0,0.07); margin-bottom: 2.5rem; overflow: hidden; transition: transform 0.3s, box-shadow 0.3s; }
+.post-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+.post-card-image { width: 100%; height: 250px; object-fit: cover; }
+.featured .post-card-image { height: 350px; }
+.post-card-content { padding: 1.5rem; }
+.post-card-category { background: #fccf2f; color: var(--couleur-principale); padding: 0.3rem 0.8rem; border-radius: 50px; font-size: 0.8rem; font-weight: bold; display: inline-block; margin-bottom: 1rem; }
+.post-card-title { font-size: 1.6rem; color: var(--couleur-principale); margin-bottom: 0.5rem; }
+.post-card-meta { color: #777; font-size: 0.9rem; margin-bottom: 1rem; }
+.post-card-excerpt { color: #555; line-height: 1.6; margin-bottom: 1.5rem; }
+.post-card-readmore { color: var(--couleur-secondaire); text-decoration: none; font-weight: bold; }
+
+.posts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+
+/* --- Page de lecture d'un Article (post.html) --- */
+#post-header { height: 50vh; color: #fff; position: relative; display: flex; align-items: center; justify-content: center; text-align: center; background-size: cover; background-position: center; }
+#post-header::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(rgba(28, 132, 128, 0.6), rgba(31, 35, 82, 0.5)); }
+.post-header-content { position: relative; z-index: 2; padding: 2rem; }
+.post-header-content h1 { font-size: 3rem; }
+.post-header-content .post-meta { font-size: 1.1rem; }
+
+/* LAYOUT EN 2 COLONNES */
+.post-layout-container { max-width: 1200px; margin: 3rem auto; padding: 0 2rem; display: flex; align-items: flex-start; gap: 2.5rem; }
+.post-content-main { flex: 3; min-width: 0; }
+.post-sidebar { flex: 1; position: sticky; top: 100px; }
+
+.post-body { font-size: 1.1rem; line-height: 1.8; color: #333; }
+.post-body h3 { font-size: 1.8rem; color: var(--couleur-principale); margin: 2rem 0 1rem; }
+.post-body p, .post-body ul, .post-body ol { margin-bottom: 1.5rem; }
+.post-body a { color: var(--couleur-secondaire); text-decoration: underline; }
+.post-body blockquote { border-left: 4px solid var(--couleur-secondaire); padding-left: 1.5rem; margin: 2rem 0; font-style: italic; color: #555; }
+
+.share-bar { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #eee; }
+.share-link { font-size: 1.5rem; margin-right: 1rem; color: #333; transition: color 0.3s; }
+.share-link:hover { color: var(--couleur-secondaire); }
+
+/* --- Sidebar (commune aux deux pages) --- */
+.widget { background: #f8f9fa; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem; }
+.widget-title, .widget h3 { color: var(--couleur-principale); margin-bottom: 1.5rem; border-bottom: 2px solid var(--couleur-secondaire); padding-bottom: 0.5rem; font-size: 1.5rem; }
+.category-list { list-style: none; padding: 0; }
+.category-list li a { text-decoration: none; color: #555; padding: 0.5rem 0; display: block; transition: color 0.3s; }
+.category-list li a:hover { color: var(--couleur-secondaire); }
+
+.recent-post-item { display: flex; gap: 1rem; margin-bottom: 1.5rem; align-items: center; }
+.recent-post-item img { width: 80px; height: 60px; object-fit: cover; border-radius: 8px; flex-shrink: 0; }
+.recent-post-item-info h4 a { text-decoration: none; color: var(--couleur-principale); font-size: 1rem; line-height: 1.3; transition: color 0.3s; }
+.recent-post-item-info h4 a:hover { color: var(--couleur-secondaire); }
+.recent-post-item-info p { font-size: 0.85rem; color: #777; margin-top: 0.2rem; }
+
+.post-sidebar .card-bloc { background-color: #fff; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-radius: 8px; overflow: hidden; margin-bottom: 1.5rem; }
+.post-sidebar .card-image { height: 150px; }
+.post-sidebar .card-image img { width: 100%; height: 100%; object-fit: cover; }
+.post-sidebar .card-content { padding: 1rem; }
+.post-sidebar .card-title { font-size: 1rem; margin-bottom: 1rem; }
+.post-sidebar .card-button { display: block; padding: 0.5rem; font-size: 0.9rem; border: 1px solid var(--couleur-principale); color: var(--couleur-principale); text-align: center; text-decoration: none; border-radius: 5px; transition: all 0.3s ease-in-out}
+
+.newsletter-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    align-items: left;
+}
+
+form input[type="email"] {
+    padding: 1rem 2rem;
+    border-radius: 80px;
+    border: var(--couleur-secondaire) 1px solid;
+    transition: all 0.3s ease-in-out;
+    margin-top: 1rem;
+}
+
+.cta-button{
+    border-radius: 80px;
+    padding: 0.6rem;
+    margin-top: 1rem;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    border: var(--couleur-principale) 1px solid;
+    color: var(--couleur-principale);
+}
+
+.cta-button:hover{
+    transform: scale(1.03);
+}
+
+
+/* ▼▼▼ STYLES DE PAGINATION (AJOUTÉS) ▼▼▼ */
+
+
+
+
+
+
+/* =============================================
+   STYLES RESPONSIVE POUR LE BLOG
+   ============================================= */
+
+/* Pour les tablettes et écrans plus petits (en dessous de 992px) */
+@media (max-width: 992px) {
+    /* La mise en page principale du blog passe en une seule colonne */
+    #blog-layout {
+        flex-direction: column;
+    }
+
+    /* La mise en page de l'article passe aussi en une seule colonne */
+    .post-layout-container {
+        flex-direction: column;
+    }
+
+    /* La barre latérale n'est plus "collante" et prend toute la largeur */
+    .sidebar, .post-sidebar {
+        position: static; /* Annule l'effet collant */
+        width: 100%;
+        margin-top: 3rem;
+    }
+}
+
+/* Pour les téléphones mobiles (en dessous de 768px) */
+@media (max-width: 768px) {
+    #blog-hero h1 {
+        font-size: 2.2rem;
+    }
+
+    .blog-hero-content h1{
+        line-height: 3rem;
+        margin-bottom: 0.4rem;
+    }
+    .post-header-content h1 {
+        font-size: 2rem;
+        line-height: 1.3;
+        margin-bottom: 0.8rem;
+    }
+
+    .posts-grid {
+        /* Affiche une seule carte d'article par ligne */
+        grid-template-columns: 1fr;
+    }
+
+    header{
+
+        padding: 0;
+        
+    }
+}

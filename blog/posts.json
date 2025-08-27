@@ -1,0 +1,51 @@
+[
+  {
+    "id": "devenir-graphiste-freelance",
+    "title": "Les 5 étapes clés pour devenir graphiste freelance en Afrique",
+    "date": "27 août 2025",
+    "author": "Francis Kenne",
+    "category": "Freelance",
+    "readingTime": "7 min de lecture",
+    "excerpt": "Se lancer en freelance peut sembler intimidant, mais avec la bonne méthode, c'est un objectif tout à fait atteignable. Découvrez notre guide...",
+    "coverImage": "Assets/banner-1.jpg",
+    "isFeatured": true
+  },
+
+  {
+    "id": "choisir-les-bonnes-couleurs",
+    "title": "Comment choisir une palette de couleurs qui a de l'impact ?",
+    "date": "22 août 2025",
+    "author": "Bihee Alex",
+    "category": "Design Graphique",
+    "readingTime": "5 min de lecture",
+    "excerpt": "La couleur est l'un des outils les plus puissants du designer. Apprenez à créer des palettes harmonieuses qui captivent l'attention.",
+    "coverImage": "Assets/bg-mobile.jpg",
+    "isFeatured": false
+  },
+  {
+    "id": "Tout-savoir",
+    "title": "Comment choisir une palette de couleurs qui a de l'impact ?",
+    "date": "22 août 2025",
+    "author": "Bihee Alex",
+    "category": "Design Graphique",
+    "readingTime": "5 min de lecture",
+    "excerpt": "La couleur est l'un des outils les plus puissants du designer. Apprenez à créer des palettes harmonieuses qui captivent l'attention.",
+    "coverImage": "Assets/bg-mobile.jpg",
+    "isFeatured": false
+  },
+  {
+    "id": "bien-lire",
+    "title": "Combien gagne les graphistes en Afrique ?",
+    "date": "22 août 2025",
+    "author": "Bihee Alex",
+    "category": "Design Graphique",
+    "readingTime": "5 min de lecture",
+    "excerpt": "La couleur est l'un des outils les plus puissants du designer. Apprenez à créer des palettes harmonieuses qui captivent l'attention.",
+    "coverImage": "Assets/bg-mobile.jpg",
+    "isFeatured": false
+  }
+
+
+
+  
+]
