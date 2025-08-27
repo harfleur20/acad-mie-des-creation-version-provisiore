@@ -179,41 +179,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Animation de la section instant video
 
-  const videoItems = document.querySelectorAll('.video-item');
-
-  videoItems.forEach(currentItem => {
-    const video = currentItem.querySelector('video');
-    const playBtn = currentItem.querySelector('.play-btn');
-
-    // Lorsqu'on clique sur le bouton
-    playBtn.addEventListener('click', () => {
-      // Pause toutes les autres vidéos
-      videoItems.forEach(item => {
-        const otherVideo = item.querySelector('video');
-        const otherBtn = item.querySelector('.play-btn');
-        if (otherVideo !== video) {
-          otherVideo.pause();
-          otherBtn.style.display = 'block';
-        }
-      });
-
-      // Lancer cette vidéo et masquer le bouton
-      video.play();
-      playBtn.style.display = 'none';
-    });
-
-    // Quand on clique directement sur la vidéo
-    video.addEventListener('click', () => {
-      video.pause();
-      playBtn.style.display = 'block';
-    });
-
-    // Quand la vidéo se termine
-    video.addEventListener('ended', () => {
-      playBtn.style.display = 'block';
-    });
-  });
-
   // Partie-preloader & Popup
 
 window.addEventListener('DOMContentLoaded', function() {
