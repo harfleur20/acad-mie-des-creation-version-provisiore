@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // --- VARIABLES GLOBALES POUR GÉRER L'ÉTAT DU BLOG ---
 let allPosts = []; // Stocke tous les articles chargés une seule fois
 let currentPosts = []; // Stocke les articles actuellement affichés (filtrés ou non)
-const postsPerPage = 2; // On affiche 3 articles par page
+const postsPerPage = 2; // On affiche 2 articles par page
 let currentPage = 1;
 
 /**
@@ -153,19 +153,36 @@ function displayCategories() {
 }
 
 
-// --- Fonctions pour la page d'un article (CORRIGÉES) ---
+// --- Fonctions pour la page d'un article (MISE À JOUR) ---
 async function loadSinglePost() {
     try {
         const postId = new URLSearchParams(window.location.search).get('id');
         if (!postId) return;
+
         const [postsResponse, markdownResponse] = await Promise.all([
             fetch('blog/posts.json'),
             fetch(`blog/posts/${postId}.md`)
         ]);
+
         const posts = await postsResponse.json();
         const postMeta = posts.find(p => p.id === postId);
         const markdown = await markdownResponse.text();
+        
+        // --- MISE À JOUR POUR LE PARTAGE SOCIAL ---
         document.title = `${postMeta.title} - Le Blog des Créatifs`;
+        
+        // Remplacez cette URL par l'URL de base de votre site en ligne
+        const baseUrl = "https://academiecreatif.netlify.app"; 
+        const absoluteImageUrl = `${baseUrl}/${postMeta.coverImage}`;
+        const absolutePostUrl = `${baseUrl}/post.html?id=${postMeta.id}`;
+
+        // Met à jour les balises Open Graph dans le <head> de post.html
+        document.getElementById('og-title').setAttribute('content', postMeta.title);
+        document.getElementById('og-desc').setAttribute('content', postMeta.excerpt);
+        document.getElementById('og-image').setAttribute('content', absoluteImageUrl);
+        document.getElementById('og-url').setAttribute('content', absolutePostUrl);
+        // --- FIN DE LA MISE À JOUR ---
+        
         const header = document.getElementById('post-header');
         header.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(${postMeta.coverImage})`;
         
@@ -179,6 +196,7 @@ async function loadSinglePost() {
         document.getElementById('post-body').innerHTML = marked.parse(markdown);
         setupShareLinks(postMeta.title);
         loadRecentPosts(posts, postId);
+
     } catch (error) {
         console.error("Erreur de chargement de l'article:", error);
     }
@@ -205,12 +223,11 @@ function loadRecentPosts(allPosts, currentPostId) {
     recentPostsContainer.innerHTML = html;
 }
 
-// CORRECTION : On retire encodeURIComponent de la variable 'url'
 function setupShareLinks(title) {
-    const url = window.location.href; // L'URL n'est plus encodée
+    const url = window.location.href; // L'URL ne doit pas être encodée pour Facebook
     const text = encodeURIComponent(title);
     
     document.getElementById('share-facebook').href = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
-    document.getElementById('share-whatsapp').href = `https://api.whatsapp.com/send?text=${text}%20${url}`;
-    document.getElementById('share-linkedin').href = `https://www.linkedin.com/shareArticle?mini=true&url=${url}&title=${text}`;
+    document.getElementById('share-whatsapp').href = `https://api.whatsapp.com/send?text=${text}%20${encodeURIComponent(url)}`;
+    document.getElementById('share-linkedin').href = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(url)}&title=${text}`;
 }
