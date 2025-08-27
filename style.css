@@ -48,6 +48,22 @@ body{
 
 /* section-loader */
 
+/* NOUVEAU : Logique de pre-chargement améliorée */
+body.loading header,
+body.loading main,
+body.loading footer {
+    /* Cache le contenu principal tant que la page n'est pas prête */
+    opacity: 0;
+}
+
+body.loaded header,
+body.loaded main,
+body.loaded footer {
+    /* Affiche le contenu avec une animation de fondu une fois la page prête */
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+}
+
 #preloader {
     position: fixed;
     top: 0;
@@ -66,6 +82,11 @@ body{
     position: relative;
     width: 100px;
     height: 100px;
+}
+
+#preloader.hidden {
+    opacity: 0;
+    visibility: hidden;
 }
 
 /* Cercle qui tourne */
@@ -1065,6 +1086,7 @@ header img{
     align-items: center;
     gap: 1rem;
 }
+
 
 /* Style pour les iframes YouTube */
 .video-item iframe {

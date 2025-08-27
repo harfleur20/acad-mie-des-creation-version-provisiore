@@ -181,32 +181,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Partie-preloader & Popup
 
-window.addEventListener('DOMContentLoaded', function() {
-    // Sélectionne le préchargeur
+// On ajoute une classe au body pour cacher le contenu principal au début
+document.body.classList.add('loading');
+
+// On utilise l'événement 'load' pour attendre que TOUT soit chargé
+window.addEventListener('load', function() {
     const preloader = document.getElementById('preloader');
+    
+    // On retire la classe de chargement et on ajoute la classe "prêt"
+    // pour déclencher l'animation de fondu du contenu
+    document.body.classList.remove('loading');
+    document.body.classList.add('loaded');
 
     if (preloader) {
-        // Déclenche l'animation de fondu
-        preloader.style.opacity = '0'; 
+        // On ajoute la classe pour faire disparaître le pre-loader
+        preloader.classList.add('hidden');
 
-        // Quand l'animation est finie, on le masque complètement
+        // On supprime complètement le pre-loader du HTML après son animation
         preloader.addEventListener('transitionend', function() {
-            preloader.style.display = 'none';
-
-            // --- C'est ici que l'on déclenche l'affichage de la pop-up ---
+            preloader.remove();
             
-            // On attend 1 seconde (1000 ms) après que le préchargeur a disparu
-            // pour afficher la pop-up, pour laisser le temps à l'utilisateur de voir la page.
+            // On affiche la popup 1 seconde APRES la fin de l'animation
             setTimeout(openPopup, 1000); 
-
-        }, { once: true });
-        
-        // Option de sécurité : si la transition ne fonctionne pas (par exemple si le CSS est manquant),
-        // on masque quand même le préchargeur et on affiche la pop-up après un court délai.
-        setTimeout(function() {
-            preloader.style.display = 'none';
-            setTimeout(openPopup, 1000);
-        }, 600);
+        });
     }
 });
 
