@@ -114,8 +114,45 @@
 
 /* ▼▼▼ STYLES DE PAGINATION (AJOUTÉS) ▼▼▼ */
 
+/* =============================================
+   DESIGN PAGINATION - CORRIGÉ POUR CORRESPONDRE AU JS
+   ============================================= */
 
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem; /* 8px */
+    margin-top: 2rem;
+    padding-bottom: 2rem;
+}
 
+/* C'est la classe que votre JavaScript crée ! */
+.pagination-button {
+    text-decoration: none;
+    color: var(--couleur-principale);
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    min-width: 40px;
+    height: 40px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+.pagination-button:hover {
+    background-color: #f5f5f5;
+    color: var(--couleur-secondaire);
+}
+
+/* Style pour la page active */
+.pagination-button.active {
+    background-color: var(--couleur-secondaire);
+    color: #fff;
+    border-color: var(--couleur-secondaire);
+    cursor: default;
+}
 
 
 

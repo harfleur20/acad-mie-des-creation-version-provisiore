@@ -44,14 +44,15 @@ function displayPage(page) {
     featuredContainer.innerHTML = '';
     currentPage = page;
 
-    let postsToDisplay = [...currentPosts];
     const featuredPost = allPosts.find(p => p.isFeatured);
+    let postsToDisplay = [...currentPosts];
 
-    // L'article à la une n'est affiché séparément QUE sur la première page ET si aucun filtre n'est actif.
-    if (page === 1 && currentPosts.length === allPosts.length && featuredPost) {
+    // L'article à la une est affiché séparément sur la première page,
+    // PEU IMPORTE la catégorie sélectionnée, du moment qu'il est dans la liste filtrée.
+    if (page === 1 && featuredPost && currentPosts.includes(featuredPost)) {
         featuredContainer.innerHTML = createPostCard(featuredPost);
-        // On retire l'article à la une de la liste à paginer pour ne pas le dupliquer
-        postsToDisplay = currentPosts.filter(p => !p.isFeatured);
+        // On le retire de la liste pour ne pas le dupliquer dans la grille.
+        postsToDisplay = postsToDisplay.filter(p => !p.isFeatured);
     }
 
     const start = (page - 1) * postsPerPage;
@@ -87,10 +88,12 @@ function setupPagination() {
     if (!paginationContainer) return;
     paginationContainer.innerHTML = '';
 
-    let postsToPaginate = currentPosts;
-    // Si on est sur la vue par défaut, on ne pagine pas l'article à la une
-    if (currentPosts.length === allPosts.length) {
-        postsToPaginate = currentPosts.filter(p => !p.isFeatured);
+    const featuredPost = allPosts.find(p => p.isFeatured);
+    let postsToPaginate = [...currentPosts];
+
+    // Si l'article à la une est dans la liste filtrée, on ne le compte pas pour la pagination.
+    if (featuredPost && postsToPaginate.includes(featuredPost)) {
+        postsToPaginate = postsToPaginate.filter(p => !p.isFeatured);
     }
 
     const pageCount = Math.ceil(postsToPaginate.length / postsPerPage);
@@ -150,7 +153,7 @@ function displayCategories() {
 }
 
 
-// --- Fonctions pour la page d'un article (inchangées) ---
+// --- Fonctions pour la page d'un article (CORRIGÉES) ---
 async function loadSinglePost() {
     try {
         const postId = new URLSearchParams(window.location.search).get('id');
@@ -165,12 +168,14 @@ async function loadSinglePost() {
         document.title = `${postMeta.title} - Le Blog des Créatifs`;
         const header = document.getElementById('post-header');
         header.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(${postMeta.coverImage})`;
+        
         header.innerHTML = `
             <div class="post-header-content">
                 <span class="post-card-category">${postMeta.category}</span>
                 <h1>${postMeta.title}</h1>
                 <p class="post-meta">Par ${postMeta.author} • ${postMeta.date}</p>
             </div>`;
+
         document.getElementById('post-body').innerHTML = marked.parse(markdown);
         setupShareLinks(postMeta.title);
         loadRecentPosts(posts, postId);
@@ -203,8 +208,8 @@ function loadRecentPosts(allPosts, currentPostId) {
 function setupShareLinks(title) {
     const url = encodeURIComponent(window.location.href);
     const text = encodeURIComponent(title);
+    
     document.getElementById('share-facebook').href = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
     document.getElementById('share-whatsapp').href = `https://api.whatsapp.com/send?text=${text}%20${url}`;
     document.getElementById('share-linkedin').href = `https://www.linkedin.com/shareArticle?mini=true&url=${url}&title=${text}`;
 }
-
