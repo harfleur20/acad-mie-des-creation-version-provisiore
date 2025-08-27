@@ -89,7 +89,7 @@
     align-items: left;
 }
 
-form input[type="email"] {
+.newsletter-form input[type="email"] {
     padding: 1rem 2rem;
     border-radius: 80px;
     border: var(--couleur-secondaire) 1px solid;
