@@ -1,20 +1,23 @@
-\### Introduction
+### Introduction
 
 
 
 Se lancer en freelance en tant que graphiste en Afrique est une aventure excitante qui offre liberté et potentiel de croissance. Cependant, le succès ne vient pas par hasard. Il nécessite une préparation minutieuse et une stratégie bien définie. Dans cet article, nous allons explorer les 5 étapes clés qui vous guideront de l'idée à la réalité.
 
 
+![Une  ditrice vid o travaillant sur deux  crans](/Assets/bg-mobile.jpg)
 
- Étape 1 : Définir votre niche et votre offre
+
+
+### Étape 1 : Définir votre niche et votre offre
 
 Le monde du design est vaste. Essayer de tout faire pour tout le monde est le meilleur moyen de se noyer dans la masse. La première étape cruciale est de définir votre spécialité.
 
 
 
-\- \*\*Identifiez vos points forts :\*\* Êtes-vous doué pour le branding et la création de logos ? Le design d'interfaces (UI/UX) ? L'illustration ?
+- **Identifiez vos points forts :**  Êtes-vous doué pour le branding et la création de logos ? Le design d'interfaces (UI/UX) ? L'illustration ?
 
-\- \*\*Analysez le marché :\*\* Quelles sont les compétences les plus demandées dans votre région ? Y a-t-il un besoin non satisfait ?
+- **Analysez le marché :** Quelles sont les compétences les plus demandées dans votre région ? Y a-t-il un besoin non satisfait ?
 
 
 
@@ -22,7 +25,7 @@ Une fois votre niche définie, structurez une offre claire. Proposez des "packag
 
 
 
-\### Étape 2 : Construire un portfolio percutant
+### Étape 2 : Construire un portfolio percutant
 
 Votre portfolio est votre meilleur outil de vente. Il doit non seulement montrer vos compétences, mais aussi raconter une histoire.
 
@@ -36,17 +39,17 @@ Même si vous n'avez pas encore de clients, créez des projets fictifs qui démo
 
 
 
-\### Étape 3 : Fixer ses tarifs
+### Étape 3 : Fixer ses tarifs
 
 C'est souvent l'étape la plus difficile. Ne tombez pas dans le piège de la sous-évaluation.
 
 
 
-\- \*\*Calculez vos charges :\*\* Logiciels, matériel, électricité, etc.
+- **Calculez vos charges :** Logiciels, matériel, électricité, etc.
 
-\- \*\*Définissez votre tarif journalier moyen (TJM) :\*\* C'est le montant que vous devez facturer par jour pour être rentable.
+- **Définissez votre tarif journalier moyen (TJM) :** C'est le montant que vous devez facturer par jour pour être rentable.
 
-\- \*\*Proposez des tarifs par projet :\*\* La plupart des clients préfèrent un prix fixe. Basez ce prix sur une estimation du nombre de jours nécessaires.
+- **Proposez des tarifs par projet :** La plupart des clients préfèrent un prix fixe. Basez ce prix sur une estimation du nombre de jours nécessaires.
 
 
 

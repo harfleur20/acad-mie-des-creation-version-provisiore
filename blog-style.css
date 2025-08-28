@@ -127,6 +127,67 @@
     padding-bottom: 2rem;
 }
 
+/* =============================================
+   MISE EN PAGE DU CORPS DE L'ARTICLE (MARKDOWN)
+   ============================================= */
+
+/* Cible tous les éléments générés par le Markdown dans le corps de l'article */
+#post-body {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--couleur-principale);
+}
+
+/* Style pour les sous-titres (### en Markdown) */
+#post-body h3 {
+    font-size: 1.6rem;
+    color: var(--couleur-secondaire);
+    margin: 2.5rem 0 1.5rem 0; /* Espace avant et après le titre */
+    line-height: 1.4;
+}
+
+/* Style pour les paragraphes */
+#post-body p {
+    margin-bottom: 1.5rem;
+}
+
+/* Style pour les listes à puces (* en Markdown) */
+#post-body ul {
+    list-style-type: disc;
+    padding-left: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+#post-body li {
+    margin-bottom: 0.5rem;
+}
+
+/* Style pour les images */
+#post-body img {
+    max-width: 100%; /* Rend l'image responsive */
+    height: auto;
+    display: block; /* Évite les espaces étranges sous l'image */
+    margin: 2rem auto; /* Centre l'image avec des marges verticales */
+    border-radius: 10px; /* Ajoute des coins arrondis */
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1); /* Ajoute une ombre subtile */
+}
+
+/* Style pour les citations (> en Markdown) */
+#post-body blockquote {
+    border-left: 4px solid var(--couleur-secondaire);
+    padding-left: 1.5rem;
+    margin: 2rem 0;
+    font-style: italic;
+    color: #555;
+    background-color: #f8f9fa; /* Ajoute un fond léger */
+    padding: 1rem 1.5rem;
+    border-radius: 0 8px 8px 0;
+}
+
+#post-body blockquote p {
+    margin-bottom: 0; /* Retire la marge du paragraphe dans la citation */
+}
+
 /* C'est la classe que votre JavaScript crée ! */
 .pagination-button {
     text-decoration: none;
