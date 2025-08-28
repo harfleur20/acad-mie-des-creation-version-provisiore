@@ -2018,6 +2018,121 @@ header img{
   }
 }
 
+/* article populaire */
+
+/* =============================================
+   SECTION ARTICLES POPULAIRES (ACCUEIL)
+   ============================================= */
+
+#popular-posts {
+    padding: 4rem 7rem;
+    background-color: #f7f9fc; /* Un fond légèrement différent pour contraster */
+}
+
+.popular-posts-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.popular-posts-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.popular-posts-header h2 {
+    font-size: 1.6rem;
+    color: var(--couleur-principale);
+    margin-bottom: 1rem;
+}
+
+.popular-posts-header p {
+    font-size: 1.2rem;
+    color: #555;
+    max-width: 600px;
+}
+
+/* Grille pour les articles */
+.popular-posts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    width: 100%;
+    margin-bottom: 3rem;
+}
+
+/* Pied de la section avec le bouton */
+.popular-posts-footer {
+    text-align: center;
+}
+
+/* Le bouton utilise la classe .cta-button que vous avez déjà stylée,
+   mais on peut l'ajuster si besoin */
+.popular-posts-footer .cta-button {
+    text-decoration: none;
+    padding: 0.8rem 2.5rem;
+    border-radius: 50px;
+    font-weight: 600;
+    transition: transform 0.3s;
+    background-color: transparent;
+    border: 2px solid var(--couleur-principale);
+    color: var(--couleur-principale);
+    transition: all 0.3s ease-in-out;
+}
+
+.popular-posts-footer .cta-button:hover {
+    background-color: var(--couleur-principale);
+    color: #fff;
+    transform: translateY(-3px);
+}
+
+/* =============================================
+   AJUSTEMENT TAILLE ARTICLES POPULAIRES
+   ============================================= */
+
+/* On cible spécifiquement les cartes dans la section populaire */
+#popular-posts .post-card {
+    /* On peut réduire la marge du bas si nécessaire */
+    margin-bottom: 1.5rem; 
+}
+
+/* On réduit la taille de l'image */
+#popular-posts .post-card-image {
+    height: 200px; /* Ancien: 250px */
+}
+
+/* On réduit la taille des textes */
+#popular-posts .post-card-content {
+    padding: 1rem; /* Moins d'espace intérieur */
+}
+
+#popular-posts .post-card-title {
+    font-size: 1.2rem; /* Ancien: 1.6rem */
+    line-height: 1.4;
+    margin-bottom: 0.4rem;
+}
+
+#popular-posts .post-card-excerpt {
+    font-size: 0.9rem; /* Texte de l'extrait plus petit */
+    line-height: 1.5;
+    margin-bottom: 1rem;
+}
+
+#popular-posts .post-card-readmore {
+    font-size: 0.9rem; /* Lien "Lire la suite" plus petit */
+    font-weight: bold;
+}
+
+
+/* --- Responsive pour la section --- */
+@media (max-width: 1024px) {
+    #popular-posts {
+        padding: 3rem 2.5rem;
+    }
+}
+
 /* Les styles existants de p, button, etc. restent inchangés */
 
 /* ----------------------------------------------

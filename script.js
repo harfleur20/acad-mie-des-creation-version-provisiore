@@ -268,3 +268,114 @@ function initializeCookieBanner() {
     });
 }
 
+// articles populaires
+
+// --- SCRIPT POUR LES ARTICLES POPULAIRES SUR LA PAGE D'ACCUEIL ---
+
+// On s'assure que le DOM est chargé avant de lancer le script
+document.addEventListener('DOMContentLoaded', () => {
+    // On vérifie qu'on est bien sur une page qui contient la grille des articles populaires
+    if (document.getElementById('popular-posts-grid')) {
+        loadPopularPosts();
+    }
+});
+
+/**
+ * Charge les données du blog, filtre les articles populaires et les affiche.
+ */
+async function loadPopularPosts() {
+    const grid = document.getElementById('popular-posts-grid');
+    
+    try {
+        // 1. Charger les données de tous les articles
+        const response = await fetch('blog/posts.json');
+        if (!response.ok) throw new Error('Impossible de charger les articles.');
+        const allPosts = await response.json();
+
+        // 2. Filtrer pour ne garder que les articles populaires (et en prendre 3 max)
+        const popularPosts = allPosts.filter(post => post.isPopular).slice(0, 3);
+        
+        if (popularPosts.length === 0) {
+            grid.innerHTML = "<p>Aucun article populaire à afficher pour le moment.</p>";
+            return;
+        }
+
+        // 3. Générer le HTML pour chaque carte et l'insérer dans la grille
+        let postsHtml = '';
+        popularPosts.forEach(post => {
+            postsHtml += createPostCard(post);
+        });
+        grid.innerHTML = postsHtml;
+
+    } catch (error) {
+        console.error("Erreur lors du chargement des articles populaires:", error);
+        grid.innerHTML = "<p>Erreur lors du chargement des articles.</p>";
+    }
+}
+
+// --- SCRIPT CORRIGÉ POUR LES ARTICLES POPULAIRES SUR LA PAGE D'ACCUEIL ---
+
+document.addEventListener('DOMContentLoaded', () => {
+    // On s'assure qu'on est bien sur une page qui contient la grille
+    if (document.getElementById('popular-posts-grid')) {
+        loadPopularPosts();
+    }
+});
+
+/**
+ * Charge, filtre et affiche les articles populaires.
+ */
+async function loadPopularPosts() {
+    const grid = document.getElementById('popular-posts-grid');
+    
+    /**
+     * Crée le HTML pour une carte d'article.
+     * CETTE FONCTION EST MAINTENANT LOCALE POUR ÉVITER LES CONFLITS.
+     */
+    const createPopularPostCard = (post) => {
+        // On s'assure que les champs existent pour éviter les erreurs
+        const title = post.title || "Titre non disponible";
+        const excerpt = post.excerpt || "";
+        const category = post.category || "Inclassé";
+        const coverImage = post.coverImage || "path/to/default/image.jpg";
+        const id = post.id;
+
+        return `
+            <article class="post-card">
+                <a href="post.html?id=${id}"><img src="${coverImage}" alt="${title}" class="post-card-image"></a>
+                <div class="post-card-content">
+                    <span class="post-card-category">${category}</span>
+                    <a href="post.html?id=${id}" style="text-decoration: none;"><h3 class="post-card-title">${title}</h3></a>
+                    <p class="post-card-excerpt">${excerpt}</p>
+                    <a href="post.html?id=${id}" class="post-card-readmore">Lire la suite &rarr;</a>
+                </div>
+            </article>
+        `;
+    };
+
+    try {
+        const response = await fetch('blog/posts.json');
+        if (!response.ok) throw new Error('Impossible de charger les articles.');
+        const allPosts = await response.json();
+
+        const popularPosts = allPosts.filter(post => post.isPopular).slice(0, 3);
+        
+        if (popularPosts.length === 0) {
+            grid.innerHTML = "<p>Aucun article populaire à afficher pour le moment.</p>";
+            return;
+        }
+
+        let postsHtml = '';
+        popularPosts.forEach(post => {
+            postsHtml += createPopularPostCard(post); // On utilise notre fonction locale et sûre
+        });
+        grid.innerHTML = postsHtml;
+
+    } catch (error) {
+        console.error("Erreur lors du chargement des articles populaires:", error);
+        grid.innerHTML = "<p>Erreur lors du chargement des articles.</p>";
+    }
+}
+
+ 
+
