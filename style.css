@@ -1863,6 +1863,11 @@ header img{
   font-weight: bold;
   cursor: pointer;
   color: #02052a;
+  transition: all 0.3s ease-in-out;
+}
+
+.popup-close:hover{
+    background-color: #e7fdfc;
 }
 
 /* Styles pour le contenu interne */
@@ -2050,7 +2055,6 @@ header img{
 
 .popular-posts-header p {
     font-size: 1.2rem;
-    color: #555;
     max-width: 600px;
 }
 

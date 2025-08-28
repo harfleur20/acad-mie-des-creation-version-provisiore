@@ -6,7 +6,7 @@
     "author": "Francis Kenne",
     "category": "Freelance",
     "excerpt": "Se lancer en freelance peut sembler intimidant, mais avec la bonne méthode...",
-    "coverImage": "Assets/banner-1.jpg",
+    "coverImage": "images-blog/img-couleur.jpg",
     "isFeatured": true,
     "isPopular": true 
   },
@@ -21,14 +21,40 @@
     "isFeatured": false,
     "isPopular": true 
   },
+
+  {
+    "id": "graphiste-cameroun",
+    "title": "A la découverte des Top graphistes du Cameroun",
+    "date": "22 août 2025",
+    "author": "Bihee Alex",
+    "category": "Découverte",
+    "excerpt": "La couleur est l'un des outils les plus puissants du designer...",
+    "coverImage": "images-blog/salaire_maquettiste.webp",
+    "isFeatured": false,
+    "isPopular": false 
+  },
+
+  {
+    "id": "mindset-du-graphique",
+    "title": "Le Mindset du graphiste businessman - un livre vraiment éfficace ?",
+    "date": "25 Novembre 2025",
+    "author": "Natchi Dylan",
+    "category": "Découverte",
+    "excerpt": "A la découverte du livre qui secoue l'univers des graphistes partout en...",
+    "coverImage": "images-blog/Mockup-Livre.jpg",
+    "isFeatured": false,
+    "isPopular": true 
+  },
+
+
   {
     "id": "Tout-savoir",
-    "title": "Comment choisir une palette de couleurs qui a de l'impact ?",
-    "date": "22 août 2025",
+    "title": "TOP 10 des TYPO impactant en 2025 ?",
+    "date": "24 Avril 2025",
     "author": "Bihee Alex",
     "category": "Design Graphique",
     "excerpt": "La couleur est l'un des outils les plus puissants du designer...",
-    "coverImage": "Assets/bg-mobile.jpg",
+    "coverImage": "images-blog/metier-infographiste.jpeg",
     "isFeatured": false,
     "isPopular": false
   },
@@ -39,7 +65,7 @@
     "author": "Bihee Alex",
     "category": "Design Graphique",
     "excerpt": "La couleur est l'un des outils les plus puissants du designer...",
-    "coverImage": "Assets/bg-mobile.jpg",
+    "coverImage": "images-blog/img-graphiste.webp",
     "isFeatured": false,
     "isPopular": true 
   }
