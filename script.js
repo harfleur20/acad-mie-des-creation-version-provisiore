@@ -322,6 +322,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+// --- SCRIPT CORRIGÉ POUR LES ARTICLES POPULAIRES SUR LA PAGE D'ACCUEIL ---
+
+document.addEventListener('DOMContentLoaded', () => {
+    // On s'assure qu'on est bien sur une page qui contient la grille
+    if (document.getElementById('popular-posts-grid')) {
+        loadPopularPosts();
+    }
+});
+
 /**
  * Charge, filtre et affiche les articles populaires.
  */
@@ -329,11 +338,13 @@ async function loadPopularPosts() {
     const grid = document.getElementById('popular-posts-grid');
     
     /**
-     * Crée le HTML pour une carte d'article.
-     * CETTE FONCTION EST MAINTENANT LOCALE POUR ÉVITER LES CONFLITS.
+     * Crée le HTML pour une carte d'article avec une classe de catégorie dynamique.
+     * CETTE FONCTION EST LOCALE POUR ÉVITER LES CONFLITS.
      */
     const createPopularPostCard = (post) => {
-        // On s'assure que les champs existent pour éviter les erreurs
+        // Crée une version "propre" du nom de la catégorie pour l'utiliser comme classe CSS
+        const categoryClass = post.category.toLowerCase().replace(/\s+/g, '-');
+        
         const title = post.title || "Titre non disponible";
         const excerpt = post.excerpt || "";
         const category = post.category || "Inclassé";
@@ -344,7 +355,7 @@ async function loadPopularPosts() {
             <article class="post-card">
                 <a href="post.html?id=${id}"><img src="${coverImage}" alt="${title}" class="post-card-image"></a>
                 <div class="post-card-content">
-                    <span class="post-card-category">${category}</span>
+                    <span class="post-card-category ${categoryClass}">${category}</span>
                     <a href="post.html?id=${id}" style="text-decoration: none;"><h3 class="post-card-title">${title}</h3></a>
                     <p class="post-card-excerpt">${excerpt}</p>
                     <a href="post.html?id=${id}" class="post-card-readmore">Lire la suite &rarr;</a>
@@ -358,6 +369,7 @@ async function loadPopularPosts() {
         if (!response.ok) throw new Error('Impossible de charger les articles.');
         const allPosts = await response.json();
 
+        // On filtre et on prend les 3 premiers articles populaires
         const popularPosts = allPosts.filter(post => post.isPopular).slice(0, 3);
         
         if (popularPosts.length === 0) {
@@ -376,6 +388,3 @@ async function loadPopularPosts() {
         grid.innerHTML = "<p>Erreur lors du chargement des articles.</p>";
     }
 }
-
- 
-

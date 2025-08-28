@@ -127,6 +127,33 @@
     padding-bottom: 2rem;
 }
 
+
+/* Style par défaut (si aucune autre règle ne s'applique) */
+.post-card-category {
+    background-color: #fccf2f; /* Jaune par défaut */
+    color: var(--couleur-principale);
+}
+
+/* Style pour la catégorie "Design Graphique" */
+.post-card-category.design-graphique {
+    background-color: #e8f8f7; /* Un bleu-vert très clair */
+    color: #1c8480; /* Votre couleur secondaire */
+    border: 1px solid #1c8480; /* Ajout d'une bordure pour le contraste */
+}
+
+/* Style pour la catégorie "Freelance" */
+.post-card-category.freelance {
+    background-color: #eef2f7; /* Un bleu-gris clair */
+    color: #1f2352; /* Votre couleur principale */
+    border: 1px solid #1f2352;
+}
+
+/* Ajoutez d'autres catégories ici au besoin... */
+/* .post-card-category.nom-de-votre-categorie {
+    background-color: #nouvelleCouleur;
+    color: #couleurTexte;
+} */
+
 /* =============================================
    MISE EN PAGE DU CORPS DE L'ARTICLE (MARKDOWN)
    ============================================= */
