@@ -33,7 +33,7 @@
 .featured .post-card-image { height: 350px; }
 .post-card-content { padding: 1.5rem; }
 .post-card-category { background: #fccf2f; color: var(--couleur-principale); padding: 0.3rem 0.8rem; border-radius: 50px; font-size: 0.8rem; font-weight: bold; display: inline-block; margin-bottom: 1rem; }
-.post-card-title { font-size: 1.6rem; color: var(--couleur-principale); margin-bottom: 0.5rem; }
+.post-card-title { font-size: 1.6rem; color: var(--couleur-principale); margin-bottom: 0.5rem; line-height: 2.1rem; }
 .post-card-meta { color: #777; font-size: 0.9rem; margin-bottom: 1rem; }
 .post-card-excerpt { color: #555; line-height: 1.6; margin-bottom: 1.5rem; }
 .post-card-readmore { color: var(--couleur-secondaire); text-decoration: none; font-weight: bold; }
@@ -49,14 +49,25 @@
 
 /* LAYOUT EN 2 COLONNES */
 .post-layout-container { max-width: 1200px; margin: 3rem auto; padding: 0 2rem; display: flex; align-items: flex-start; gap: 2.5rem; }
-.post-content-main { flex: 3; min-width: 0; }
+.post-content-main { flex: 3; min-width: 0; padding: 0 2rem; margin-top: -2.2rem;}
 .post-sidebar { flex: 1; position: sticky; top: 100px; }
 
 .post-body { font-size: 1.1rem; line-height: 1.8; color: #333; }
-.post-body h3 { font-size: 1.8rem; color: var(--couleur-principale); margin: 2rem 0 1rem; }
+.post-body h3 { font-size: 1.6rem; color: var(--couleur-principale); margin: 2rem 0 1rem; }
+.post-body h4 { font-size: 1.3rem; color: var(--couleur-secondaire); margin: 2rem 0 1rem; }
+.post-body h5 { font-size: 1.2rem; color: var(--couleur-principale); margin: 2rem 0 1rem; }
 .post-body p, .post-body ul, .post-body ol { margin-bottom: 1.5rem; }
 .post-body a { color: var(--couleur-secondaire); text-decoration: underline; }
 .post-body blockquote { border-left: 4px solid var(--couleur-secondaire); padding-left: 1.5rem; margin: 2rem 0; font-style: italic; color: #555; }
+
+
+.post-body h3,
+.post-body p,
+.post-body ul,
+.post-body ol {
+  text-align: left;
+}
+
 
 .share-bar { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #eee; }
 .share-link { font-size: 1.5rem; margin-right: 1rem; color: #333; transition: color 0.3s; }

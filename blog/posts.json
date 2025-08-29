@@ -11,26 +11,26 @@
     "isPopular": true
   },
   {
-    "id": "choisir-les-bonnes-couleurs",
-    "title": "Comment choisir une palette de couleurs qui a de l'impact ?",
+    "id": "typo-2025",
+    "title": "Voici 10 typo les plus utilisées en 2025 au Cameroun par les graphistes",
     "date": "22 août 2025",
-    "author": "Bihee Alex",
+    "author": "Francis Kenne",
     "category": "Design Graphique",
-    "excerpt": "La couleur est l'un des outils les plus puissants du designer...",
-    "coverImage": "Assets/bg-mobile.jpg",
+    "excerpt": "Les polices d'écriture peuvent être classées en plusieurs catégories, dans cet article...",
+    "coverImage": "images-blog/typo-2025/typo-2025.jpg",
     "isFeatured": false,
     "isPopular": true
     
   },
 
   {
-    "id": "graphiste-cameroun",
-    "title": "A la découverte des Top graphistes du Cameroun",
+    "id": "oscar",
+    "title": "Voici pourquoi plusieurs récompenses pour la plupart des graphistes vivants...",
     "date": "22 août 2025",
     "author": "Bihee Alex",
-    "category": "Découverte",
-    "excerpt": "La couleur est l'un des outils les plus puissants du designer...",
-    "coverImage": "images-blog/salaire_maquettiste.webp",
+    "category": "Freelance",
+    "excerpt": "Depuis plusieurs jours sur internet, on rencontre une vague de mécontentements...",
+    "coverImage": "images-blog/oscar.jpg",
     "isFeatured": false,
     "isPopular": false
   },
@@ -44,20 +44,20 @@
     "excerpt": "A la découverte du livre qui secoue l'univers des graphistes partout en...",
     "coverImage": "images-blog/Mockup-Livre.jpg",
     "isFeatured": false,
-    "isPopular": true
+    "isPopular": false
   },
 
 
   {
-    "id": "Tout-savoir",
-    "title": "TOP 10 des TYPO impactant en 2025 ?",
+    "id": "zone-critique",
+    "title": "Voici comment le design graphique a failli m'envoyer en prison ?",
     "date": "24 Avril 2025",
-    "author": "Bihee Alex",
-    "category": "Design Graphique",
-    "excerpt": "La couleur est l'un des outils les plus puissants du designer...",
-    "coverImage": "images-blog/metier-infographiste.jpeg",
+    "author": "Francis Kenne",
+    "category": "Freelance",
+    "excerpt": "Découvrez comment mon histoire pourrait te sauver la vie, jeune graphiste....",
+    "coverImage": "images-blog/zone.jpg",
     "isFeatured": false,
-    "isPopular": false
+    "isPopular": true
   },
   {
     "id": "bien-lire",
@@ -69,5 +69,22 @@
     "coverImage": "images-blog/img-graphiste.webp",
     "isFeatured": false,
     "isPopular": true
+  },
+
+ {
+    "id": "coupe-des-creatifs",
+    "title": "Qu'est-ce-que la coupe des créatifs - Le Esport des graphistes ?",
+    "date": "03 septembre 2025",
+    "author": "Massuh Nadia",
+    "category": "Découverte",
+    "excerpt": "La couleur est l'un des outils les plus puissants du designer...",
+    "coverImage": "images-blog/img-graphiste.webp",
+    "isFeatured": false,
+    "isPopular": true
   }
+
+
+
+
+
 ]
