@@ -289,77 +289,74 @@
         text-align: left;
     }
 
-    /* =============================================
-   SYSTÈME DE NOTATION PAR ÉTOILES
+   /* Dans le fichier : blog-style.css */
+
+/* =============================================
+   SYSTÈME DE NOTATION PAR ÉTOILES (AMÉLIORÉ)
    ============================================= */
 
 .rating-widget {
     margin-top: 2rem;
-    /* padding: 2rem; */
-    border-top: 1px solid var(--couleur-bordure);
-    border-bottom: 1px solid var(--couleur-bordure);
+    padding: 1.5rem;
+    border-top: 1px solid #eee;
     text-align: center;
-    background-color: var(--couleur-fond-secondaire);
-    border-radius: 8px;
 }
 
 .rating-widget h4 {
-    color: var(--couleur-texte-principal);
-    margin-bottom: 0.4rem;
+    color: var(--couleur-principale);
+    margin-bottom: 0.8rem;
     font-size: 1.2rem;
 }
 
 .rating-stars {
-    font-size: 1.5rem;
-    color: #fccf2f; /* Couleur des étoiles */
+    font-size: 1.8rem;
+    color: #fccf2f; /* Jaune étoile */
     cursor: pointer;
+    margin-bottom: 1rem;
 }
 
-/* Style des étoiles au survol */
-.rating-stars:hover i {
+/* Gère le survol SEULEMENT si l'utilisateur n'a pas encore voté */
+.rating-widget:not(.rated) .rating-stars:hover i {
     font-weight: 900; /* Devient une étoile pleine (solid) */
 }
-.rating-stars i:hover ~ i {
-    font-weight: 400; /* Les étoiles après celle survolée redeviennent vides (regular) */
+.rating-widget:not(.rated) .rating-stars i:hover ~ i {
+    font-weight: 400; /* Les étoiles après redeviennent vides (regular) */
 }
 
-/* Style quand une note est donnée */
-.rating-stars.rated i {
-    font-weight: 900; /* Toutes les étoiles jusqu'à la note sont pleines */
+/* Style pour le widget une fois que l'utilisateur a voté */
+.rating-widget.rated .rating-stars {
     cursor: default;
+    opacity: 0.7;
+}
+
+/* Met en évidence les étoiles de la note donnée */
+.rating-stars i.user-rated {
+    font-weight: 900; /* Assure que l'étoile est pleine */
+    color: #fccf2f;   /* Et bien jaune */
 }
 
 .rating-feedback {
-    display: none; /* Caché par défaut */
+    display: none;
     margin-top: 1rem;
     color: var(--couleur-secondaire);
     font-weight: bold;
 }
 
 .rating-widget.rated .rating-feedback {
-    display: block; /* S'affiche après le vote */
+    display: block;
 }
 
-/* Style pour la note sur les cartes d'article */
-.card-rating {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    margin-bottom: 0.75rem;
-    font-size: 0.9rem;
-    color: #666;
-    font-weight: 500;
+.average-rating {
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    color: #555;
 }
 
-.card-rating .fa-star {
-    color: #fccf2f; /* Jaune étoile */
+.avg-stars {
+    font-weight: bold;
+    color: var(--couleur-principale);
 }
 
-/* Style pour les articles non notés */
-.card-rating.no-rating {
-    color: #999;
-    font-style: italic;
-}
 
 /* Pour la version sur la page d'accueil */
 #popular-posts .card-header {
@@ -370,6 +367,20 @@
 }
 #popular-posts .card-header .card-rating {
     margin-bottom: 0;
+}
+
+.card-rating .fa-star {
+    color: #fccf2f; /* Jaune étoile */
+}
+
+.card-rating {
+    margin-bottom: 1rem;
+}
+
+/* Style pour les articles non notés */
+.card-rating.no-rating {
+    color: #999; /* Une couleur grise discrète */
+    font-style: italic; /* Met le texte en italique */
 }
 
 

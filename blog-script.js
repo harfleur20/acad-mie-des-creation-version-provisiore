@@ -81,12 +81,13 @@ async function loadBlogIndex() {
 
 // Dans blog-script.js, remplacez toute la fonction loadSinglePost
 
+// Dans le fichier : blog-script.js
+
 async function loadSinglePost() {
     try {
         const postId = new URLSearchParams(window.location.search).get('id');
         if (!postId) return;
 
-        // --- Chargement des données de l'article ---
         const [postsResponse, markdownResponse, { data: ratingData, error: ratingsError }] = await Promise.all([
             fetch('/blog/posts.json'),
             fetch(`/blog/posts/${postId}.md`),
@@ -101,13 +102,12 @@ async function loadSinglePost() {
         const postMeta = posts.find(p => p.id === postId);
         const markdown = await markdownResponse.text();
 
-        // --- Affichage du contenu de l'article ---
         document.title = `${postMeta.title} - Le Blog des Créatifs`;
         const header = document.getElementById('post-header');
         header.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(/${postMeta.coverImage})`;
         header.innerHTML = `
             <div class="post-header-content">
-                <span class="post-card-category">${postMeta.category}</span>
+                <span class="post-card-category ${postMeta.category.toLowerCase().replace(/\s+/g, '-')}">${postMeta.category}</span>
                 <h1>${postMeta.title}</h1>
                 <p class="post-meta">Par ${postMeta.author} • ${postMeta.date}</p>
             </div>`;
@@ -116,48 +116,46 @@ async function loadSinglePost() {
         setupShareLinks(postMeta.title);
         loadRecentPosts(posts, postId);
 
-        // --- LOGIQUE D'AFFICHAGE ET DE VOTE (MISE À JOUR) ---
         const ratingWidget = document.querySelector('.rating-widget');
         const avgRatingContainer = document.getElementById('average-rating-display');
-        
-       // Dans blog-script.js
-
-// On vérifie si des données existent ET si le nombre de votes est supérieur à 0
-if (ratingData && ratingData.votes > 0 && avgRatingContainer) { 
-    const average = (ratingData.total_score / ratingData.votes).toFixed(1);
-    const voteText = ratingData.votes > 1 ? "votes" : "vote";
-    avgRatingContainer.innerHTML = `Note moyenne : <span class="avg-stars">${average} ★</span> (${ratingData.votes} ${voteText})`;
-} else if (avgRatingContainer) {
-    // Si aucune note n'est disponible, on affiche un message clair
-    avgRatingContainer.innerHTML = `Note moyenne : <span class="avg-stars">Pas encore noté</span>`;
-}
-
         const starsContainer = document.getElementById('user-rating-stars');
-        if (starsContainer) {
-            // On vérifie si l'utilisateur a déjà voté pour cet article
-            const hasVoted = localStorage.getItem(`voted_${postId}`);
-            if (hasVoted) {
-                ratingWidget.classList.add('rated'); // On "gèle" les étoiles
-            }
+        
+        if (ratingData && ratingData.votes > 0) {
+            const average = (ratingData.total_score / ratingData.votes).toFixed(1);
+            const voteText = ratingData.votes > 1 ? "votes" : "vote";
+            avgRatingContainer.innerHTML = `Note moyenne : <span class="avg-stars">${average} ★</span> (${ratingData.votes} ${voteText})`;
+        } else {
+            avgRatingContainer.innerHTML = `Note moyenne : <span class="avg-stars">Pas encore noté</span>`;
+        }
 
-            starsContainer.addEventListener('click', async (e) => {
-                if (e.target.tagName === 'I' && !ratingWidget.classList.contains('rated')) {
-                    const score = parseInt(e.target.dataset.value);
-                    const { error } = await supabaseClient.rpc('add_vote', { post_id: postId, vote_score: score });
-                    
-                    if (error) {
-                        console.error('Erreur lors de l\'envoi du vote:', error);
-                    } else {
-                        // On marque le widget comme "noté"
-                        ratingWidget.classList.add('rated');
-                        // On enregistre dans la mémoire du navigateur que l'utilisateur a voté
-                        localStorage.setItem(`voted_${postId}`, 'true');
-                        // On rafraîchit la page pour afficher la nouvelle moyenne
-                        location.reload();
-                    }
+        // On vérifie si un score a été enregistré pour cet article
+        const userVote = localStorage.getItem(`voted_score_${postId}`);
+        if (userVote) {
+            ratingWidget.classList.add('rated');
+            const userScore = parseInt(userVote);
+            const stars = starsContainer.querySelectorAll('i');
+            stars.forEach((star, index) => {
+                if (index < userScore) {
+                    star.classList.add('user-rated'); // On colore les étoiles correspondantes
                 }
             });
         }
+
+        starsContainer.addEventListener('click', async (e) => {
+            if (e.target.tagName === 'I' && !ratingWidget.classList.contains('rated')) {
+                const score = parseInt(e.target.dataset.value);
+                const { error } = await supabaseClient.rpc('add_vote', { post_id: postId, vote_score: score });
+                
+                if (error) {
+                    console.error('Erreur lors de l\'envoi du vote:', error);
+                } else {
+                    // On enregistre le score précis
+                    localStorage.setItem(`voted_score_${postId}`, score.toString());
+                    location.reload();
+                }
+            }
+        });
+
     } catch (error) {
         console.error("Erreur de chargement de l'article:", error);
     }
