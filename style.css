@@ -1993,6 +1993,63 @@ header img{
     margin-left: 3.8rem;
 }
 
+/* Dans le fichier : style.css */
+
+/* --- Badge pour la prochaine session de formation --- */
+
+.card-image {
+    position: relative; /* Indispensable pour positionner le badge par-dessus */
+}
+
+.session-badge {
+    position: absolute;
+    bottom: 95px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(230, 245, 237, 0.95); /* Vert clair semi-transparent */
+    color: #0d5e3c; /* Vert foncé pour le texte */
+    padding: 0.5rem 0.8rem;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    z-index: 10;
+    border: 1px solid rgba(13, 94, 60, 0.2);
+    backdrop-filter: blur(4px); /* Effet de flou stylé (optionnel) */
+    transition: opacity 0.3s ease;;
+}
+
+.card-bloc .card-image:hover ~ .session-badge,
+.card-bloc .card-image:hover .session-badge {
+    opacity: 0; /* Rend le badge transparent au survol de la carte */
+}
+
+.session-badge .fa-clock {
+    font-size: 1.1em;
+}
+
+
+/* badge session presentiel */
+
+.presentiel-card-bloc {
+    position: relative;
+}
+
+/* Fait disparaître le badge UNIQUEMENT au survol de l'image de la carte présentiel */
+.presentiel-card-bloc .presentiel-card-image:hover ~ .session-badge,
+.presentiel-card-bloc .presentiel-card-image:hover .session-badge {
+    opacity: 0;
+}
+
+
+/* On cache le badge par défaut */
+.session-badge.hidden {
+    display: none;
+}
+
 /* On adapte le positionnement pour les téléphones */
 @media (max-width: 600px) {
   .cookie-banner {
