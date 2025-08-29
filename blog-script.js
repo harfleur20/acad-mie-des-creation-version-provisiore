@@ -120,11 +120,17 @@ async function loadSinglePost() {
         const ratingWidget = document.querySelector('.rating-widget');
         const avgRatingContainer = document.getElementById('average-rating-display');
         
-        if (ratingData && avgRatingContainer) {
-            const average = (ratingData.total_score / ratingData.votes).toFixed(1);
-            const voteText = ratingData.votes > 1 ? "votes" : "vote";
-            avgRatingContainer.innerHTML = `Note moyenne : <span class="avg-stars">${average} ★</span> (${ratingData.votes} ${voteText})`;
-        }
+       // Dans blog-script.js
+
+// On vérifie si des données existent ET si le nombre de votes est supérieur à 0
+if (ratingData && ratingData.votes > 0 && avgRatingContainer) { 
+    const average = (ratingData.total_score / ratingData.votes).toFixed(1);
+    const voteText = ratingData.votes > 1 ? "votes" : "vote";
+    avgRatingContainer.innerHTML = `Note moyenne : <span class="avg-stars">${average} ★</span> (${ratingData.votes} ${voteText})`;
+} else if (avgRatingContainer) {
+    // Si aucune note n'est disponible, on affiche un message clair
+    avgRatingContainer.innerHTML = `Note moyenne : <span class="avg-stars">Pas encore noté</span>`;
+}
 
         const starsContainer = document.getElementById('user-rating-stars');
         if (starsContainer) {

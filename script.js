@@ -334,42 +334,90 @@ document.addEventListener('DOMContentLoaded', () => {
 /**
  * Charge, filtre et affiche les articles populaires.
  */
+// Dans le fichier : script.js
+
+/**
+ * Charge, filtre, récupère les notes depuis Supabase, et affiche les articles populaires.
+ */
 async function loadPopularPosts() {
     const grid = document.getElementById('popular-posts-grid');
-    
+    if (!grid) return; // Sécurité si la grille n'existe pas
+
+    // Initialisation du client Supabase (assurez-vous que le script Supabase est chargé dans index.html)
+    const SUPABASE_URL = 'https://udehcxhyzddwbvvlmzvx.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVkZWhjeGh5emRkd2J2dmxtenZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY0MjQyMTAsImV4cCI6MjA3MjAwMDIxMH0.9U3hkFXT39f4TV-ETbs6dMJ6vs_5gPEP0tabRJK1nNU';
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
     /**
-     * Crée le HTML pour une carte d'article avec une classe de catégorie dynamique.
-     * CETTE FONCTION EST LOCALE POUR ÉVITER LES CONFLITS.
+     * Crée le HTML pour une carte d'article avec les notes.
      */
     const createPopularPostCard = (post) => {
-    const categoryClass = (post.category || '').toLowerCase().replace(/\s+/g, '-');
-    const ratingHtml = post.rating ? `
-        <div class="card-rating">
-            <i class="fa-solid fa-star"></i>
-            <span>${post.rating}</span>
-        </div>
-    ` : '';
-    
-    return `
-    <article class="post-card">
-        <a href="post.html?id=${post.id}"><img src="${post.coverImage}" alt="${post.title}" class="post-card-image"></a>
-        <div class="post-card-content">
-            <div class="card-header">
-                <span class="post-card-category ${categoryClass}">${post.category}</span>
-                ${ratingHtml}
+        const categoryClass = (post.category || '').toLowerCase().replace(/\s+/g, '-');
+        
+        let ratingHtml = '';
+        if (post.rating && post.votes > 0) {
+            ratingHtml = `
+            <div class="card-rating">
+                <i class="fa-solid fa-star"></i>
+                <span>${post.rating} (${post.votes} ${post.votes > 1 ? 'votes' : 'vote'})</span>
             </div>
-            <a href="post.html?id=${post.id}" style="text-decoration: none;"><h3 class="post-card-title">${post.title}</h3></a>
-            <p class="post-card-excerpt">${post.excerpt}</p>
-            <a href="post.html?id=${post.id}" class="post-card-readmore">Lire la suite &rarr;</a>
-        </div>
-    </article>
-    `;
-};
+            `;
+        } else {
+            ratingHtml = `
+            <div class="card-rating no-rating">
+                <span>Pas encore noté</span>
+            </div>
+            `;
+        }
+
+        return `
+        <article class="post-card">
+            <a href="post.html?id=${post.id}"><img src="${post.coverImage}" alt="${post.title}" class="post-card-image"></a>
+            <div class="post-card-content">
+                <div class="card-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                    <span class="post-card-category ${categoryClass}">${post.category}</span>
+                    ${ratingHtml}
+                </div>
+                <a href="post.html?id=${post.id}" style="text-decoration: none;"><h3 class="post-card-title" style="font-size: 1.2rem;">${post.title}</h3></a>
+                <p class="post-card-excerpt">${post.excerpt}</p>
+                <a href="post.html?id=${post.id}" class="post-card-readmore">Lire la suite &rarr;</a>
+            </div>
+        </article>
+        `;
+    };
 
     try {
-        const response = await fetch('blog/posts.json');
-        if (!response.ok) throw new Error('Impossible de charger les articles.');
-        const allPosts = await response.json();
+        // On charge en parallèle les articles et les notes
+        const [postsResponse, { data: ratingsData, error: ratingsError }] = await Promise.all([
+            fetch('blog/posts.json'),
+            supabaseClient.from('rating').select('*')
+        ]);
+
+        if (!postsResponse.ok) throw new Error('Impossible de charger les articles.');
+        if (ratingsError) throw ratingsError;
+
+        const allPosts = await postsResponse.json();
+
+        // On traite les notes reçues de Supabase
+        const ratings = {};
+        if (ratingsData) {
+            ratingsData.forEach(item => {
+                if (item.votes > 0) {
+                    ratings[item.article_id] = {
+                        rating: (item.total_score / item.votes).toFixed(1),
+                        votes: item.votes
+                    };
+                }
+            });
+        }
+
+        // On fusionne les notes avec les données des articles
+        allPosts.forEach(post => {
+            if (ratings[post.id]) {
+                post.rating = ratings[post.id].rating;
+                post.votes = ratings[post.id].votes;
+            }
+        });
 
         // On filtre et on prend les 3 premiers articles populaires
         const popularPosts = allPosts.filter(post => post.isPopular).slice(0, 3);
@@ -379,11 +427,8 @@ async function loadPopularPosts() {
             return;
         }
 
-        let postsHtml = '';
-        popularPosts.forEach(post => {
-            postsHtml += createPopularPostCard(post); // On utilise notre fonction locale et sûre
-        });
-        grid.innerHTML = postsHtml;
+        // On génère le HTML final et on l'affiche
+        grid.innerHTML = popularPosts.map(createPopularPostCard).join('');
 
     } catch (error) {
         console.error("Erreur lors du chargement des articles populaires:", error);
