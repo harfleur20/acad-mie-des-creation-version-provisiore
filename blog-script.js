@@ -2,12 +2,6 @@
 //   BLOG SCRIPT - VERSION FINALE ET CORRIGÉE
 // ===================================================================
 
-// --- CONFIGURATION DE SUPABASE ---
-const SUPABASE_URL = 'https://udehcxhyzddwbvvlmzvx.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVkZWhjeGh5emRkd2J2dmxtenZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY0MjQyMTAsImV4cCI6MjA3MjAwMDIxMH0.9U3hkFXT39f4TV-ETbs6dMJ6vs_5gPEP0tabRJK1nNU';
-const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-
 // --- INITIALISATION DES PAGES ---
 document.addEventListener('DOMContentLoaded', () => {
     if (document.querySelector('#posts-grid')) {
