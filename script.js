@@ -342,27 +342,29 @@ async function loadPopularPosts() {
      * CETTE FONCTION EST LOCALE POUR ÉVITER LES CONFLITS.
      */
     const createPopularPostCard = (post) => {
-        // Crée une version "propre" du nom de la catégorie pour l'utiliser comme classe CSS
-        const categoryClass = post.category.toLowerCase().replace(/\s+/g, '-');
-        
-        const title = post.title || "Titre non disponible";
-        const excerpt = post.excerpt || "";
-        const category = post.category || "Inclassé";
-        const coverImage = post.coverImage || "path/to/default/image.jpg";
-        const id = post.id;
-
-        return `
-            <article class="post-card">
-                <a href="post.html?id=${id}"><img src="${coverImage}" alt="${title}" class="post-card-image"></a>
-                <div class="post-card-content">
-                    <span class="post-card-category ${categoryClass}">${category}</span>
-                    <a href="post.html?id=${id}" style="text-decoration: none;"><h3 class="post-card-title">${title}</h3></a>
-                    <p class="post-card-excerpt">${excerpt}</p>
-                    <a href="post.html?id=${id}" class="post-card-readmore">Lire la suite &rarr;</a>
-                </div>
-            </article>
-        `;
-    };
+    const categoryClass = (post.category || '').toLowerCase().replace(/\s+/g, '-');
+    const ratingHtml = post.rating ? `
+        <div class="card-rating">
+            <i class="fa-solid fa-star"></i>
+            <span>${post.rating}</span>
+        </div>
+    ` : '';
+    
+    return `
+    <article class="post-card">
+        <a href="post.html?id=${post.id}"><img src="${post.coverImage}" alt="${post.title}" class="post-card-image"></a>
+        <div class="post-card-content">
+            <div class="card-header">
+                <span class="post-card-category ${categoryClass}">${post.category}</span>
+                ${ratingHtml}
+            </div>
+            <a href="post.html?id=${post.id}" style="text-decoration: none;"><h3 class="post-card-title">${post.title}</h3></a>
+            <p class="post-card-excerpt">${post.excerpt}</p>
+            <a href="post.html?id=${post.id}" class="post-card-readmore">Lire la suite &rarr;</a>
+        </div>
+    </article>
+    `;
+};
 
     try {
         const response = await fetch('blog/posts.json');

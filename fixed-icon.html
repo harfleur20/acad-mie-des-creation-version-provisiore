@@ -1,0 +1,33 @@
+<style>
+    /*
+     * STYLES POUR L'ICÔNE FIXE
+     * Ces styles sont maintenant "encapsulés" avec l'icône.
+    */
+    .icon-fixe-lumiere {
+        position: fixed;
+        bottom: 25px;
+        right: 25px;
+        width: 60px;
+        height: 60px;
+        background-color: var(--couleur-secondaire);
+        color: #fff;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.8rem;
+        text-decoration: none;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        z-index: 1000;
+        transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+
+    .icon-fixe-lumiere:hover {
+        transform: scale(1.1);
+        background-color: #17a29d;
+    }
+</style>
+
+<a href="#" class="icon-fixe-lumiere" aria-label="Action spéciale">
+    <i class="fa-solid fa-lightbulb"></i>
+</a>

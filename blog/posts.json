@@ -8,7 +8,7 @@
     "excerpt": "Se lancer en freelance peut sembler intimidant, mais avec la bonne méthode...",
     "coverImage": "images-blog/img-couleur.jpg",
     "isFeatured": true,
-    "isPopular": true 
+    "isPopular": true
   },
   {
     "id": "choisir-les-bonnes-couleurs",
@@ -19,7 +19,8 @@
     "excerpt": "La couleur est l'un des outils les plus puissants du designer...",
     "coverImage": "Assets/bg-mobile.jpg",
     "isFeatured": false,
-    "isPopular": true 
+    "isPopular": true
+    
   },
 
   {
@@ -31,7 +32,7 @@
     "excerpt": "La couleur est l'un des outils les plus puissants du designer...",
     "coverImage": "images-blog/salaire_maquettiste.webp",
     "isFeatured": false,
-    "isPopular": false 
+    "isPopular": false
   },
 
   {
@@ -43,7 +44,7 @@
     "excerpt": "A la découverte du livre qui secoue l'univers des graphistes partout en...",
     "coverImage": "images-blog/Mockup-Livre.jpg",
     "isFeatured": false,
-    "isPopular": true 
+    "isPopular": true
   },
 
 
@@ -67,6 +68,6 @@
     "excerpt": "La couleur est l'un des outils les plus puissants du designer...",
     "coverImage": "images-blog/img-graphiste.webp",
     "isFeatured": false,
-    "isPopular": true 
+    "isPopular": true
   }
 ]
