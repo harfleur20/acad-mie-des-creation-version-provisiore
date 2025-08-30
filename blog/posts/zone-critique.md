@@ -1,8 +1,6 @@
-### Voici comment le design graphique a failli m'envoyer en prison 
-##### Jeune graphiste, tu as du talent, de l'avenir, Tu veux vivre pleinement de ta passion
-![Francis-kenne](/images-blog/fk-harfleur.jpg)
-
+ ##### Jeune graphiste, tu as du talent, de l'avenir, Tu veux vivre pleinement de ta passion
 Alors prête moi une oreille attentive, je te prie. **C'EST IMPORTANT.**
+![Francis-kenne](/images-blog/fk-harfleur.jpg)
 
 Pour commencer, vous devez savoir que beaucoup de centres de formation ont oublié un aspect crucial de votre apprentissage, ce qui conduit de nombreux jeunes graphistes à commettre des erreurs potentiellement fatales pour leur vie.
 
@@ -81,7 +79,7 @@ Vous êtes jeune et souhaitez gagner de l'argent, aider votre famille, ou prendr
 
 Chers graphistes, si vous bradez vos services ou basculez du côté illégal, **l'État voit tout et sait tout**. Une petite modification d’un document sensible peut vous coûter **10 à 20 ans de prison**.
 
-Je vous invite donc à développer non seulement une \*\*éthique professionnelle\*\*, mais aussi à vous instruire sur \*\*les lois régissant votre secteur d’activité\*\*.  
+Je vous invite donc à développer non seulement une \*\*éthique professionnelle\*\*, mais aussi à vous instruire sur **les lois régissant votre secteur d’activité**.  
 
 **NUL N’EST CENSÉ IGNORER LA LOI.**
 

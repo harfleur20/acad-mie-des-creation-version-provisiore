@@ -1,4 +1,4 @@
-### Voici pourquoi plusieurs récompenses pour la plupart des graphistes vivants en Afrique sont sans valeurs et sans saveurs
+Voici pourquoi plusieurs récompenses pour la plus part des graphistes en Afrique sont sans valeurs et sans intérêt.
 ![recompense-oscar](/images-blog/typo-2025/oscar-recompense.jpg)
 
 Depuis plusieurs jours sur internet, on rencontre une vague de mécontentements de plusieurs graphistes à l'issue de leur non nomination par une structure locale dont je tairai le nom.
