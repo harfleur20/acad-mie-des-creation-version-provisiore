@@ -1,5 +1,3 @@
-// Contenu pour : /payment.js
-
 document.addEventListener('DOMContentLoaded', () => {
     const paymentButton = document.querySelector('.cta-button-payment');
     const modalOverlay = document.getElementById('payment-modal');
@@ -54,11 +52,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const clientNumber = iti.getNumber();
         const orderId = `AC-${Date.now()}`;
 
+        // Données envoyées à notre fonction Netlify
         const dataForFunction = {
             totalPrice: formationPrice,
-            description: `Paiement pour la formation : ${formationTitle}`,
+            description: `Paiement pour : ${formationTitle}`,
             orderId: orderId,
-            customer_name: clientName,
+            customer_name: clientName, // La fonction Netlify se chargera de séparer le nom/prénom
             customer_email: clientEmail,
             customer_phone_number: clientNumber,
             return_url: "https://academiecreatif.com/merci.html",
@@ -93,3 +92,4 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+

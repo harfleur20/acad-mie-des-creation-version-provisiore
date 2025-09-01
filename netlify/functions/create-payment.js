@@ -1,5 +1,3 @@
-// Contenu pour : /netlify/functions/create-payment.js
-
 const axios = require('axios');
 
 exports.handler = async function (event) {
@@ -10,22 +8,26 @@ exports.handler = async function (event) {
   try {
     const data = JSON.parse(event.body);
 
-    // ▼▼▼ VOS INFORMATIONS CINETPAY (COMPLÉTÉES) ▼▼▼
     const API_KEY = "931656703689aa1ac761151.31322400";
     const SITE_ID = "105904925";
-    // ▲▲▲ VOS INFORMATIONS CINETPAY (COMPLÉTÉES) ▲▲▲
-
     const CINETPAY_API_URL = "https://api-checkout.cinetpay.com/v2/payment";
+
+    // Gestion améliorée du nom et prénom pour éviter les erreurs
+    const nameParts = data.customer_name.trim().split(' ').filter(n => n); // Sépare et retire les espaces vides
+    const customer_surname = nameParts.pop() || ''; // Le dernier mot est le nom
+    const customer_name = nameParts.join(' ') || customer_surname; // Le reste est le prénom, ou le nom si un seul mot
 
     const paymentData = {
       apikey: API_KEY,
       site_id: SITE_ID,
       transaction_id: data.orderId,
       amount: data.totalPrice,
-      currency: 'XOF', // Vous pouvez changer en 'XAF' si besoin
+      // ▼▼▼ CORRECTION PRINCIPALE ▼▼▼
+      currency: 'XAF', // La documentation spécifie XAF pour le Cameroun
+      // ▲▲▲ CORRECTION PRINCIPALE ▲▲▲
       description: data.description,
-      customer_name: data.customer_name,
-      customer_surname: " ", // CinetPay demande un prénom, nous mettons un espace
+      customer_name: customer_name,
+      customer_surname: customer_surname,
       customer_email: data.customer_email,
       customer_phone_number: data.customer_phone_number,
       channels: 'ALL',
@@ -33,7 +35,7 @@ exports.handler = async function (event) {
       notify_url: data.notify_url
     };
 
-    console.log("Envoi des données à CinetPay:", JSON.stringify(paymentData, null, 2));
+    console.log("Envoi des données à CinetPay (v2):", JSON.stringify(paymentData, null, 2));
 
     const response = await axios.post(CINETPAY_API_URL, paymentData, {
       headers: { 'Content-Type': 'application/json' }
@@ -62,3 +64,4 @@ exports.handler = async function (event) {
     };
   }
 };
+
