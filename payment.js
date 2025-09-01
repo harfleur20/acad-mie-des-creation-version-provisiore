@@ -1,5 +1,6 @@
+// Contenu pour : /payment.js
+
 document.addEventListener('DOMContentLoaded', () => {
-    // --- Éléments du DOM ---
     const paymentButton = document.querySelector('.cta-button-payment');
     const modalOverlay = document.getElementById('payment-modal');
     const modalCloseBtn = document.querySelector('.modal-close');
@@ -10,7 +11,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    // --- Initialisation de la librairie intl-tel-input ---
     const iti = window.intlTelInput(phoneInput, {
         initialCountry: "auto",
         geoIpLookup: callback => {
@@ -22,11 +22,9 @@ document.addEventListener('DOMContentLoaded', () => {
         utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
     });
 
-    // --- Fonctions pour gérer la modale ---
     const openModal = () => modalOverlay.classList.add('active');
     const closeModal = () => modalOverlay.classList.remove('active');
 
-    // --- Écouteurs d'événements ---
     paymentButton.addEventListener('click', (event) => {
         event.preventDefault();
         openModal();
@@ -54,25 +52,24 @@ document.addEventListener('DOMContentLoaded', () => {
         const clientName = document.getElementById('modal-name').value;
         const clientEmail = document.getElementById('modal-email').value;
         const clientNumber = iti.getNumber();
-        const orderId = `AC-COURSE-${Date.now()}`;
+        const orderId = `AC-${Date.now()}`;
 
-        // ▼▼▼ STRUCTURE DE DONNÉES FINALE (basée sur le tableau PDF "API Web") ▼▼▼
-        const fusionPayData = {
-            montant_total: formationPrice,
-            articles: [{ nom: formationTitle, montant: formationPrice }], // "articles" au pluriel
-            orderId: orderId, // On le garde au cas où il serait requis
-            email_client: clientEmail,
-            nom_client: clientName,
-            numero_client: clientNumber,
-            url_retour: "https://academiecreatif.com/merci.html",
-            url_webhook: "https://academiecreatif.com/.netlify/functions/webhook-handler"
+        const dataForFunction = {
+            totalPrice: formationPrice,
+            description: `Paiement pour la formation : ${formationTitle}`,
+            orderId: orderId,
+            customer_name: clientName,
+            customer_email: clientEmail,
+            customer_phone_number: clientNumber,
+            return_url: "https://academiecreatif.com/merci.html",
+            notify_url: "https://academiecreatif.com/.netlify/functions/webhook-cinetpay"
         };
 
         try {
             const response = await fetch('/.netlify/functions/create-payment', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(fusionPayData)
+                body: JSON.stringify(dataForFunction)
             });
 
             if (!response.ok) {
@@ -96,4 +93,3 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
-
