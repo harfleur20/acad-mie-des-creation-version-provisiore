@@ -1,34 +1,55 @@
-// Contenu MIS À JOUR pour le fichier : payment.js
+// Contenu MIS À JOUR COMPLET pour le fichier : payment.js
 
 document.addEventListener('DOMContentLoaded', () => {
+    // --- Éléments du DOM ---
     const paymentButton = document.querySelector('.cta-button-payment');
-    if (!paymentButton) {
+    const modalOverlay = document.getElementById('payment-modal');
+    const modalCloseBtn = document.querySelector('.modal-close');
+    const paymentForm = document.getElementById('payment-info-form');
+
+    // Si les éléments n'existent pas sur la page, on ne fait rien
+    if (!paymentButton || !modalOverlay || !modalCloseBtn || !paymentForm) {
         return;
     }
 
-    paymentButton.addEventListener('click', async (event) => {
+    // --- Fonctions pour gérer la modale ---
+    const openModal = () => modalOverlay.classList.add('active');
+    const closeModal = () => modalOverlay.classList.remove('active');
+
+    // --- Écouteurs d'événements ---
+
+    // 1. Ouvre la modale quand on clique sur "Réservez votre place !"
+    paymentButton.addEventListener('click', (event) => {
+        event.preventDefault();
+        openModal();
+    });
+
+    // 2. Ferme la modale avec le bouton (X) ou en cliquant sur le fond gris
+    modalCloseBtn.addEventListener('click', closeModal);
+    modalOverlay.addEventListener('click', (event) => {
+        if (event.target === modalOverlay) {
+            closeModal();
+        }
+    });
+
+    // 3. Gère la soumission du formulaire de la modale
+    paymentForm.addEventListener('submit', async (event) => {
         event.preventDefault();
 
+        const submitButton = paymentForm.querySelector('.cta-button');
+        submitButton.disabled = true;
+        submitButton.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Initialisation...';
+        
+        // Récupération des données de la formation depuis le bouton principal
         const formationTitle = paymentButton.dataset.title;
         const formationPrice = parseInt(paymentButton.dataset.price, 10);
 
-        if (!formationTitle || !formationPrice) {
-            alert("Erreur : Impossible de récupérer les informations de la formation.");
-            return;
-        }
+        // Récupération des données du formulaire de la modale
+        const clientName = document.getElementById('modal-name').value;
+        const clientEmail = document.getElementById('modal-email').value;
+        const clientNumber = document.getElementById('modal-phone').value;
 
-        const clientName = prompt("Veuillez entrer votre nom complet :");
-        if (!clientName) return;
-
-        const clientEmail = prompt("Veuillez entrer votre adresse e-mail :");
-        if (!clientEmail) return;
-
-        const clientNumber = prompt("Veuillez entrer votre numéro de téléphone (avec l'indicatif, ex: 237680950319) :");
-        if (!clientNumber) return;
-
-        paymentButton.disabled = true;
-        paymentButton.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Initialisation...';
-
+        // Construction de la requête pour Money Fusion
         const fusionPayData = {
             totalPrice: formationPrice,
             article: [{ nom: formationTitle, montant: formationPrice }],
@@ -36,12 +57,11 @@ document.addEventListener('DOMContentLoaded', () => {
             clientemail: clientEmail,
             clientname: clientName,
             clientnumber: clientNumber,
-            returnurl: "https://votre-site.com/merci.html", // N'oubliez pas de mettre à jour
-            webhookurl: "https://votre-site.com/webhook" // N'oubliez pas de mettre à jour
+            returnurl: window.location.origin + "/merci.html", // URL de retour dynamique
+            webhookurl: window.location.origin + "/.netlify/functions/webhook" // Exemple de webhook
         };
 
         try {
-            // On appelle notre propre fonction intermédiaire au lieu de l'API directe
             const response = await fetch('/.netlify/functions/create-payment', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -59,8 +79,8 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (error) {
             console.error("Erreur de paiement:", error);
             alert("Impossible de lancer le paiement. Veuillez réessayer. Détail : " + error.message);
-            paymentButton.disabled = false;
-            paymentButton.innerHTML = '<i class="fa-solid fa-piggy-bank"></i> Réservez votre place !';
+            submitButton.disabled = false;
+            submitButton.innerHTML = '<i class="fa-solid fa-shield-halved"></i> Payer maintenant';
         }
     });
 });
