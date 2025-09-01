@@ -56,19 +56,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const clientNumber = iti.getNumber();
         const orderId = `AC-COURSE-${Date.now()}`;
 
-        // ▼▼▼ STRUCTURE DE DONNÉES FINALE (basée sur tous les exemples de la doc) ▼▼▼
+        // ▼▼▼ STRUCTURE DE DONNÉES SIMPLIFIÉE (basée sur l'exemple Node.js) ▼▼▼
         const fusionPayData = {
             totalPrice: formationPrice,
             article: [{ nom: formationTitle, montant: formationPrice }],
-            // Le champ personal_info semble crucial d'après leur doc C#
-            personal_info: [{ 
-                userId: clientEmail,
-                orderId: orderId
-            }],
-            clientName: clientName, // camelCase
-            clientNumber: clientNumber, // camelCase
-            return_url: "https://academiecreatif.com/merci.html", // snake_case
-            webhook_url: "https://academiecreatif.com/.netlify/functions/webhook-handler" // snake_case
+            orderId: orderId,
+            customeremail: clientEmail, // Nom de champ corrigé
+            clientname: clientName,
+            clientnumber: clientNumber,
+            returnurl: "https://academiecreatif.com/merci.html",
+            webhookurl: "https://academiecreatif.com/.netlify/functions/webhook-handler"
         };
 
         try {
