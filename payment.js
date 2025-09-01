@@ -57,23 +57,31 @@ document.addEventListener('DOMContentLoaded', () => {
             clientemail: clientEmail,
             clientname: clientName,
             clientnumber: clientNumber,
-            returnurl: window.location.origin + "/merci.html", // URL de retour dynamique
-            webhookurl: window.location.origin + "/.netlify/functions/webhook" // Exemple de webhook
+            // ▼▼▼ URLS CORRIGÉES AVEC VOTRE DOMAINE ▼▼▼
+            returnurl: "https://academiecreatif.com/merci.html",
+            webhookurl: "https://academiecreatif.com/.netlify/functions/webhook-handler" // J'ai renommé le webhook pour plus de clarté
         };
 
         try {
+            // On appelle notre propre fonction intermédiaire
             const response = await fetch('/.netlify/functions/create-payment', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(fusionPayData)
             });
 
+            // On vérifie si la réponse de notre fonction est OK
+            if (!response.ok) {
+                const errorResult = await response.json();
+                throw new Error(errorResult.message || `Le serveur a répondu avec une erreur ${response.status}.`);
+            }
+
             const result = await response.json();
 
             if (result.statut === true && result.payment_url) {
                 window.location.href = result.payment_url;
             } else {
-                throw new Error(result.message || "Une erreur est survenue lors de l'initialisation du paiement.");
+                throw new Error(result.message || "La réponse de l'API de paiement est invalide.");
             }
 
         } catch (error) {
