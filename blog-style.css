@@ -8,7 +8,7 @@
 
 /* --- Page Principale du Blog (blog.html) --- */
 #blog-hero {
-    background: linear-gradient(rgba(28, 132, 128, 0.9), rgba(31, 35, 82, 0.9)), url('Assets/bg-mobile.jpg') no-repeat center center/cover;
+    background: linear-gradient(rgba(28, 132, 128, 0.9), rgba(31, 35, 82, 0.9)), url('images-blog/typo-2025/couleur.jpeg') no-repeat center center/cover;
     color: #fff;
     text-align: center;
     padding: 4rem 2rem;
@@ -52,7 +52,7 @@
 .post-content-main { flex: 3; min-width: 0; padding: 0 2rem; margin-top: -2.2rem;}
 .post-sidebar { flex: 1; position: sticky; top: 100px; }
 
-.post-body { font-size: 1.1rem; line-height: 1.8; color: #333; }
+.post-body { font-size: 1.1rem; line-height: 1.8; color: #333; margin-top: 2.5rem;}
 .post-body h3 { font-size: 1.6rem; color: var(--couleur-principale); margin: 2rem 0 1rem; }
 .post-body h4 { font-size: 1.3rem; color: var(--couleur-secondaire); margin: 2rem 0 1rem; }
 .post-body h5 { font-size: 1.2rem; color: var(--couleur-principale); margin: 2rem 0 1rem; }

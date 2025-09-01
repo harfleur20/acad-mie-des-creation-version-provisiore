@@ -24,6 +24,19 @@
   },
 
   {
+    "id": "confidence-graphiste",
+    "title": "Les réalités du design graphique en Afrique",
+    "date": "31 août 2025",
+    "author": "Francis Kenne",
+    "category": "Freelance",
+    "excerpt": "Les réalités du design graphique en Afrique - Témoignagne poignant d'un graphiste professionnel",
+    "coverImage": "images-blog/confidence-graphiste.jpg",
+    "isFeatured": false, 
+    "isPopular": true
+    
+  },
+
+  {
     "id": "oscar",
     "title": "Voici pourquoi plusieurs récompenses pour la plupart des graphistes vivants...",
     "date": "22 août 2025",
