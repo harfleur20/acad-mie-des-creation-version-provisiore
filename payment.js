@@ -1,18 +1,33 @@
-// Contenu FINAL CORRIGÉ pour le fichier : payment.js
+// Contenu à copier/coller dans votre fichier payment.js
 
 document.addEventListener('DOMContentLoaded', () => {
+    // --- Éléments du DOM ---
     const paymentButton = document.querySelector('.cta-button-payment');
     const modalOverlay = document.getElementById('payment-modal');
     const modalCloseBtn = document.querySelector('.modal-close');
     const paymentForm = document.getElementById('payment-info-form');
+    const phoneInput = document.getElementById('modal-phone');
 
-    if (!paymentButton || !modalOverlay || !modalCloseBtn || !paymentForm) {
+    if (!paymentButton || !modalOverlay || !modalCloseBtn || !paymentForm || !phoneInput) {
         return;
     }
 
+    // --- Initialisation de la librairie intl-tel-input ---
+    const iti = window.intlTelInput(phoneInput, {
+        initialCountry: "auto",
+        geoIpLookup: callback => {
+            fetch("https://ipapi.co/json").then(res => res.json()).then(data => callback(data.country_code)).catch(() => callback("cm"));
+        },
+        separateDialCode: true,
+        preferredCountries: ['cm', 'ci', 'sn', 'fr', 'be', 'gq', 'ga', 'cg'],
+        utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+    });
+
+    // --- Fonctions pour gérer la modale ---
     const openModal = () => modalOverlay.classList.add('active');
     const closeModal = () => modalOverlay.classList.remove('active');
 
+    // --- Écouteurs d'événements ---
     paymentButton.addEventListener('click', (event) => {
         event.preventDefault();
         openModal();
@@ -26,6 +41,12 @@ document.addEventListener('DOMContentLoaded', () => {
     paymentForm.addEventListener('submit', async (event) => {
         event.preventDefault();
 
+        // Validation du numéro de téléphone
+        if (!iti.isValidNumber()) {
+            alert("Veuillez entrer un numéro de téléphone valide.");
+            return;
+        }
+
         const submitButton = paymentForm.querySelector('.cta-button');
         submitButton.disabled = true;
         submitButton.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Initialisation...';
@@ -34,13 +55,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const formationPrice = parseInt(paymentButton.dataset.price, 10);
         const clientName = document.getElementById('modal-name').value;
         const clientEmail = document.getElementById('modal-email').value;
-        const clientNumber = document.getElementById('modal-phone').value;
+        const clientNumber = iti.getNumber(); // Récupère le numéro au format international
+        const orderId = `AC-COURSE-${Date.now()}`;
 
-        // ▼▼▼ CORRECTION FINALE DES NOMS DE CHAMPS (format camelCase) ▼▼▼
         const fusionPayData = {
             totalPrice: formationPrice,
             article: [{ nom: formationTitle, montant: formationPrice }],
-            orderId: `AC-COURSE-${Date.now()}`,
+            orderId: orderId,
             clientemail: clientEmail,
             clientname: clientName,
             clientnumber: clientNumber,

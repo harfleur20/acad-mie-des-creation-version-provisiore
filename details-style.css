@@ -509,6 +509,17 @@ h2 {
     box-sizing: border-box; /* Assure que le padding est inclus dans la largeur */
 }
 
+/* Styles pour le champ de téléphone intl-tel-input */
+.iti {
+    width: 100%;
+}
+
+/* Cible le champ de saisie du téléphone DANS la modale */
+.modal-content .iti__tel-input {
+    /* Ajoute un espace à gauche pour le drapeau et l'indicatif */
+    padding-left: 95px !important; 
+}
+
 .modal-content .cta-button {
     width: 100%;
     margin-top: 1rem;
