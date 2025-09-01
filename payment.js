@@ -56,16 +56,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const clientNumber = iti.getNumber();
         const orderId = `AC-COURSE-${Date.now()}`;
 
-        // ▼▼▼ STRUCTURE DE DONNÉES SIMPLIFIÉE (basée sur l'exemple Node.js) ▼▼▼
+        // ▼▼▼ STRUCTURE DE DONNÉES FINALE (basée sur le tableau PDF "API Web") ▼▼▼
         const fusionPayData = {
-            totalPrice: formationPrice,
-            article: [{ nom: formationTitle, montant: formationPrice }],
-            orderId: orderId,
-            customeremail: clientEmail, // Nom de champ corrigé
-            clientname: clientName,
-            clientnumber: clientNumber,
-            returnurl: "https://academiecreatif.com/merci.html",
-            webhookurl: "https://academiecreatif.com/.netlify/functions/webhook-handler"
+            montant_total: formationPrice,
+            articles: [{ nom: formationTitle, montant: formationPrice }], // "articles" au pluriel
+            orderId: orderId, // On le garde au cas où il serait requis
+            email_client: clientEmail,
+            nom_client: clientName,
+            numero_client: clientNumber,
+            url_retour: "https://academiecreatif.com/merci.html",
+            url_webhook: "https://academiecreatif.com/.netlify/functions/webhook-handler"
         };
 
         try {
