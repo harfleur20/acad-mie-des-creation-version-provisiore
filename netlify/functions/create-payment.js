@@ -1,39 +1,33 @@
-// On importe le module node-fetch
 const fetch = require('node-fetch');
 
 exports.handler = async function (event) {
-  // On s'assure que la requête vient bien du formulaire de votre site
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: 'Method Not Allowed' };
   }
 
   try {
     const paymentData = JSON.parse(event.body);
+
+    // LOG: On affiche les données reçues du site
+    console.log("Données reçues par la fonction:", JSON.stringify(paymentData, null, 2));
+
     const FUSION_PAY_API_URL = "https://www.pay.moneyfusion.net/Academie_des_cr_atifs/81e7373c47df7204/pay/";
 
-    // On appelle l'API de Money Fusion
     const response = await fetch(FUSION_PAY_API_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(paymentData),
     });
+    
+    const responseText = await response.text();
+    // LOG: On affiche la réponse exacte de Money Fusion
+    console.log("Réponse de l'API Money Fusion:", responseText);
 
-    // ▼▼▼ PARTIE CORRIGÉE ET AMÉLIORÉE ▼▼▼
-    // Si la réponse de Money Fusion n'est pas un succès (ex: erreur 400, 500)
     if (!response.ok) {
-      // On lit la réponse comme du texte pour voir le message d'erreur exact
-      const errorText = await response.text();
-      console.error(`Erreur de l'API Money Fusion (status ${response.status}):`, errorText);
-      
-      // On renvoie une erreur claire à l'utilisateur
-      return {
-        statusCode: 502, // "Bad Gateway", signifie qu'on a eu un problème avec le service externe
-        body: JSON.stringify({ message: `L'API de paiement a renvoyé une erreur : ${errorText}` }),
-      };
+      throw new Error(`Erreur de l'API Money Fusion (status ${response.status}): ${responseText}`);
     }
 
-    // Si tout s'est bien passé, on continue comme avant
-    const result = await response.json();
+    const result = JSON.parse(responseText);
 
     return {
       statusCode: 200,
@@ -41,7 +35,7 @@ exports.handler = async function (event) {
     };
 
   } catch (error) {
-    console.error('Erreur dans la fonction serverless:', error);
+    console.error('Erreur dans la fonction serverless:', error.message);
     return {
       statusCode: 500,
       body: JSON.stringify({ message: 'Erreur interne du serveur.', detail: error.message }),

@@ -1,7 +1,6 @@
-// Contenu MIS À JOUR et CORRIGÉ pour le fichier : payment.js
+// Contenu FINAL CORRIGÉ pour le fichier : payment.js
 
 document.addEventListener('DOMContentLoaded', () => {
-    // --- Éléments du DOM ---
     const paymentButton = document.querySelector('.cta-button-payment');
     const modalOverlay = document.getElementById('payment-modal');
     const modalCloseBtn = document.querySelector('.modal-close');
@@ -11,11 +10,9 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    // --- Fonctions pour gérer la modale ---
     const openModal = () => modalOverlay.classList.add('active');
     const closeModal = () => modalOverlay.classList.remove('active');
 
-    // --- Écouteurs d'événements ---
     paymentButton.addEventListener('click', (event) => {
         event.preventDefault();
         openModal();
@@ -23,9 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     modalCloseBtn.addEventListener('click', closeModal);
     modalOverlay.addEventListener('click', (event) => {
-        if (event.target === modalOverlay) {
-            closeModal();
-        }
+        if (event.target === modalOverlay) closeModal();
     });
 
     paymentForm.addEventListener('submit', async (event) => {
@@ -37,21 +32,20 @@ document.addEventListener('DOMContentLoaded', () => {
         
         const formationTitle = paymentButton.dataset.title;
         const formationPrice = parseInt(paymentButton.dataset.price, 10);
-
         const clientName = document.getElementById('modal-name').value;
         const clientEmail = document.getElementById('modal-email').value;
         const clientNumber = document.getElementById('modal-phone').value;
 
-        // ▼▼▼ CORRECTION DES NOMS DE CHAMPS ▼▼▼
+        // ▼▼▼ CORRECTION FINALE DES NOMS DE CHAMPS (format camelCase) ▼▼▼
         const fusionPayData = {
-            montant_total: formationPrice,
-            articles: [{ nom: formationTitle, montant: formationPrice }],
-            orderId: `AC-COURSE-${Date.now()}`, // Gardé pour le suivi, même si non listé dans le tableau
-            email_client: clientEmail,
-            nom_client: clientName,
-            numero_client: clientNumber,
-            url_retour: "https://academiecreatif.com/merci.html",
-            url_webhook: "https://academiecreatif.com/.netlify/functions/webhook-handler"
+            totalPrice: formationPrice,
+            article: [{ nom: formationTitle, montant: formationPrice }],
+            orderId: `AC-COURSE-${Date.now()}`,
+            clientemail: clientEmail,
+            clientname: clientName,
+            clientnumber: clientNumber,
+            returnurl: "https://academiecreatif.com/merci.html",
+            webhookurl: "https://academiecreatif.com/.netlify/functions/webhook-handler"
         };
 
         try {
@@ -63,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (!response.ok) {
                 const errorResult = await response.json();
-                throw new Error(errorResult.message || `Le serveur a répondu avec une erreur ${response.status}.`);
+                throw new Error(errorResult.message || `Le serveur a répondu une erreur.`);
             }
 
             const result = await response.json();
@@ -71,7 +65,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (result.statut === true && result.payment_url) {
                 window.location.href = result.payment_url;
             } else {
-                // Si Money Fusion renvoie une erreur même avec un statut 200 OK
                 throw new Error(result.message || "La réponse de l'API de paiement est invalide.");
             }
 
