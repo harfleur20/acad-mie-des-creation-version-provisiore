@@ -1,4 +1,4 @@
-// Contenu MIS À JOUR COMPLET pour le fichier : payment.js
+// Contenu MIS À JOUR et CORRIGÉ pour le fichier : payment.js
 
 document.addEventListener('DOMContentLoaded', () => {
     // --- Éléments du DOM ---
@@ -7,7 +7,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalCloseBtn = document.querySelector('.modal-close');
     const paymentForm = document.getElementById('payment-info-form');
 
-    // Si les éléments n'existent pas sur la page, on ne fait rien
     if (!paymentButton || !modalOverlay || !modalCloseBtn || !paymentForm) {
         return;
     }
@@ -17,14 +16,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeModal = () => modalOverlay.classList.remove('active');
 
     // --- Écouteurs d'événements ---
-
-    // 1. Ouvre la modale quand on clique sur "Réservez votre place !"
     paymentButton.addEventListener('click', (event) => {
         event.preventDefault();
         openModal();
     });
 
-    // 2. Ferme la modale avec le bouton (X) ou en cliquant sur le fond gris
     modalCloseBtn.addEventListener('click', closeModal);
     modalOverlay.addEventListener('click', (event) => {
         if (event.target === modalOverlay) {
@@ -32,7 +28,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // 3. Gère la soumission du formulaire de la modale
     paymentForm.addEventListener('submit', async (event) => {
         event.preventDefault();
 
@@ -40,37 +35,32 @@ document.addEventListener('DOMContentLoaded', () => {
         submitButton.disabled = true;
         submitButton.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Initialisation...';
         
-        // Récupération des données de la formation depuis le bouton principal
         const formationTitle = paymentButton.dataset.title;
         const formationPrice = parseInt(paymentButton.dataset.price, 10);
 
-        // Récupération des données du formulaire de la modale
         const clientName = document.getElementById('modal-name').value;
         const clientEmail = document.getElementById('modal-email').value;
         const clientNumber = document.getElementById('modal-phone').value;
 
-        // Construction de la requête pour Money Fusion
+        // ▼▼▼ CORRECTION DES NOMS DE CHAMPS ▼▼▼
         const fusionPayData = {
-            totalPrice: formationPrice,
-            article: [{ nom: formationTitle, montant: formationPrice }],
-            orderId: `AC-COURSE-${Date.now()}`,
-            clientemail: clientEmail,
-            clientname: clientName,
-            clientnumber: clientNumber,
-            // ▼▼▼ URLS CORRIGÉES AVEC VOTRE DOMAINE ▼▼▼
-            returnurl: "https://academiecreatif.com/merci.html",
-            webhookurl: "https://academiecreatif.com/.netlify/functions/webhook-handler" // J'ai renommé le webhook pour plus de clarté
+            montant_total: formationPrice,
+            articles: [{ nom: formationTitle, montant: formationPrice }],
+            orderId: `AC-COURSE-${Date.now()}`, // Gardé pour le suivi, même si non listé dans le tableau
+            email_client: clientEmail,
+            nom_client: clientName,
+            numero_client: clientNumber,
+            url_retour: "https://academiecreatif.com/merci.html",
+            url_webhook: "https://academiecreatif.com/.netlify/functions/webhook-handler"
         };
 
         try {
-            // On appelle notre propre fonction intermédiaire
             const response = await fetch('/.netlify/functions/create-payment', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(fusionPayData)
             });
 
-            // On vérifie si la réponse de notre fonction est OK
             if (!response.ok) {
                 const errorResult = await response.json();
                 throw new Error(errorResult.message || `Le serveur a répondu avec une erreur ${response.status}.`);
@@ -81,6 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (result.statut === true && result.payment_url) {
                 window.location.href = result.payment_url;
             } else {
+                // Si Money Fusion renvoie une erreur même avec un statut 200 OK
                 throw new Error(result.message || "La réponse de l'API de paiement est invalide.");
             }
 
