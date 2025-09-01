@@ -1,5 +1,3 @@
-// Contenu à copier/coller dans votre fichier payment.js
-
 document.addEventListener('DOMContentLoaded', () => {
     // --- Éléments du DOM ---
     const paymentButton = document.querySelector('.cta-button-payment');
@@ -20,6 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         separateDialCode: true,
         preferredCountries: ['cm', 'ci', 'sn', 'fr', 'be', 'gq', 'ga', 'cg'],
+        placeholderNumberType: "MOBILE",
         utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
     });
 
@@ -41,7 +40,6 @@ document.addEventListener('DOMContentLoaded', () => {
     paymentForm.addEventListener('submit', async (event) => {
         event.preventDefault();
 
-        // Validation du numéro de téléphone
         if (!iti.isValidNumber()) {
             alert("Veuillez entrer un numéro de téléphone valide.");
             return;
@@ -55,18 +53,22 @@ document.addEventListener('DOMContentLoaded', () => {
         const formationPrice = parseInt(paymentButton.dataset.price, 10);
         const clientName = document.getElementById('modal-name').value;
         const clientEmail = document.getElementById('modal-email').value;
-        const clientNumber = iti.getNumber(); // Récupère le numéro au format international
+        const clientNumber = iti.getNumber();
         const orderId = `AC-COURSE-${Date.now()}`;
 
+        // ▼▼▼ STRUCTURE DE DONNÉES FINALE (basée sur tous les exemples de la doc) ▼▼▼
         const fusionPayData = {
             totalPrice: formationPrice,
             article: [{ nom: formationTitle, montant: formationPrice }],
-            orderId: orderId,
-            clientemail: clientEmail,
-            clientname: clientName,
-            clientnumber: clientNumber,
-            returnurl: "https://academiecreatif.com/merci.html",
-            webhookurl: "https://academiecreatif.com/.netlify/functions/webhook-handler"
+            // Le champ personal_info semble crucial d'après leur doc C#
+            personal_info: [{ 
+                userId: clientEmail,
+                orderId: orderId
+            }],
+            clientName: clientName, // camelCase
+            clientNumber: clientNumber, // camelCase
+            return_url: "https://academiecreatif.com/merci.html", // snake_case
+            webhook_url: "https://academiecreatif.com/.netlify/functions/webhook-handler" // snake_case
         };
 
         try {
@@ -97,3 +99,4 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
