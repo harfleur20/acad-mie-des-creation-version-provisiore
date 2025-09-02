@@ -12,22 +12,29 @@ exports.handler = async function (event) {
     const SITE_ID = "105904925";
     const CINETPAY_API_URL = "https://api-checkout.cinetpay.com/v2/payment";
 
-    // Gestion améliorée du nom et prénom pour éviter les erreurs
-    const nameParts = data.customer_name.trim().split(' ').filter(n => n);
-    const customer_surname = nameParts.pop() || '';
-    const customer_name = nameParts.join(' ') || customer_surname;
+    // ▼▼▼ LOGIQUE DE NOM/PRÉNOM CORRIGÉE ▼▼▼
+    const nameParts = data.customer_name.trim().split(' ').filter(Boolean); // Sépare le nom complet en mots
+    let customer_name = data.customer_name;
+    let customer_surname = ' '; // Valeur par défaut si un seul mot est entré
+
+    if (nameParts.length > 1) {
+        // Si plus d'un mot, le dernier est le nom de famille
+        customer_surname = nameParts.pop();
+        // Le reste constitue le(s) prénom(s)
+        customer_name = nameParts.join(' ');
+    }
+    // Si un seul mot est entré, customer_name garde la valeur complète et surname reste un espace.
+    // ▲▲▲ FIN DE LA CORRECTION ▲▲▲
 
     const paymentData = {
       apikey: API_KEY,
       site_id: SITE_ID,
       transaction_id: data.orderId,
       amount: data.totalPrice,
-      // ▼▼▼ CORRECTION PRINCIPALE ▼▼▼
-      currency: 'XAF', // La documentation spécifie XAF pour le Cameroun
-      // ▲▲▲ CORRECTION PRINCIPALE ▲▲▲
+      currency: 'XAF', // Confirmé pour le Cameroun
       description: data.description,
-      customer_name: customer_name,
-      customer_surname: customer_surname,
+      customer_name: customer_name, // Prénom(s)
+      customer_surname: customer_surname, // Nom de famille
       customer_email: data.customer_email,
       customer_phone_number: data.customer_phone_number,
       channels: 'ALL',
@@ -35,7 +42,7 @@ exports.handler = async function (event) {
       notify_url: data.notify_url
     };
 
-    console.log("Envoi des données à CinetPay (v2):", JSON.stringify(paymentData, null, 2));
+    console.log("Envoi des données à CinetPay (v3):", JSON.stringify(paymentData, null, 2));
 
     const response = await axios.post(CINETPAY_API_URL, paymentData, {
       headers: { 'Content-Type': 'application/json' }
@@ -52,7 +59,7 @@ exports.handler = async function (event) {
             }),
         };
     } else {
-        throw new Error(response.data.message || 'Erreur lors de l\'initialisation du paiement CinetPay.');
+        throw new Error(response.data.description || response.data.message || 'Erreur lors de l\'initialisation du paiement.');
     }
 
   } catch (error) {
