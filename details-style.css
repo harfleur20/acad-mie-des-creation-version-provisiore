@@ -514,6 +514,42 @@ h2 {
     width: 100%;
 }
 
+.learning-section img{
+    width: 100%;
+    height: auto;
+    max-width: 300px;
+}
+
+.logo-form-contain{
+    flex-wrap: wrap;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+    text-align: center;
+}
+
+.logo-form{
+    align-items: center;
+}
+
+.logo-form-contain .logo-form img{
+    width: 100%;
+    height: auto;
+    max-width: 100px;
+}
+
+.learning-section{
+    flex-wrap: wrap;
+}
+
+.learning-section .container-img{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
 .modal-content .cta-button {
     width: 100%;
     margin-top: 1rem;
@@ -658,6 +694,20 @@ h2 {
     h2 {
         font-size: 1.8rem;
     }
+
+    .logo-form-contain .logo-form img{
+    width: 100%;
+    height: auto;
+    max-width: 60px;
+}
+.logo-form-contain{
+    gap: 2px;
+    text-align: center;
+}
+
+.logo-form p{
+    font-size: 1rem;
+}
 
 }
 
