@@ -13,9 +13,9 @@ exports.handler = async function (event) {
     const CINETPAY_API_URL = "https://api-checkout.cinetpay.com/v2/payment";
 
     // Gestion améliorée du nom et prénom pour éviter les erreurs
-    const nameParts = data.customer_name.trim().split(' ').filter(n => n); // Sépare et retire les espaces vides
-    const customer_surname = nameParts.pop() || ''; // Le dernier mot est le nom
-    const customer_name = nameParts.join(' ') || customer_surname; // Le reste est le prénom, ou le nom si un seul mot
+    const nameParts = data.customer_name.trim().split(' ').filter(n => n);
+    const customer_surname = nameParts.pop() || '';
+    const customer_name = nameParts.join(' ') || customer_surname;
 
     const paymentData = {
       apikey: API_KEY,
@@ -64,4 +64,3 @@ exports.handler = async function (event) {
     };
   }
 };
-
