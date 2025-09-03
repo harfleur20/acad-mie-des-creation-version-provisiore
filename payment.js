@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let currentFormationTitle = '';
     let currentFormationPrice = 0;
+    const submitButton = paymentForm.querySelector('.cta-button'); // On récupère le bouton ici
 
     const iti = window.intlTelInput(phoneInput, {
         initialCountry: "auto",
@@ -19,10 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     const openModal = (event) => {
-        // ▼▼▼ C'EST LA LIGNE MAGIQUE À AJOUTER ▼▼▼
-        event.preventDefault(); // Empêche le lien de rediriger vers l'accueil
-        // ▲▲▲ FIN DE L'AJOUT ▲▲▲
-
+        event.preventDefault();
         currentFormationTitle = event.currentTarget.dataset.title;
         currentFormationPrice = parseInt(event.currentTarget.dataset.price, 10);
         modalOverlay.classList.add('active');
@@ -42,7 +40,6 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        const submitButton = paymentForm.querySelector('.cta-button');
         submitButton.disabled = true;
         submitButton.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Initialisation...';
         
@@ -79,4 +76,15 @@ document.addEventListener('DOMContentLoaded', () => {
             submitButton.innerHTML = '<i class="fa-solid fa-shield-halved"></i> Payer maintenant';
         }
     });
+
+    // ▼▼▼ PARTIE AJOUTÉE POUR CORRIGER LE BUG DU BOUTON "RETOUR" ▼▼▼
+    window.addEventListener('pageshow', function (event) {
+        // L'évènement 'pageshow' se déclenche quand on arrive sur la page.
+        // La propriété 'persisted' est vraie si la page vient du cache (ex: bouton retour)
+        if (event.persisted) {
+            submitButton.disabled = false;
+            submitButton.innerHTML = '<i class="fa-solid fa-shield-halved"></i> Payer maintenant';
+        }
+    });
+    // ▲▲▲ FIN DE LA PARTIE AJOUTÉE ▲▲▲
 });
