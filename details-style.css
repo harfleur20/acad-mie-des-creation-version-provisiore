@@ -509,6 +509,7 @@ h2 {
     box-sizing: border-box; /* Assure que le padding est inclus dans la largeur */
 }
 
+
 /* Styles pour le champ de téléphone intl-tel-input */
 .iti {
     width: 100%;

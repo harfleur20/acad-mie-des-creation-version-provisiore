@@ -1,37 +1,34 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const paymentButton = document.querySelector('.cta-button-payment');
+    const paymentButtons = document.querySelectorAll('.cta-button-payment');
     const modalOverlay = document.getElementById('payment-modal');
     const modalCloseBtn = document.querySelector('.modal-close');
     const paymentForm = document.getElementById('payment-info-form');
     const phoneInput = document.getElementById('modal-phone');
 
-    if (!paymentButton || !modalOverlay || !modalCloseBtn || !paymentForm || !phoneInput) {
-        return;
-    }
+    if (!paymentButtons.length || !modalOverlay) return;
+
+    let currentFormationTitle = '';
+    let currentFormationPrice = 0;
 
     const iti = window.intlTelInput(phoneInput, {
         initialCountry: "auto",
-        geoIpLookup: callback => {
-            fetch("https://ipapi.co/json").then(res => res.json()).then(data => callback(data.country_code)).catch(() => callback("cm"));
-        },
+        geoIpLookup: cb => fetch("https://ipapi.co/json").then(r => r.json()).then(d => cb(d.country_code)).catch(() => cb("cm")),
         separateDialCode: true,
         preferredCountries: ['cm', 'ci', 'sn', 'fr', 'be', 'gq', 'ga', 'cg'],
-        placeholderNumberType: "MOBILE",
         utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
     });
 
-    const openModal = () => modalOverlay.classList.add('active');
+    const openModal = (event) => {
+        currentFormationTitle = event.currentTarget.dataset.title;
+        currentFormationPrice = parseInt(event.currentTarget.dataset.price, 10);
+        modalOverlay.classList.add('active');
+    };
+    
     const closeModal = () => modalOverlay.classList.remove('active');
 
-    paymentButton.addEventListener('click', (event) => {
-        event.preventDefault();
-        openModal();
-    });
-
+    paymentButtons.forEach(button => button.addEventListener('click', openModal));
     modalCloseBtn.addEventListener('click', closeModal);
-    modalOverlay.addEventListener('click', (event) => {
-        if (event.target === modalOverlay) closeModal();
-    });
+    modalOverlay.addEventListener('click', (e) => e.target === modalOverlay && closeModal());
 
     paymentForm.addEventListener('submit', async (event) => {
         event.preventDefault();
@@ -45,23 +42,16 @@ document.addEventListener('DOMContentLoaded', () => {
         submitButton.disabled = true;
         submitButton.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Initialisation...';
         
-        const formationTitle = paymentButton.dataset.title;
-        const formationPrice = parseInt(paymentButton.dataset.price, 10);
-        const clientName = document.getElementById('modal-name').value;
-        const clientEmail = document.getElementById('modal-email').value;
-        const clientNumber = iti.getNumber();
-        const orderId = `AC-${Date.now()}`;
-
-        // Données envoyées à notre fonction Netlify
         const dataForFunction = {
-            totalPrice: formationPrice,
-            description: `Paiement pour : ${formationTitle}`,
-            orderId: orderId,
-            customer_name: clientName, // La fonction Netlify se chargera de séparer le nom/prénom
-            customer_email: clientEmail,
-            customer_phone_number: clientNumber,
-            return_url: "https://academiecreatif.com/merci.html",
-            notify_url: "https://academiecreatif.com/.netlify/functions/webhook-cinetpay"
+            totalPrice: currentFormationPrice,
+            description: `Paiement pour: ${currentFormationTitle}`,
+            orderId: `AC-${Date.now()}`,
+            customer_name: document.getElementById('modal-name').value,
+            customer_email: document.getElementById('modal-email').value,
+            customer_phone_number: iti.getNumber(),
+            // ▼▼▼ URLs de confirmation ▼▼▼
+            return_url: `${window.location.origin}/merci.html`,
+            notify_url: `${window.location.origin}/.netlify/functions/webhook-cinetpay` // URL de votre future fonction de notification
         };
 
         try {
@@ -71,14 +61,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify(dataForFunction)
             });
 
-            if (!response.ok) {
-                const errorResult = await response.json();
-                throw new Error(errorResult.message || `Le serveur a répondu une erreur.`);
-            }
-
             const result = await response.json();
 
-            if (result.statut === true && result.payment_url) {
+            if (result.success && result.payment_url) {
                 window.location.href = result.payment_url;
             } else {
                 throw new Error(result.message || "La réponse de l'API de paiement est invalide.");
@@ -92,4 +77,3 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
-
