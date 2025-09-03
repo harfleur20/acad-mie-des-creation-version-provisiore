@@ -19,6 +19,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     const openModal = (event) => {
+        // ▼▼▼ C'EST LA LIGNE MAGIQUE À AJOUTER ▼▼▼
+        event.preventDefault(); // Empêche le lien de rediriger vers l'accueil
+        // ▲▲▲ FIN DE L'AJOUT ▲▲▲
+
         currentFormationTitle = event.currentTarget.dataset.title;
         currentFormationPrice = parseInt(event.currentTarget.dataset.price, 10);
         modalOverlay.classList.add('active');
@@ -49,9 +53,8 @@ document.addEventListener('DOMContentLoaded', () => {
             customer_name: document.getElementById('modal-name').value,
             customer_email: document.getElementById('modal-email').value,
             customer_phone_number: iti.getNumber(),
-            // ▼▼▼ URLs de confirmation ▼▼▼
             return_url: `${window.location.origin}/merci.html`,
-            notify_url: `${window.location.origin}/.netlify/functions/webhook-cinetpay` // URL de votre future fonction de notification
+            notify_url: `${window.location.origin}/.netlify/functions/webhook-cinetpay`
         };
 
         try {
