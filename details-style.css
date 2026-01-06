@@ -98,6 +98,39 @@ header{
     border: 1px solid var(--border-color);
 }
 
+.rating-box {
+    margin: 30px ;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.stars-voter {
+    display: flex;
+    gap: 5px;
+    cursor: pointer;
+}
+
+/* Étoiles vides par défaut */
+.stars-voter i {
+    font-size: 1.3rem;
+    color: #ccc; /* Gris clair */
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+/* Étoiles actives (allumées) */
+.stars-voter i.active, 
+.stars-voter i:hover, 
+.stars-voter i.hover {
+    color: #FFD700; /* Jaune or */
+}
+
+/* Petit effet de grossissement au survol */
+.stars-voter i:hover {
+    transform: scale(1.2);
+}
+
 /* Cache le compteur par défaut pour éviter le flash */
 
 .hero-sidebar h3 {

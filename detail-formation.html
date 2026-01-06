@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Détails Formation - Académie des créatifs</title>
+    <base href="./"> 
+    <link rel="icon" href="Assets/logo_ico_hd.png" type="image/png">
+    <link rel="stylesheet" href="details-style.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div id="header-placeholder"></div>
+
+    <main>
+        <section class="hero-section">
+            <div class="container">
+                <div class="hero-content">
+                    <div class="back-btn">
+                        <a href="index.html"><i class="fa-solid fa-arrow-left"></i> Retour aux formations</a>
+                    </div>
+                    
+                    <h1 id="detail-titre">Chargement...</h1>
+                    <p id="detail-description">...</p>
+                    
+                    <div class="video-preview">
+                        <img id="detail-image" src="" alt="Aperçu">
+                    </div>
+                </div>
+
+                <div class="hero-sidebar">
+                    <h3>Les détails de la formation</h3>
+                    <ul id="detail-points"></ul>
+
+                    <div id="detail-compteur" class="countdown-card"></div>
+
+                    <div class="price-slider">
+                        <h3>Prix de la formation</h3>
+                        <div class="price">
+                            <span id="detail-prix-actuel" class="price-1">--</span>
+                            <span id="detail-prix-barre" class="original-price">--</span>
+                        </div>
+                    </div>
+
+                    <a href="#" id="detail-btn-paiement" class="cta-button cta-button-payment">
+                        <i class="fa-solid fa-piggy-bank"></i> Réservez votre place !
+                    </a>
+                </div>
+            </div>
+            <div class="rating-box">
+                <span>Note de la formation :</span>
+            <div class="stars-voter" id="stars-container">
+                <i class="fa-solid fa-star" data-value="1"></i>
+                <i class="fa-solid fa-star" data-value="2"></i>
+                <i class="fa-solid fa-star" data-value="3"></i>
+                <i class="fa-solid fa-star" data-value="4"></i>
+                <i class="fa-solid fa-star" data-value="5"></i>
+            </div>
+                <span id="vote-count" style="font-size: 0.8rem; color: #666;">(0 avis)</span>
+            </div>
+
+            
+
+        </section>
+
+        <section class="capabilities-section">
+            <div class="container">
+                <h2>À la fin de ce cours, vous serez capable de...</h2>
+                <ul id="detail-objectifs"></ul>
+            </div>
+        </section>
+
+        <section class="learning-section">
+            <div class="container">
+                <h2>Quelques TP qui vous attendent.</h2>
+                <div id="detail-tp" class="container-img"></div>
+            </div>
+        </section>
+
+        <section class="target-audience-section">
+            <div class="container">
+                <h2>À qui s'adresse ce cours ?</h2>
+                <p id="detail-audience"></p>
+            </div>
+        </section>
+
+        <section class="certificate-section">
+            <div class="container">
+                <div class="certificate-content">
+                    <h2>Certificat d'achèvement</h2>
+                    <p>À la fin du cours, après avoir complété tous les modules et projets, vous recevrez un certificat d'achèvement que vous pourrez partager.</p>
+                </div>
+                <img src="/Assets/certicate.jpg" alt="Certificat d'achèvement" class="certificate-image">
+            </div>
+        </section>
+
+        <section class="modules-section">
+            <div class="container">
+                <h2>Modules détaillés du cours</h2>
+                <div id="detail-modules" class="accordion"></div>
+            </div>
+        </section>
+
+        <section class="faq-section">
+            <div class="container">
+                <h2>Questions fréquentes</h2>
+                <div id="detail-faq" class="accordion"></div>
+            </div>
+        </section>
+
+    </main>
+    <div id="footer-placeholder"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script src="global-loader.js"></script>
+    <script src="script.js"></script>
+    <script src="vote.js"></script>
+    <script src="load-components.js"></script>
+    
+    
+
+    <!-- <div class="social-media-link">
+    <a href="https://wa.me/message/DMISDTO4HCUDC1" target="_blank" rel="noopener no-referrer">
+        <img src="/Media-links/logo-whatsapp.png" alt="logo-whatsapp"></a>
+</div> -->
+    
+    <script src="load-components.js"></script>
+    <script src="detail-compteur.js"></script>
+    <script src="animation-compteur.js"></script>
+    <script src="compteur-presentiel.js"></script>
+    <script src="/menu-burger.js"></script>
+
+
+    <!-- Start of LiveChat (www.livechat.com) code -->
+    <script>
+        window.__lc = window.__lc || {};
+        window.__lc.license = 19264082;
+        window.__lc.integration_name = "manual_channels";
+        window.__lc.product_name = "livechat";
+        ; (function (n, t, c) { function i(n) { return e._h ? e._h.apply(null, n) : e._q.push(n) } var e = { _q: [], _h: null, _v: "2.0", on: function () { i(["on", c.call(arguments)]) }, once: function () { i(["once", c.call(arguments)]) }, off: function () { i(["off", c.call(arguments)]) }, get: function () { if (!e._h) throw new Error("[LiveChatWidget] You can't use getters before load."); return i(["get", c.call(arguments)]) }, call: function () { i(["call", c.call(arguments)]) }, init: function () { var n = t.createElement("script"); n.async = !0, n.type = "text/javascript", n.src = "https://cdn.livechatinc.com/tracking.js", t.head.appendChild(n) } }; !n.__lc.asyncInit && e.init(), n.LiveChatWidget = n.LiveChatWidget || e }(window, document, [].slice))
+    </script>
+    <noscript><a href="https://www.livechat.com/chat-with/19264082/" rel="nofollow">Chat with us</a>, powered by <a
+            href="https://www.livechat.com/?welcome" rel="noopener nofollow" target="_blank">LiveChat</a></noscript>
+    <!-- End of LiveChat code -->
+
+    <script id='pixel-script-poptin' src='https://cdn.popt.in/pixel.js?id=e5988994f2063' async='true'></script>
+
+    <!-- //Fletch cookies injecté par javascript -->
+
+    <script>
+        fetch('cookie-banner.html')
+            .then(response => {
+                // On s'assure que le fichier a bien été trouvé
+                if (!response.ok) {
+                    throw new Error('Fichier cookie-banner.html introuvable.');
+                }
+                return response.text();
+            })
+            .then(html => {
+                // On injecte le HTML à la fin du body
+                document.body.insertAdjacentHTML('beforeend', html);
+
+                // TRES IMPORTANT : On lance la logique des cookies APRES avoir ajouté le HTML
+                initializeCookieBanner();
+            })
+            .catch(error => {
+                console.error("Erreur lors du chargement du bandeau des cookies:", error);
+            });
+    </script>
+
+    <!-- Place aux Popup -->
+
+    <div class="popup-overlay">
+        <div class="popup-content">
+            <span class="popup-close">&times;</span>
+
+            <div class="popup-inner">
+                <div class="popup-image">
+                    <img src="/Assets/Mockup-Livre.png" alt="Image pour la pop-up" />
+                </div>
+
+                <div class="popup-text">
+                    <h2>Le guide pratique qui a augmenté les revenus de beaucoup de graphistes.</h2>
+                    <p>Découvrez comment ce livre a aidé des milliers de créatifs et autres à gagner + de 200
+                        000f/mois."</p>
+                    <p id="free">Plusieurs Freelancers ont avoué l'éfficacité des stratégies du livre <em
+                            style="color: #bbfffd;">Le Mindset du graphiste businessman.</em>.</p>
+                    <a href="https://we.academiecreatif.com/le-mindset-du-graphiste-businessman" class="popup-button">J'achete le livre &gt;&gt;</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+
+</body>
+</html>

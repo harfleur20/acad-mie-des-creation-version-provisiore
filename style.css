@@ -19,10 +19,11 @@ input[type="email"] {
 html{
     font-family: "Poppins", sans-serif;
     scroll-behavior: smooth;
-    ::selection{
-        background-color: var(--couleur-secondaire);
-        color: #ffffff;
-    }
+}
+
+html ::selection{
+    background-color: var(--couleur-secondaire);
+    color: #ffffff;
 }
 
 
@@ -37,6 +38,8 @@ html{
     --couleur-vert-clair: #d5e0df;
     --couleur-vert-cassé : #e6efee;
     --couleur-dégradé-1: linear-gradient(-90deg, #1770bf 0%, #1c8480 95%);
+    /* Ajout d'une variable pour la hauteur de la nav pour compenser le fixed */
+    --nav-height: 90px;
 }
 
 /* Place au Body  */
@@ -44,6 +47,8 @@ body{
     background-color: var(--couleur-texte-clair);
     color:var(--couleur-principale);
     overflow-x: hidden;
+    /* On ajoute un padding pour que le Hero ne soit pas caché sous la nav fixe */
+    padding-top: var(--nav-height);
 }
 
 /* section-loader */
@@ -106,7 +111,7 @@ body.loaded footer {
     top: 50%;
     left: 50%;
     max-width: 85%;   /* max 50% de la largeur de l'écran */
-    height: auto;     
+    height: auto;      
     transform: translate(-50%, -50%);
 }
 
@@ -118,23 +123,37 @@ body.loaded footer {
 
 /* Place à la partie header */
 
-header{
+header#navbar {
     width: 100%;
     color:#fff;
     background-color: var(--couleur-texte-clair);
     display: flex;
     justify-content: space-between;
-    padding: 1rem 7rem;
+    padding: 0 7rem;
     align-items: center;
     gap: 1rem;
-    position: sticky;
+    /* Correction Navbar Fixe */
+    position: fixed;
     top: 0;
-    z-index: 1000;
+    left: 0;
+    height: var(--nav-height);
+    z-index: 2000;
+    transition: all 0.3s ease-in-out;
 }
 
-#navbar.scrolled {
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+/* Effets au scroll (Activés via JS) */
+header#navbar.scrolled {
+    height: var(--nav-height);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
+
+header#navbar img, 
+header#navbar.scrolled img {
+    width: 120px;
+    height: auto;
+    transition: none;}
+
+
 
 nav ul{
     display: flex;
@@ -156,7 +175,6 @@ nav ul li a{
 nav ul li a:hover{
     color: var(--couleur-secondaire);
     font-weight: normal;
-
 }
 
 nav ul li a.active {
@@ -168,7 +186,34 @@ nav ul li a.active {
 header img{
     width: 120px;
     height: auto;
-    max-width: 100%;     
+    max-width: 100%;
+    transition: width 0.3s ease;
+}
+
+/* État normal du bouton */
+.btn-link {
+    background-color: var(--couleur-principale);
+    color: #fff;
+    cursor: pointer;
+    padding: 0.5rem 1.2rem; /* Légèrement ajusté */
+    border: none;
+    transition: all 0.3s ease-in-out;
+    font-weight: 500;
+    text-decoration: none;
+    font-size: 0.90rem;
+    display: flex; /* Pour un meilleur alignement interne */
+    align-items: center;
+}
+
+
+header#navbar.scrolled .btn-link {
+    padding: 0.5rem 0.8rem;
+    font-size: 0.90rem;
+}
+
+/* On s'assure que le bouton "Se former" en version desktop suit aussi */
+header#navbar.scrolled .desktop-btn {
+    margin-top: 0; /* Évite les décalages de marge */
 }
 
 .btn-link .icon{
@@ -210,14 +255,6 @@ header img{
     color: orange;
 }
 
-
-
-/* initialisation du main */
-
-/* main{
-    padding: 0rem 4rem;
-} */
-
 /* Place à la section Hero */
 
 #hero{
@@ -229,7 +266,7 @@ header img{
     align-items: center;
     padding: 0 7rem;
     overflow: hidden;
-    background: url(/Assets/bg-ac-22.jpg) no-repeat center center/cover;
+    background: url(Assets/bg-ac-22.jpg) no-repeat center center/cover;
     z-index: 1;
     position: relative;
 }
@@ -243,7 +280,7 @@ header img{
     height: 100%;
     background-image: linear-gradient(rgba(31, 138, 129, 0.9), rgba(4, 31, 81, 0.9));
     z-index: -1; 
-    }
+}
 
 #hero .hero-gauche{
     width: 55%;
@@ -340,7 +377,7 @@ header img{
 #apropos{
     padding: 4rem 7rem;
     background-color: var(--couleur-texte-clair);
-    scroll-margin-top: 40px;
+    scroll-margin-top: 100px; /* Ajusté pour la nav fixe */
 }
 
 #apropos .apropo-contenair{
@@ -517,7 +554,7 @@ header img{
     height: auto;
     background-color: #fff;
     padding: 4rem 7rem;
-    scroll-margin-top: 80px;
+    scroll-margin-top: 100px;
 }
 
 #form-en-ligne .form-en-ligne-contenair {
@@ -529,7 +566,7 @@ header img{
 .form-en-ligne-contenair .form-title-haut{
     width: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     margin-bottom: 2rem;
     position: relative;
@@ -561,105 +598,353 @@ header img{
     
 }
 
-.bloc-list-card{
+/* --- GRILLE DES CARTES --- */
+.bloc-list-card,
+.pre-list-card {
+    display: flex;       /* Utilise Flexbox au lieu de Grid */
+    flex-wrap: wrap;     /* Permet de passer à la ligne si besoin */
+    justify-content: center; /* Aligne les cartes au début (à gauche) */
+    align-items: center; /* Aligne les cartes en haut */
+    gap: 40px;           /* C'est ICI que tu gères l'espace précis entre les deux cartes */
     width: 100%;
+    padding: 20px 0;
+}
+
+/* Badge Promo (Rouge/Rose vif pour attirer l'oeil) */
+.badge-promo {
+    background: #ff4757;
+    color: #fff;
+    border: 1px solid #ff4757;
+    animation: pulse-promo 2s infinite; /* Optionnel : petit effet d'insistance */
+}
+
+.badge-promo i {
+    color: #fff;
+}
+
+@keyframes pulse-promo {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* ============================================================
+   DESIGN FINAL DES CARTES (VERSION CORRIGÉE ET OPTIMISÉE)
+   ============================================================ */
+
+.card-bloc.new-design {
+    background: #fff;
+    border-radius: 12px;
+    border: 1px solid #eee;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
     display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 1.7rem;
-    transition: all 0.3s ease-in-out;
+    flex-direction: column;
+    overflow: hidden; /* Empêche tout débordement du titre ou image */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+    width: 100%;
+    max-width: 290px; /* Largeur max d'une carte */
+    position: relative;
+}
+
+.card-bloc.new-design:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+}
+
+/* --- ZONE IMAGE --- */
+.card-bloc.new-design .card-image {
+    width: 100%;
+    height: 200px; /* Hauteur fixe pour l'image */
     position: relative;
     overflow: hidden;
+    border-radius: 0; /* Pas de border-radius interne */
 }
 
-.bloc-list-card .card-bloc img{
-    width: 300px;
-    height: 300px;
-    max-width: 100%;
-    object-fit: cover;
-    transition: all 0.3s ease-in-out;
-}
-
-.card-image {
-    position: relative;  
-    overflow: hidden;
-    width: 300px;
-    height: auto;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-
-.card-image .overlay{
-    position: absolute;
-    top: 0;
-    left: 0;
+.card-bloc.new-design .card-image img {
     width: 100%;
     height: 100%;
-    background: linear-gradient(to top, rgba(8, 84, 138, 0.9), rgba(1, 12, 59, 0.9), rgba(0,0,0,0.4)); 
-    color: #fff;
+    object-fit: cover; /* L'image remplit la zone sans déformer */
+    transition: transform 0.6s ease;
+}
+
+.card-bloc.new-design:hover .card-image img {
+    transform: scale(1.05);
+}
+
+/* --- BADGES SUR L'IMAGE --- */
+
+/* Badge Session (En haut au centre) */
+.session-badge {
+    position: absolute;
+    top: 70px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(255, 255, 255, 0.95);
+    color: #1c8480;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    z-index: 10;
+    white-space: nowrap;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     display: flex;
-    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+/* --- LIGNE META --- */
+.card-meta-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; /* Aligné en haut pour la colonne de badges */
+    margin-top: 5px;
+}
+
+/* --- SUPERPOSITION DES BADGES (COLONNE) --- */
+.badges-column {
+    display: flex;
+    flex-direction: column; /* Les met les uns sur les autres */
+    gap: 3px;
+    align-items: flex-end; /* Colle les badges à droite */
+}
+
+.special-badge {
+    padding: 2px 5px;
+    border-radius: 3px;
+    font-size: 0.5rem; /* Très petit pour ne pas rallonger la carte */
+    font-weight: 800;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    width: fit-content;
+}
+
+.special-badge i { font-size: 0.55rem; }
+
+/* Couleurs des badges */
+.badge-premium { background: #000; color: #FFD700; border: 1px solid #FFD700; }
+.badge-populaire { background: #FF8C00; color: #fff; }
+.badge-promo { background: #ff4757; color: #fff; }
+
+/* --- PRIX EN ROUGE SI PROMO --- */
+.current-price.price-promo {
+    color: #e1220d !important; /* Rouge */
+    font-weight: 900;
+}
+
+/* On s'assure que le footer ne bouge pas */
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 5px;
+}
+
+/* --- CONTENU DE LA CARTE --- */
+.card-content {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex-grow: 1;
+}
+
+/* TITRE (Limité à 2 lignes max) */
+.card-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #1f2352;
+    line-height: 1.4;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Affiche max 2 lignes */
+    -webkit-box-orient: vertical;
+    overflow: hidden; /* Cache ce qui dépasse */
+    text-overflow: ellipsis;
+    height: 2.8em; /* Hauteur fixe pour alignement propre */
+}
+
+/* FORMATEUR */
+.card-instructor {
+    font-size: 0.85rem;
+    color: #1c8480;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 500;
+}
+.card-instructor i { color: #1c8480; }
+
+/* NOTE & AVIS */
+.card-rating {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.8rem;
+    color: #002462;
+}
+.card-rating .stars {
+    display: flex;
+    gap: 2px;
+}
+.card-rating .stars i.filled { color: #FFD700; }
+.card-rating .stars i { color: #FFD700; font-size: 0.8rem; }
+
+
+/* PLATEFORMES (Logos très petits) */
+.card-platforms {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #f7f9fc;
+    padding: 5px 10px;
+    border-radius: 6px;
+    width: fit-content;
+    margin-top: 5px;
+}
+
+    /* Conteneur du message d'absence de formation */
+.aucune-formation {
+    grid-column: 1 / -1; /* Très important : force le message à prendre toute la largeur de la grille */
+    display: flex;
     flex-direction: column;
     align-items: center;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    pointer-events: none;
-}
-
-.card-image:hover .overlay{
-    opacity: 1;          
-    pointer-events: auto;
-}   
-
-.card-image:hover img {
-    transform: scale(1.05);   
-}
-
-.card-image .overlay h3 {
-    font-size: 1.2rem;
-    font-weight: 800;
-    text-align: center;
-    line-height: 1.2;
-}
-
-.card-image .overlay p {
-    font-size: 0.9rem;
-    text-align: center;
-    margin-top: 1.2rem;
-    padding: 0.2rem 1rem;
-}
-
-.card-bloc .bloc-btn{
-    width: 100%;
-    display: flex;
     justify-content: center;
-    align-items: center;
-    margin-bottom: 0.2rem;
-}
-
-.card-bloc .bloc-btn a{
-    width: 180px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-decoration: none;
-    margin-top: 2rem;
-    padding: 0.5rem 0.5rem;
-    border: #1f2352 1px solid;
-    transition: all 0.3s ease-in-out;
-    color: #1f2352;   
+    text-align: center;
+    padding: 50px 20px;
     
+    margin: 20px 0;
+    width: 100%;
 }
-.card-bloc .bloc-btn a i{
-    margin-left: 0.2rem;
-}   
 
-.card-bloc .bloc-btn a:hover{
-    border: #1c8480 1px solid;
-    color: var(--couleur-principale);
-    transform: scale(1.03);
+/* Style de l'icône */
+.aucune-formation i {
+    font-size: 3.5rem;
+    color: #dcdcdc;
+    margin-bottom: 15px;
 }
+
+/* Style du texte */
+.aucune-formation p {
+    font-size: 16px !important;
+    color: #dcdcdc !important;
+    font-weight: 500;
+    margin: 0;
+    line-height: 1.5;
+    padding: 10px ;
+}
+
+/* Adaptations Mobile */
+@media (max-width: 768px) {
+    .aucune-formation {
+        padding: 30px 15px;
+        margin: 10px 0;
+    }
+    .aucune-formation i {
+        font-size: 2.5rem;
+    }
+    .aucune-formation p {
+        font-size: 1rem;
+    }
+}
+
+
+
+.platform-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #1f2352;
+}
+
+.card-platforms img {
+    width: 18px !important; /* Taille forcée petit */
+    height: 18px !important;
+    object-fit: contain;
+    margin: 0 !important;
+}
+
+/* Ligne séparation */
+.card-divider {
+    height: 1px;
+    background: #eee;
+    margin: 5px 0;
+    width: 100%;
+}
+
+/* FOOTER (Prix + Bouton) */
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: auto; /* Pousse vers le bas */
+}
+
+.price-block {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+}
+
+.current-price {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #1c8480;
+}
+
+.old-price {
+    font-size: 0.8rem;
+    text-decoration: line-through;
+    color: #aaa;
+}
+
+.btn-card-action {
+    background: #1f2352;
+    color: #fff !important;
+    text-decoration: none;
+    padding: 6px 16px;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.btn-card-action:hover {
+    background: #1c8480;
+    transform: translateX(3px);
+}
+
+/* Compteur Rouge (si actif) */
+.countdown {
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(236, 7, 7, 0.95);
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 8px;
+    display: flex;
+    gap: 8px;
+    z-index: 15;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.countdown-item { display: flex; flex-direction: column; align-items: center; }
+.countdown-value { font-size: 1.2rem; font-weight: bold; line-height: 1; }
+.countdown-label { font-size: 0.6rem; text-transform: uppercase; }
+.countdown-separator { font-weight: bold; }
+
+/* ============================================================
+   FIN DESIGN CARTES
+   ============================================================ */
+
 
 /* Place à la section formation en presentielle */
 
@@ -668,7 +953,7 @@ header img{
     height: auto;
     background-color: #fff;
     padding: 4rem 7rem;
-    scroll-margin-top: 80px;
+    scroll-margin-top: 100px;
     margin-bottom: 1.5rem;
 }
 
@@ -713,144 +998,6 @@ header img{
     
 }
 
-.pre-list-card{
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 1.7rem;
-    transition: all 0.3s ease-in-out;
-    position: relative;
-    overflow: hidden;
-}
-
-.pre-list-card .presentiel-card-bloc img{
-    width: 300px;
-    height: 300px;
-    max-width: 100%;
-    object-fit: cover;
-    transition: all 0.3s ease-in-out;
-}
-
-.pre-card-image {
-    position: relative;  
-    overflow: hidden;
-    width: 300px;
-    height: auto;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-
-.presentiel-card-image .presentiel-overlay{
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(to top, rgba(8, 84, 138, 0.9), rgba(1, 12, 59, 0.9), rgba(0,0,0,0.4)); 
-    color: #fff;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    pointer-events: none;
-}
-
-.presentiel-card-image:hover .presentiel-overlay{
-    opacity: 1;          
-    pointer-events: auto;
-}   
-
-.presentiel-card-image:hover img {
-    transform: scale(1.05);   
-}
-
-.presentiel-card-image .presentiel-overlay h3 {
-    font-size: 1.2rem;
-    font-weight: 800;
-    text-align: center;
-    line-height: 1.2;
-}
-
-.presentiel-card-image .presentiel-overlay p {
-    font-size: 0.9rem;
-    text-align: center;
-    margin-top: 1.2rem;
-    padding: 0.2rem 1rem;
-}
-
-.presentiel-card-bloc .presentiel-bloc-btn{
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.card-bloc .presentiel-bloc-btn a{
-    width: 180px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-decoration: none;
-    margin-top: 2rem;
-    padding: 0.5rem 0.5rem;
-    border: #1f2352 1px solid;
-    transition: all 0.3s ease-in-out;
-    color: #1f2352;   
-    
-}
-.presentiel-card-bloc .presentiel-bloc-btn a i{
-    margin-left: 0.2rem;
-}   
-
-.presentiel-card-bloc .presentiel-bloc-btn a:hover{
-    border: #1c8480 1px solid;
-    color: var(--couleur-principale);
-    transform: scale(1.03);
-}
-
-.presentiel-card-image{
-    position: relative; 
-    overflow: hidden;
-    width: 300px;
-    height: auto;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-
-.presentiel-card-bloc .presentiel-bloc-btn{
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 0.2rem;
-}
-
-.presentiel-card-bloc .presentiel-bloc-btn a{
-    width: 180px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-decoration: none;
-    margin-top: 2rem;
-    padding: 0.5rem 0.5rem;
-    border: #1f2352 1px solid;
-    transition: all 0.3s ease-in-out;
-    color: #1f2352;   
-    
-}
-.presentiel-card-bloc .presentiel-bloc-btn a i{
-    margin-left: 0.2rem;
-}   
-
-.presentiel-card-bloc .presentiel-bloc-btn a:hover{
-    border: #1c8480 1px solid;
-    color: var(--couleur-principale);
-    transform: scale(1.03);
-}
 
 /* Place à la section note informative */
 
@@ -859,7 +1006,7 @@ header img{
     height: auto;
     background-color: #f6f7f9;
     padding: 4rem 7rem;
-    scroll-margin-top: 80px;
+    scroll-margin-top: 100px;
 }
 
 #note-info .note-info-contenair {
@@ -946,7 +1093,7 @@ header img{
     height: auto;
     background-color: #fff;
     padding: 4rem 7rem;
-    scroll-margin-top: 70px;
+    scroll-margin-top: 100px;
 }
 
 #album .album-container{
@@ -1035,7 +1182,7 @@ header img{
     height: auto;
     background-color: #fff;
     padding: 1rem  7rem;
-    scroll-margin-top: 80px;
+    scroll-margin-top: 100px;
     margin-bottom: 4rem;
 }
 
@@ -1352,7 +1499,7 @@ header img{
 #banner .banner-container{
     width: 100%;
     height: 400px;
-    background: url(/Assets/banner-1.jpg) no-repeat center center/cover;
+    background: url(Assets/banner-1.jpg) no-repeat center center/cover;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -1703,99 +1850,32 @@ header img{
 
 /* Ajouter un compteur animation de cours */
 
-.card-image {
-    position: relative; /* Indispensable pour le positionnement absolu */
-}
 
-/* Style pour le texte d'introduction */
-.countdown-intro-text {
-    position: absolute;
-    top: 50%; /* Positionnement vertical au milieu */
-    left: 50%;
-    transform: translate(-50%, -100%); /* MODIFIÉ : Déplace le texte de 100% de sa propre hauteur vers le haut */
-    
-    color: #fff;
-    background-color: rgba(0, 0, 0, 0.9);
-    padding: 5px 15px;
-    border-radius: 5px;
-    font-weight: 500;
-    line-height: 1.1rem;
-    font-size: 0.8em;
-    text-align: center;
-    z-index: 10;
-    
-    opacity: 1;
-    visibility: visible;
-    transition: opacity 0.3s ease;
-}
+/* ============================================================
+   CORRECTION COMPTEUR PAGE DÉTAILS (BARRE LATÉRALE)
+   ============================================================ */
 
-/* Styles pour le compteur */
-.countdown {
-    position: absolute;
-    top: 50%; /* Positionnement vertical au milieu */
-    left: 50%;
-    transform: translate(-50%, 10%); /* MODIFIÉ : Déplace le compteur de 10% de sa propre hauteur vers le bas */
-    
+
+#detail-compteur .countdown {
+    position: static !important; 
+    transform: none !important;  
+    margin: 20px auto;            
     display: flex;
-    align-items: center;
     justify-content: center;
-    gap: 10px;
-    background-color: rgba(236, 7, 7, 0.9);
-    padding: 8px 12px;
-    border-radius: 8px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #fff;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    z-index: 10;
     
-    opacity: 1;
-    visibility: visible;
-    transition: opacity 0.3s ease;
+   
+    background-color: rgba(236, 7, 7, 0.9); 
+    width: fit-content;          
 }
 
-/* Styles pour les éléments internes du compteur */
-.countdown-item {
+/* On s'assure que le conteneur dans la sidebar est propre */
+#detail-compteur {
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-
-.countdown-value {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #fff;
-    line-height: 1;
-}
-
-.countdown-label {
-    font-size: 0.75rem;
-    font-weight: normal;
-    text-transform: uppercase;
-    color: #fff;
-    margin-top: 4px;
-}
-
-.countdown-separator {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #fff;
-    line-height: 1;
-}
-
-/* Effet de survol : les deux éléments disparaissent */
-.card-image:hover .countdown-intro-text,
-.card-image:hover .countdown {
-    opacity: 0;
-    visibility: hidden;
-}
-
-/* Effet de survol : les éléments du compteur disparaissent sur les deux types de cartes */
-.card-image:hover .countdown-intro-text,
-.card-image:hover .countdown,
-.presentiel-card-image:hover .countdown-intro-text,
-.presentiel-card-image:hover .countdown {
-    opacity: 0;
-    visibility: hidden;
+    justify-content: center;
+    width: 100%;
+    min-height: 80px; /* Évite un saut d'affichage */
 }
 
 .btn-link.mobile-btn {
@@ -1815,7 +1895,7 @@ header img{
   display: flex; /* Centrer le contenu */
   justify-content: center;
   align-items: center;
-  z-index: 1000; /* Assure que la pop-up est au-dessus du reste du contenu */
+  z-index: 3000; /* Assure que la pop-up est au-dessus de la nav fixed */
   /* Ajoutez cette ligne pour masquer la pop-up par défaut */
   visibility: hidden;
   opacity: 0;
@@ -1831,7 +1911,7 @@ header img{
 
 /* Styles pour le contenu de la boîte modale */
 .popup-content {
-  background: url(/Assets/img-bg-popup.png) no-repeat center fixed;
+  background: url(Assets/img-bg-popup.png) no-repeat center fixed;
   background-size: cover;
   padding: 20px;
   border-radius: 15px;
@@ -1949,13 +2029,12 @@ header img{
   align-items: center;
   gap: 20px;
   box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
-  position: relative; /* Indispensable pour positionner l'image de manière absolue */
 }
 
 /* L'image de cookie en tant que pseudo-élément */
 .cookie-banner::before {
   content: ""; 
-  background-image: url('/Assets/cookies.png');
+  background-image: url('Assets/cookies.png');
   background-size: contain; 
   background-repeat: no-repeat;
   display: block;
@@ -1993,62 +2072,6 @@ header img{
     margin-left: 3.8rem;
 }
 
-/* Dans le fichier : style.css */
-
-/* --- Badge pour la prochaine session de formation --- */
-
-.card-image {
-    position: relative; /* Indispensable pour positionner le badge par-dessus */
-}
-
-.session-badge {
-    position: absolute;
-    bottom: 95px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: rgba(230, 245, 237, 0.95); /* Vert clair semi-transparent */
-    color: #0d5e3c; /* Vert foncé pour le texte */
-    padding: 0.5rem 0.8rem;
-    border-radius: 50px;
-    font-size: 0.8rem;
-    font-weight: 700;
-    white-space: nowrap;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    z-index: 10;
-    border: 1px solid rgba(13, 94, 60, 0.2);
-    backdrop-filter: blur(4px); /* Effet de flou stylé (optionnel) */
-    transition: opacity 0.3s ease;;
-}
-
-.card-bloc .card-image:hover ~ .session-badge,
-.card-bloc .card-image:hover .session-badge {
-    opacity: 0; /* Rend le badge transparent au survol de la carte */
-}
-
-.session-badge .fa-clock {
-    font-size: 1.1em;
-}
-
-
-/* badge session presentiel */
-
-.presentiel-card-bloc {
-    position: relative;
-}
-
-/* Fait disparaître le badge UNIQUEMENT au survol de l'image de la carte présentiel */
-.presentiel-card-bloc .presentiel-card-image:hover ~ .session-badge,
-.presentiel-card-bloc .presentiel-card-image:hover .session-badge {
-    opacity: 0;
-}
-
-
-/* On cache le badge par défaut */
-.session-badge.hidden {
-    display: none;
-}
 
 /* On adapte le positionnement pour les téléphones */
 @media (max-width: 600px) {
@@ -2203,12 +2226,12 @@ RESPONSIVE TABLETTE | MOBILE | PC
 @media (max-width: 1450px) {
 
     /* --- GESTION DE L'EN-TÊTE --- */
-   
-    #navbar {
-        padding-left: 7rem;
-        padding-right: 7rem;
-    }
     
+    header#navbar {
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+     
     header .desktop-btn {
         display: none;
     }
@@ -2225,17 +2248,17 @@ RESPONSIVE TABLETTE | MOBILE | PC
         color: var(--couleur-principale);
         z-index: 1001; 
     }
-    
+     
     .menu-toggle .close-icon {
         display: none;
         /* Ajout du style pour la couleur */
         color: var(--couleur-texte-clair);
     }
-    
+     
     .menu-toggle.active .fa-bars {
         display: none; 
     }
-    
+     
     .menu-toggle.active .close-icon {
         display: block;
     }
@@ -2258,7 +2281,7 @@ RESPONSIVE TABLETTE | MOBILE | PC
         transition: right 0.3s ease-in-out;
         padding-top: 5rem;
     }
-    
+     
     .nav-links.active {
         right: 0;
     }
@@ -2271,7 +2294,7 @@ RESPONSIVE TABLETTE | MOBILE | PC
         list-style: none;
         margin-top: 4rem;
     }
-    
+     
     .nav-links ul li {
         width: 100%;
         padding: 0.4rem 0;
@@ -2300,7 +2323,7 @@ RESPONSIVE TABLETTE | MOBILE | PC
         color: var(--couleur-texte-clair);
         font-size: 0.9rem;
     }
-    
+     
     header .nav-links .mobile-btn:hover {
         background-color: #fff;
         color: var(--couleur-principale);
@@ -2452,7 +2475,7 @@ RESPONSIVE TABLETTE | MOBILE | PC
         white-space: nowrap;
         padding: 0.6rem 0.8rem;
     }
-    
+     
     .footer-content{
         display: flex;
         justify-content: space-around;
@@ -2477,22 +2500,6 @@ RESPONSIVE TABLETTE | MOBILE | PC
     flex-direction: column;
     justify-content: center;
     align-items: center;
-}
-
-.bloc-list-card{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: 3.5rem;
-}
-
-.pre-list-card {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: 3.5rem;
 }
 
 /* section avec la bannière */
@@ -2531,23 +2538,20 @@ RESPONSIVE TABLETTE | MOBILE | PC : 1024px
     }
 
     body{
-        padding-top: 60px;
+        /* padding-top: 60px;  Supprimé pour utiliser la variable --nav-height */
+        padding-top: var(--nav-height);
     }
 
     #navbar, #hero, #apropos, #banniere-prog, #formateur, #bg-progres, #album, #instant-video, #temoignage, #note-info {
         padding: 2rem 2.5rem;
     }
 
-   #navbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 60px;
-    z-index: 1000; /* Assurez-vous qu'il reste au-dessus */
+   header#navbar {
+    height: 90px;
+    --nav-height: 60px; /* Mise à jour de la variable sur mobile */
     }
 
-    #navbar img{
+    header#navbar img{
         max-width: 90px;
         margin-left: -0.9rem;
     }
@@ -2570,7 +2574,7 @@ RESPONSIVE TABLETTE | MOBILE | PC : 1024px
         padding: 2rem 2rem;
         text-align: center;
         height: auto;
-        background: url(/Assets/bg-ac-1.jpg) no-repeat center center/cover;
+        background: url(Assets/bg-ac-1.jpg) no-repeat center center/cover;
         position: relative;
         z-index: 1;
     }
@@ -2804,12 +2808,6 @@ RESPONSIVE TABLETTE | MOBILE | PC : 1024px
     padding: 2rem 0;
   }
 
-
-  .bloc-list-card{
-    margin-top: -2.5rem;
-  }
-
-
      .form-en-ligne-contenair h2{
           font-size: clamp(1.2rem, 2vw, 1.6rem);
           margin-bottom: 1rem;
@@ -2860,10 +2858,6 @@ RESPONSIVE TABLETTE | MOBILE | PC : 1024px
 
      .presen-bloc-img img{
             display: none;
-     }
-
-     .pre-list-card{
-        margin-top: -2rem;
      }
 
      .form-presen-contenair p{
@@ -3197,7 +3191,3 @@ RESPONSIVE TABLETTE | MOBILE | PC : 1024px
 }
 
 }
-
-
-    
-    

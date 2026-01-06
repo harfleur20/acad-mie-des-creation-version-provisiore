@@ -28,6 +28,15 @@ function automateSessionBadges() {
     });
 }
 
+window.addEventListener('scroll', function() {
+    const navbar = document.getElementById('navbar');
+    if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+    } else {
+        navbar.classList.remove('scrolled');
+    }
+});
+
 /**
  * Charge les articles populaires depuis le JSON et les notes depuis Supabase.
  */
@@ -282,4 +291,120 @@ function initializeCookieBanner() {
         localStorage.setItem('cookiesAccepted', 'true');
         cookieBanner.style.display = 'none';
     });
+}
+
+//vote.js file
+// ===================================================================
+//   SCRIPT DE GESTION DES VOTES formation
+// ===================================================================
+
+/**
+ * Récupère toutes les notes sur Supabase et les injecte dans les cartes
+ */
+async function injectRatingsToCards() {
+    try {
+        // 1. Récupérer toutes les notes de Supabase
+        const { data: allRatings, error } = await supabaseClient
+            .from('avis_formations')
+            .select('formation_id, note');
+
+        if (error) throw error;
+
+        // 2. Calculer les moyennes par slug
+        const statsBySlug = {};
+        allRatings.forEach(item => {
+            if (!statsBySlug[item.formation_id]) {
+                statsBySlug[item.formation_id] = { total: 0, count: 0 };
+            }
+            statsBySlug[item.formation_id].total += item.note;
+            statsBySlug[item.formation_id].count += 1;
+        });
+
+        // 3. Trouver toutes les cartes sur la page
+        // On suppose que tes cartes ont un attribut data-slug ou une class avec le slug
+        const cards = document.querySelectorAll('.card-bloc.new-design');
+
+        cards.forEach(card => {
+            // On récupère le slug de la formation (depuis un lien ou un attribut)
+            const link = card.querySelector('a').getAttribute('href');
+            const urlParams = new URLSearchParams(link.split('?')[1]);
+            const slug = urlParams.get('slug');
+
+            const ratingContainer = card.querySelector('.formation-rating');
+            if (!ratingContainer) return;
+
+            if (statsBySlug[slug]) {
+                const moyenne = (statsBySlug[slug].total / statsBySlug[slug].count).toFixed(1);
+                const nbVotes = statsBySlug[slug].count;
+
+                ratingContainer.innerHTML = `
+                    <div class="stars-display">
+                        <i class="fa-solid fa-star" style="color: #FFD700;"></i>
+                        <span style="font-weight: bold;">${moyenne}</span>
+                        <span style="color: #888; font-size: 0.8rem;">(${nbVotes} avis)</span>
+                    </div>
+                `;
+            } else {
+                ratingContainer.innerHTML = `<span style="color: #aaa; font-size: 0.8rem; font-style: italic;">Pas encore d'avis</span>`;
+            }
+        });
+
+    } catch (error) {
+        console.error("Erreur chargement ratings accueil:", error);
+    }
+}
+
+/**
+ * Récupère les notes réelles sur Supabase et remplace le contenu statique des cartes
+ */
+async function injecterRatingsSupabase() {
+    // On cible le conteneur exact défini dans genererHTMLCarte
+    const containers = document.querySelectorAll('.card-rating[data-for-slug]');
+    
+    if (containers.length === 0) {
+        console.warn("Aucun conteneur de vote trouvé sur cette page.");
+        return;
+    }
+
+    try {
+        // Récupération des notes sur Supabase
+        const { data, error } = await supabaseClient
+            .from('avis_formations')
+            .select('formation_id, note');
+
+        if (error) throw error;
+
+        // Calcul des stats par slug
+        const stats = {};
+        data.forEach(item => {
+            if (!stats[item.formation_id]) stats[item.formation_id] = { total: 0, count: 0 };
+            stats[item.formation_id].total += item.note;
+            stats[item.formation_id].count += 1;
+        });
+
+        // Mise à jour du DOM
+        containers.forEach(container => {
+            const slug = container.getAttribute('data-for-slug');
+            const formationStats = stats[slug];
+
+            if (formationStats) {
+                const moyenne = (formationStats.total / formationStats.count).toFixed(1);
+                const nb = formationStats.count;
+                
+                container.innerHTML = `
+                    <div class="stars" style="color: #FFD700; display: inline-block; margin-right: 5px;">
+                        <i class="fa-solid fa-star"></i>
+                        <strong style="color: #002462;">${moyenne}</strong>
+                    </div>
+                    <span class="review-count" style="color: #002462; font-size: 0.85rem;">
+                        (${nb} ${nb > 1 ? 'avis' : 'avis'})
+                    </span>
+                `;
+            } else {
+                container.innerHTML = `<span style="color: #aaa; font-size: 0.85rem; font-style: italic;">Pas encore d'avis</span>`;
+            }
+        });
+    } catch (err) {
+        console.error("Erreur Supabase Ratings:", err.message);
+    }
 }

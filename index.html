@@ -28,42 +28,8 @@
 
 
     <!-- la section avec le header -->
-
-    <header id="navbar">
-        <img src="/Assets/logo_academie_hd.png" alt="logo-AcDesCreatifs" width="" height="">
-
-        <div class="menu-toggle">
-            <i class="fa-solid fa-bars"></i>
-            <i class="fa-solid fa-times close-icon"></i>
-        </div>
-
-        <nav class="nav-links">
-            <ul>
-                <li><a href="#">Acceuil</a></li>
-                <li><a href="#apropos">A propos</a></li>
-                <li><a href="#form-en-ligne">Formation en ligne</a></li>
-                <li><a href="#form-en-presentiel">Formation en présentiel</a></li>
-                <li><a href="#formateur">Notre Equipe</a></li>
-                <li><a href="#instant-video">Vidéos</a></li>
-
-                <li>
-                    <a href="Formulaire-de-remplissage.html" class="btn-link mobile-btn">
-                        <div class="icon">
-                            <i class="fa-solid fa-bolt"></i>
-                            Se former maintenant
-                        </div>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-
-        <a href="Formulaire-de-remplissage.html" class="btn-link desktop-btn">
-            <div class="icon">
-                <i class="fa-solid fa-bolt"></i>
-                Se former maintenant
-            </div>
-        </a>
-    </header>
+    <div id="header-placeholder"></div>
+    
 
     <main>
         <!-- la section avec le hero -->
@@ -184,183 +150,45 @@
             </div>
         </section>
 
-        <!-- la section avec la formation en ligne -->
+        <!-- formation en ligne -->
 
         <section id="form-en-ligne">
-            <div class="form-en-ligne-contenair">
-                <div class="form-title-haut">
-                    <div class="bloc-de-gauche">
-                        <h3>FORMATIONS EN LIGNE</h3>
-                        <h2>
-                            Nos Offres de Formations
-                            Accélérées en ligne
-                        </h2>
-                    </div>
-
-                    <div class="bloc-du-milieu"></div>
-                    <div class="bloc-avec-img">
-                        <img src="/Assets/logo_ico_hd.png" alt="">
-                    </div>
-
-                </div>
-
-                <div class="bloc-list-card">
-
-                    <div class="card-bloc"> <!--carte en ligne-1-->
-                        <div class="card-image countdown-card" data-end="2025-09-02T10:00:00">
-                            <img src="/Flyers/packaging.jpg" alt="">
-
-
-
-                            <div class="overlay">
-                                <h3>Formation en Design d'emballage</h3>
-                                <p>Concevez des packagings pros : du gabarit à la 3D, Maitrisez les traits de coupe, marges et fond perdu.</p>
-                            </div>
-                        </div>
-                        <div class="bloc-btn"> 
-                            <a href="detail-formation-1.html">en savoir plus<i
-                                    class="fa-solid fa-chevron-right"></i></a>
-                        </div>
-                    </div>
-
-                    <div class="card-bloc"> <!--carte en ligne-2-->
-                        <div class="card-image countdown-card" data-end="2025-08-06T20:00:00">
-                            <img src="/Flyers/tiktok-flyer.png" alt="">
-
-                            <div class="session-badge" data-session-date="2025-09-15">
-                                <i class="fa-solid fa-clock"></i>
-                                <span>Prochaine session : 15 Sept 2025</span>
-                            </div>
-
-                            <div class="overlay">
-                                <h3>Formation en Marketing Digital: Spécial Tiktok</h3>
-                                <p>Vous allez apprendre à créer du contenu viral sur TikTok, maîtriser les tendances, les algorithmes et les stratégies pour devenir influent sur la plateforme.</p>
-                            </div>
-                        </div>
-                        <div class="bloc-btn">
-                            <a href="detail-formation-2.html">en savoir plus<i
-                                    class="fa-solid fa-chevron-right"></i></a>
-                        </div>
-                    </div>
-                    <div class="card-bloc"> <!--carte en ligne-3-->
-                        <div class="card-image countdown-card" data-end="2025-08-06T20:00:00">
-                            <img src="/Flyers/brand-identity.jpg" alt="">
-                            <div class="overlay">
-                                <h3>Formation complète <br>en Brand Identity</h3>
-                                <p>Apprenez à créer une identité visuelle forte et cohérente pour une marque, du logo à la charte graphique, et à transmettre ses valeurs avec impact.</p>
-                            </div>
-                        </div>
-                        <div class="bloc-btn">
-                            <a href="detail-formation-3.html">en savoir plus<i
-                                    class="fa-solid fa-chevron-right"></i></a>
-                        </div>
-                    </div>
-                    <div class="card-bloc"> <!--carte en ligne-4-->
-                        <div class="card-image countdown-card" data-end="2025-08-06T20:00:00">
-                            <img src="/Flyers/Motion-design.jpg" alt="">
-                            <div class="overlay">
-                                <h3>Formation complète <br>en Motion Design</h3>
-                                <p>Vous allez apprendre à animer tout type de logos & flyers , créer des videos explains.
-                                    Gerer les plugins & l'exportation avec Adobe encoder</p>
-                            </div>
-                        </div>
-                        <div class="bloc-btn">
-                            <a href="detail-formation-4.html">en savoir plus<i
-                                    class="fa-solid fa-chevron-right"></i></a>
-                        </div>
-                    </div>
-                </div>
+    <div class="form-en-ligne-contenair">
+        <div class="form-title-haut">
+            <div class="bloc-de-gauche">
+                <h3>FORMATIONS EN LIGNE</h3>
+                <h2>Nos Offres de Formations Accélérées en live</h2>
             </div>
-
-        </section>
-
-        <!-- Place à la section des formation en présentiel -->
-
-        <section id="form-en-presentiel">
-            <div class="form-presen-contenair">
-                <div class="presentiel-title-haut">
-                    <div class="presen-bloc-gauche">
-                        <h3>FORMATIONS EN PRESENTIEL</h3>
-                        <h2>
-                            Nos Offres de Formations
-                            Certifiantes en Presentiel
-                        </h2>
-                    </div>
-
-                    <div class="presen-bloc-milieu"></div>
-                    <div class="presen-bloc-img">
-                        <img src="/Assets/logo_ico_hd.png" alt="">
-                    </div>
-
-                </div>
-
-                <div class="pre-list-card">
-                    <div class="presentiel-card-bloc">
-                        <div class="presentiel-card-image countdown-card" data-end="2025-08-09T20:00:00">
-                            <img src="/Flyers/Formation-Packaging-academie-creatifs.png" alt="">
-                            <div class="presentiel-overlay">
-                                <h3>Formation en packaging</h3>
-                                <p>Vous allez apprendre à concevoir tout type de logos, flyers et trouver des clients et
-                                    fixer vos prix</p>
-                            </div>
-                        </div>
-                        <div class="presentiel-bloc-btn">
-                            <a href="detail-formation-5.html">en savoir plus<i
-                                    class="fa-solid fa-chevron-right"></i></a>
-                        </div>
-                    </div>
-                    <div class="presentiel-card-bloc">
-                        <div class="presentiel-card-image">
-
-                            <div class="session-badge" data-session-date="2025-10-15">
-                                <i class="fa-solid fa-clock"></i>
-                                <span>Prochaine session : 15 OCT 2025</span>
-                            </div>
-
-                            <img src="/Flyers/flyer-motion.jpg" alt="">
-                            <div class="presentiel-overlay">
-                                <h3>Formation en Marketing Digital</h3>
-                                <p>Vous allez apprendre à concevoir tout type de logos, flyers et trouver des clients et
-                                    fixer vos prix</p>
-                            </div>
-                        </div>
-                        <div class="presentiel-bloc-btn">
-                            <a href="detail-formation-6.html">en savoir plus<i
-                                    class="fa-solid fa-chevron-right"></i></a>
-                        </div>
-                    </div>
-                    <div class="presentiel-card-bloc">
-                        <div class="presentiel-card-image">
-                            <img src="/Flyers/Figma-Image.jpg" alt="">
-                            <div class="presentiel-overlay">
-                                <h3>Formation en Design graphique</h3>
-                                <p>Vous allez apprendre à concevoir tout type de logos, flyers et trouver des clients et
-                                    fixer vos prix</p>
-                            </div>
-                        </div>
-                        <div class="presentiel-bloc-btn">
-                            <a href="detail-formation-6.html">en savoir plus<i
-                                    class="fa-solid fa-chevron-right"></i></a>
-                        </div>
-                    </div>
-                    <div class="presentiel-card-bloc">
-                        <div class="presentiel-card-image countdown-card" data-end="2025-08-08T10:00:00">
-                            <img src="/Flyers/motion-design-scaled.png" alt="">
-                            <div class="presentiel-overlay">
-                                <h3>Formation en Design graphique</h3>
-                                <p>Vous allez apprendre à concevoir tout type de logos, flyers et trouver des clients et
-                                    fixer vos prix</p>
-                            </div>
-                        </div>
-                        <div class="presentiel-bloc-btn">
-                            <a href="detail-formation-5.html">en savoir plus<i
-                                    class="fa-solid fa-chevron-right"></i></a>
-                        </div>
-                    </div>
-                </div>
+            <div class="bloc-du-milieu"></div>
+            <div class="bloc-avec-img">
+                <img src="/Assets/logo_ico_hd.png" alt="logo">
             </div>
+        </div>
 
-        </section>
+        <div id="container-formations-ligne" class="bloc-list-card">
+            </div>
+    </div>
+</section>
+
+<section id="form-en-presentiel">
+    <div class="form-presen-contenair">
+        <div class="presentiel-title-haut">
+            <div class="presen-bloc-gauche">
+                <h3>FORMATIONS EN PRESENTIEL</h3>
+                <h2>Nos Offres de Formations Certifiantes en Présentiel</h2>
+            </div>
+            <div class="presen-bloc-milieu"></div>
+            <div class="presen-bloc-img">
+                <img src="/Assets/logo_ico_hd.png" alt="logo">
+            </div>
+        </div>
+
+        <div id="container-formations-presentiel" class="pre-list-card">
+            </div>
+    </div>
+</section>
+
+
 
         <!-- section note informative -->
 
@@ -745,102 +573,24 @@
             </div>
         </section>
 
-        <!-- Place à la section dediée au footer -->
-
-        <footer id="footer-droit">
-            <div class="footer-container">
-                <div class="news-letter">
-                    <div class="news-droit">
-                        <h2>Abonnez-vous à notre Newsletter</h2>
-                        <p>Recevez les dernières nouvelles et offres exclusives de l'Académie des Créatifs.</p>
-                    </div>
-                    <div class="btn-news">
-                        <form action="#" method="post">
-                            <input type="email" placeholder="Entrez votre email" required>
-                            <button type="submit">S'abonner</button>
-                        </form>
-                    </div>
-                </div>
-                <div class="footer-content">
-                    <div class="footer-logo">
-                        <img src="/Assets/logo_academie_hd.png" alt="logo-academie-des-creatifs" width="">
-                        <p>Depuis 2023, au service des créatifs africains. <br>
-                            Un réseau pour révéler les talents créatifs.
-                        </p>
-                        <p>By<span class="span-five"> Five Design Group SARL</span></p>
-                        <p>
-                            RCCM : RC/DLA/2023/B/5645 <br>
-                            NUI : MO92316045001
-                        </p>
-                    </div>
-                    <div class="footer-links">
-                        <h2>Liens utiles</h2>
-                        <ul>
-                            <li><a href="#">revenir à l'acceuil</a></li>
-                            <li><a href="#equipe">Notre équipe</a></li>
-                            <li><a href="#form-en-ligne">Formation en ligne</a></li>
-                            <li><a href="#form-en-presentiel">Formation en présentiel</a></li>
-                            <li><a href="#bg-progression">Nos Badges de progression</a></li>
-                            <li><a href="#temoignage">Témoignages</a></li>
-                            <li><a href="blog.html">Blog</a></li>
-                            <li><a href="#album">Espace étudiant</a></li>
-                        </ul>
-                    </div>
-                    <div class="footer-contact">
-                        <h2>Contactez-nous</h2>
-                        <p>
-                            Douala : 680 95 03 19 <br>
-                            CAMPUS Douala - Ndokotti <br>
-                            Email: contact@academiecreatif.com <br>
-                            <a href="cgu.html" class="cgu" style="color: #1c8480; font-weight: bold;"><i
-                                    class="fa-solid fa-arrow-up-right-from-square"></i>Condition générales
-                                d'utilisation</a>
-                        </p>
-                        <p>Notre <a href="politique-formation.html"><span
-                                    style="color: #1c8480; font-weight: bold;">politique de formation</span></a></p>
-
-
-                        <div class="social-media-link">
-                            <a href="https://www.facebook.com/academiecreatif" target="_blank"
-                                rel="noopener no-referrer"><img src="/Media-links/logo-facebook.png"
-                                    alt="logo-facebook">
-                            </a>
-
-                            <a href="https://wa.me/message/DMISDTO4HCUDC1" target="_blank" rel="noopener no-referrer">
-                                <img src="/Media-links/logo-whatsapp.png" alt="logo-whatsapp">
-                            </a>
-
-                            <a href="https://wa.me/message/DMISDTO4HCUDC1" target="_blank" rel="noopener no-referrer">
-                                <img src="/Reseau-social/tiktok-icon-free-png.webp" alt="logo-tiktok">
-                            </a>
-
-                            <a href="https://www.youtube.com/@academiecreatif5" target="_blank"
-                                rel="noopener no-referrer">
-                                <img src="/Reseau-social/youtube.png" alt="logo-youtube">
-                            </a>
-
-                            <a href="https://fr.pinterest.com/myfivedesign" target="_blank" rel="noopener no-referrer">
-                                <img src="/Reseau-social/pinterest.png" alt="logo-pinterest">
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="footer-copyright">
-                    <p>&copy; 2025 L'académie des Créatifs (Beta version). Tous droits réservés.</p>
-                </div>
-            </div>
+        
     </main>
-    </footer>
+    <!-- Place à la section dediée au footer -->
+    <div id="footer-placeholder"></div>
+    
 
     <!-- <div class="social-media-link">
     <a href="https://wa.me/message/DMISDTO4HCUDC1" target="_blank" rel="noopener no-referrer">
         <img src="/Media-links/logo-whatsapp.png" alt="logo-whatsapp"></a>
 </div> -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="load-components.js"></script>
     <script src="script.js"></script>
-    <script src="/animation-compteur.js"></script>
-    <script src="paiement.js"></script> 
-    <script src="/compteur-presentiel.js"></script>
+    <script src="vote.js"></script>
+    <script src="global-loader.js"></script>
+    <script src="detail-compteur.js"></script>
+    <script src="animation-compteur.js"></script>
+    <script src="compteur-presentiel.js"></script>
     <script src="/menu-burger.js"></script>
 
 
