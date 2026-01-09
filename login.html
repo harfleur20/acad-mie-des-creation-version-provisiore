@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Connexion & Inscription | Académie des Créatifs</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="login-style.css" />
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-visual">
+            <div class="overlay"></div>
+            <div class="visual-content">
+                <img src="Assets/logo_academie_bl.png" alt="Logo" class="auth-logo" />
+                <h1>Rejoignez la plus grande communauté de créatifs.</h1>
+                <p>Accédez à des formations exclusives et boostez votre carrière dès aujourd'hui.</p>
+            </div>
+        </div>
+
+        <div class="auth-form-section">
+            <a href="index.html" class="back-btn">
+            <i class="fa-solid fa-chevron-left"></i> Back
+        </a>
+            <div class="form-box login-box active" id="loginBox">
+                <h2>Bon retour !</h2>
+                <p class="subtext">Connectez-vous pour continuer votre apprentissage.</p>
+                <form id="loginForm">
+                    <div class="input-group">
+                        <label>Email</label>
+                        <input type="email" id="loginEmail" placeholder="exemple@mail.com" required />
+                    </div>
+                    <div class="input-group">
+                        <label>Mot de passe</label>
+                        <div class="password-wrapper">
+                            <input type="password" id="loginPass" placeholder="••••••••" required />
+                            <i class="fa-regular fa-eye toggle-password" data-target="loginPass"></i>
+                        </div>
+                        <a href="#" class="forgot-link">Mot de passe oublié ?</a>
+                    </div>
+                    <button type="submit" class="btn-auth">Se connecter</button>
+                </form>
+                <p class="switch-text">Pas encore de compte ? <span id="toRegister">S'inscrire gratuitement</span></p>
+            </div>
+
+            <div class="form-box register-box" id="registerBox">
+                <h2>Créer un compte</h2>
+                <p class="subtext">Choisissez votre rôle et commencez l'aventure.</p>
+                <form id="registerForm">
+                <div class="role-selector">
+                    <label class="role-card">
+                        <input type="radio" name="role" value="etudiant" checked />
+                        <div class="role-content">
+                            <i class="fa-solid fa-user-graduate"></i><span>Étudiant</span>
+                        </div>
+                    </label>
+                    <label class="role-card">
+                        <input type="radio" name="role" value="professeur" />
+                        <div class="role-content">
+                            <i class="fa-solid fa-chalkboard-user"></i><span>Professeur</span>
+                        </div>
+                    </label>
+                </div>
+
+                <div class="input-group">
+                    <label>Nom complet</label>
+                    <input type="text" id="regName" placeholder="John Doe" required />
+                    <small class="error-text" id="nameError"></small> </div>
+
+                <div class="input-group">
+                    <label>Email</label>
+                    <input type="email" id="regEmail" placeholder="exemple@mail.com" required />
+                    <small class="error-text" id="emailError"></small> </div>
+
+                <div class="input-group">
+                    <label>Mot de passe</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="regPass" placeholder="Minimum 8 caractères" required />
+                        <i class="fa-regular fa-eye toggle-password" data-target="regPass"></i>
+                    </div>
+                    <div class="strength-meter">
+                        <div class="strength-bar" id="strengthBar"></div>
+                    </div>
+                    <p id="strength-text"></p>
+                </div>
+
+                <button type="submit" class="btn-auth" id="submitBtn">Créer mon compte</button>
+            </form>
+                <p class="switch-text">Déjà inscrit ? <span id="toLogin">Se connecter</span></p>
+            </div>
+        </div>
+    </div>
+    <script src="loginScript.js"></script>
+</body>
+</html>

@@ -88,7 +88,7 @@ function genererHTMLCarte(f) {
         badgesSpeciauxHTML = `<div class="badges-column">${content}</div>`;
     }
 
-    // Le bloc starsHTML a été supprimé ici car nous utilisons désormais l'injection Supabase
+    
 
     return `
         <div class="card-bloc new-design">

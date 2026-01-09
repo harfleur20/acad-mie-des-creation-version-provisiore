@@ -1,0 +1,432 @@
+/* ============================================================
+   AUTHENTIFICATION - STYLE TYPE FREEPIK (FINAL CORRIGÉ)
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+:root {
+    --primary: #1f2352;
+    --secondary: #1c8480;
+    --accent: #ff8c00;
+    --bg-light: #f8fafc;
+    --text-muted: #64748b;
+    --error: #ff4757;
+    --warning: #ffa502;
+    --success: #2ed573;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: var(--bg-light);
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden; /* Empêche le scroll global */
+}
+
+/* --- CONTENEUR PRINCIPAL --- */
+.auth-container {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    background: #fff;
+    overflow: hidden;
+}
+
+/* --- SECTION VISUELLE (GAUCHE) --- */
+.auth-visual {
+    flex: 1.2;
+    position: relative;
+    background: url('Assets/bg-ac-22.jpg') no-repeat center center/cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px;
+    color: white;
+}
+
+.auth-visual .overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(135deg, rgba(31, 35, 82, 0.9) 0%, rgba(28, 132, 128, 0.8) 100%);
+}
+
+.visual-content {
+    position: relative;
+    z-index: 2;
+    max-width: 500px;
+}
+
+.auth-logo {
+    width: 180px;
+    margin-bottom: 40px;
+}
+
+.visual-content h1 {
+    font-size: 2.5rem;
+    line-height: 1.2;
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+.visual-content p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    line-height: 1.6;
+}
+
+/* --- SECTION FORMULAIRE (DROITE) --- */
+.auth-form-section {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    position: relative;
+    background-color: #fff;
+}
+
+.form-box {
+    width: 100%;
+    max-width: 420px;
+    display: none;
+    animation: fadeIn 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+.form-box.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+h2 {
+    color: var(--primary);
+    font-size: 2rem;
+    margin-bottom: 8px;
+}
+
+.subtext {
+    color: var(--text-muted);
+    margin-bottom: 30px;
+    font-size: 0.95rem;
+}
+
+/* --- INPUTS & CHAMPS --- */
+.input-group {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    position: relative;
+}
+
+.input-group label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--primary);
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.input-group input:focus {
+    border-color: var(--secondary);
+    box-shadow: 0 0 0 3px rgba(28, 132, 128, 0.1);
+}
+
+/* Validation Styles (Rouge/Vert) */
+.input-group input.invalid {
+    border-color: var(--error);
+    background-color: rgba(255, 71, 87, 0.02);
+}
+
+.input-group input.valid {
+    border-color: var(--success);
+}
+
+/* --- MESSAGES D'ERREUR & ANIMATIONS (Fluides) --- */
+.error-text, 
+#strength-text {
+    font-size: 0.75rem;
+    font-weight: 600;
+    
+    /* Animation Properties */
+    max-height: 0;
+    opacity: 0;
+    transform: translateY(-5px);
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    margin-top: 0;
+}
+
+.error-text { color: var(--error); }
+
+.error-text.visible,
+#strength-text.visible {
+    max-height: 30px;
+    opacity: 1;
+    transform: translateY(0);
+    margin-top: 6px;
+}
+
+/* --- PASSWORD WRAPPER --- */
+.password-wrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.password-wrapper input {
+    padding-right: 45px; /* Espace pour l'icône */
+}
+
+.toggle-password {
+    position: absolute;
+    right: 15px;
+    cursor: pointer;
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    transition: 0.3s;
+    z-index: 5;
+}
+
+.toggle-password:hover { color: var(--secondary); }
+
+/* --- JAUGE DE SÉCURITÉ --- */
+.strength-meter {
+    width: 100%;
+    height: 6px;
+    background-color: #f1f2f6;
+    border-radius: 10px;
+    margin-top: 10px;
+    overflow: hidden;
+    display: none; /* Affiché via JS */
+}
+
+.strength-bar {
+    height: 100%;
+    width: 0%;
+    border-radius: 10px;
+    transition: width 0.4s ease, background-color 0.4s ease;
+}
+
+/* Couleurs dynamiques */
+.strength-bar.weak { background-color: var(--error); }
+.strength-bar.medium { background-color: var(--warning); }
+.strength-bar.strong { background-color: var(--success); }
+
+/* Couleurs texte */
+.text-weak { color: var(--error); }
+.text-medium { color: var(--warning); }
+.text-strong { color: var(--success); }
+
+/* --- RÔLES & BOUTONS (DESIGN COMPACT) --- */
+.forgot-link {
+    font-size: 0.8rem;
+    color: var(--secondary);
+    text-decoration: none;
+    margin-top: 5px;
+    align-self: flex-end;
+    font-weight: 500;
+}
+
+.forgot-link:hover { text-decoration: underline; }
+
+/* Nouveau Design : Rôles en ligne (compact) */
+.role-selector {
+    display: flex;        /* Alignement horizontal */
+    width: 100%;
+    gap: 8px;
+    margin-bottom: 25px;
+    background-color: #f1f5f9; /* Fond global pour le groupe */
+    padding: 5px;
+    border-radius: 10px;
+}
+
+.role-card {
+    flex: 1;              /* Prend 50% de la largeur chacun */
+    position: relative;
+    cursor: pointer;
+}
+
+.role-card input {
+    display: none;
+}
+
+.role-content {
+    display: flex;
+    flex-direction: row;  /* Icône à côté du texte */
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 0;      /* Hauteur réduite */
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    color: var(--text-muted);
+    border: 1px solid transparent;
+}
+
+.role-content i {
+    font-size: 1rem;      /* Icône plus petite */
+    transition: 0.3s;
+}
+
+.role-content span {
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+/* État Sélectionné */
+.role-card input:checked + .role-content {
+    background-color: #fff;       /* Fond blanc */
+    color: var(--secondary);      /* Couleur active */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    border-color: #e2e8f0;
+}
+
+/* État Hover */
+.role-card:hover .role-content {
+    color: var(--primary);
+}
+
+
+/* --- BOUTON D'ACTION --- */
+.btn-auth {
+    width: 100%;
+    padding: 14px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 15px;
+}
+
+.btn-auth:hover {
+    background: var(--secondary);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(28, 132, 128, 0.2);
+}
+
+/* Animation "Shake" en cas d'erreur */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+.switch-text {
+    text-align: center;
+    margin-top: 25px;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.switch-text span {
+    color: var(--secondary);
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* Section Formulaire : Position relative pour placer le bouton Back */
+.auth-form-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    position: relative; /* Important pour le bouton absolute */
+    background-color: #fff;
+}
+
+/* Bouton Back */
+.back-btn {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    text-decoration: none;
+    color: var(--primary);
+    font-weight: 600;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: 0.3s;
+    z-index: 10;
+}
+
+.back-btn:hover {
+    color: var(--secondary);
+    transform: translateX(-3px);
+}
+
+.form-content-wrapper {
+    width: 100%;
+    max-width: 420px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Logo Noir */
+.auth-logo-black {
+    width: 150px;
+    margin-bottom: 20px;
+    /* Si votre image de base est blanche (pour fond sombre), 
+       ce filtre l'inverse pour qu'elle devienne noire.
+       Si elle est déjà colorée, 'brightness(0)' la rendra 100% noire.
+    */
+    filter: brightness(0); 
+    /* OU si c'est une image blanche transparente : filter: invert(1); */
+}
+
+/* Sur Mobile, on ajuste le bouton back */
+@media (max-width: 900px) {
+    .back-btn {
+        top: 20px;
+        left: 20px;
+        font-size: 0.9rem;
+    }
+    
+    .auth-logo-black {
+        margin-top: 40px; /* Espace après le bouton back sur mobile */
+    }
+}
+
+.switch-text span:hover { color: var(--primary); text-decoration: underline; }
+
+/* --- RESPONSIVE --- */
+@media (max-width: 1024px) {
+    .auth-visual { flex: 1; padding: 40px; }
+    .visual-content h1 { font-size: 2rem; }
+}
+
+@media (max-width: 900px) {
+    .auth-visual { display: none; }
+    .auth-form-section { flex: 1; padding: 25px; align-items: flex-start; overflow-y: auto; }
+    .form-box { margin-top: 20px; }
+}
