@@ -221,6 +221,9 @@ header#navbar.scrolled .desktop-btn {
 }
 
 .btn-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border: 1px solid var(--couleur-principale);
   color: var(--couleur-principale);
   cursor: pointer;
@@ -401,10 +404,18 @@ header#navbar.scrolled .desktop-btn {
 }
 
 #apropos h2 {
-  font-size: 1.6rem;
+  font-size: 2.4rem;
   color: var(--couleur-principale);
   text-align: flex-start;
   margin-bottom: 2rem;
+}
+
+#apropos h3 {
+  font-size: 1.9rem;
+  color: var(--couleur-secondaire);
+  text-align: flex-start;
+  margin-bottom: 0.1rem;
+  font-weight: 500;
 }
 
 #apropos .apropo-contenair .partie-haute .partie-gauche p {
@@ -2411,7 +2422,12 @@ RESPONSIVE TABLETTE | MOBILE | PC
   /* Place à la section apropos */
   #apropos .partie-droite img {
     max-width: 500px;
-    margin-left: 2.5rem;
+    /* margin-left: 2.5rem; */
+    align-items: center;
+  }
+
+  #apropos .partie-gauche h3 {
+    font-size: 1rem;
     align-items: center;
   }
 
