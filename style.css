@@ -2256,7 +2256,7 @@ RESPONSIVE TABLETTE | MOBILE | PC
 
   header#navbar {
     padding-left: 2rem;
-    padding-right: 2rem;
+    padding-right: 2.4rem;
   }
 
   header .desktop-btn {
@@ -2578,7 +2578,7 @@ RESPONSIVE TABLETTE | MOBILE | PC : 1024px
 
   header#navbar img {
     max-width: 90px;
-    margin-left: -0.9rem;
+    margin-left: -0.5rem;
   }
 
   .menu-toggle i {

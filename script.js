@@ -37,23 +37,6 @@ window.addEventListener('scroll', function() {
     }
 });
 
-// --- Gestion du menu burger ---
-
-document.addEventListener('DOMContentLoaded', () => {
-    const burger = document.querySelector('.menu-burger') || document.querySelector('.burger-menu');
-    const nav = document.querySelector('.nav-list') || document.querySelector('.nav-links');
-
-    if (burger && nav) {
-        burger.addEventListener('click', () => {
-            // Ajoute/Enlève la classe active sur le menu et le bouton
-            nav.classList.toggle('active');
-            burger.classList.toggle('toggle');
-            
-            // Empêche le scroll quand le menu est ouvert
-            document.body.classList.toggle('no-scroll');
-        });
-    }
-});
 
 /**
  * Charge les articles populaires depuis le JSON et les notes depuis Supabase.

@@ -1,34 +1,37 @@
+// --- Gestion du menu burger ---
 document.addEventListener('DOMContentLoaded', () => {
-    const menuToggle = document.querySelector('.menu-toggle');
-    const navLinks = document.querySelector('.nav-links');
+    const burger = document.querySelector('.menu-toggle');
+    const nav = document.querySelector('.nav-links');
 
-    if (menuToggle && navLinks) {
-        menuToggle.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-            menuToggle.classList.toggle('active');
+    if (burger && nav) {
+        burger.addEventListener('click', () => {
+            // Ajoute/Enlève la classe active sur le menu et le bouton
+            nav.classList.toggle('active');
+            burger.classList.toggle('active'); // Utilisez 'active' au lieu de 'toggle'
+            
+            // Empêche le scroll quand le menu est ouvert
+            document.body.classList.toggle('no-scroll');
         });
-
-        const links = document.querySelectorAll('.nav-links a');
-        links.forEach(link => {
+        
+        // Fermer le menu quand on clique sur un lien (optionnel mais recommandé)
+        const navLinks = nav.querySelectorAll('a');
+        navLinks.forEach(link => {
             link.addEventListener('click', () => {
-                navLinks.classList.remove('active');
-                menuToggle.classList.remove('active');
+                nav.classList.remove('active');
+                burger.classList.remove('active');
+                document.body.classList.remove('no-scroll');
             });
         });
-
-        // ▼▼▼ GESTION DES CLICS HORS MENU-TOGGLE ▼▼▼
-        // Gère la fermeture en cliquant en dehors du menu
+        
+        // Fermer le menu en cliquant à l'extérieur (optionnel)
         document.addEventListener('click', (event) => {
-            const isClickInsideMenu = navLinks.contains(event.target);
-            const isClickOnToggle = menuToggle.contains(event.target);
-
-            // Si le menu est actif ET que le clic n'est ni dans le menu, ni sur le bouton toggle
-            if (navLinks.classList.contains('active') && !isClickInsideMenu && !isClickOnToggle) {
-                navLinks.classList.remove('active');
-                menuToggle.classList.remove('active');
+            if (!nav.contains(event.target) && 
+                !burger.contains(event.target) && 
+                nav.classList.contains('active')) {
+                nav.classList.remove('active');
+                burger.classList.remove('active');
+                document.body.classList.remove('no-scroll');
             }
         });
-        // ▲▲▲ FIN CLIC MENU-TOGGLE ▲▲▲
-
     }
 });
