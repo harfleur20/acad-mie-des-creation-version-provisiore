@@ -1,5 +1,5 @@
 /* ============================================================
-   AUTHENTIFICATION - STYLE TYPE FREEPIK (FINAL CORRIGÉ)
+   AUTHENTIFICATION - STYLE TYPE FREEPIK (FINAL CORRIGÉ ET OPTIMISÉ)
    ============================================================ */
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
@@ -22,22 +22,39 @@
     font-family: 'Poppins', sans-serif;
 }
 
+/* ============================================
+   CORRECTIONS CRITIQUES POUR TOUS NAVIGATEURS
+   ============================================ */
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
 body {
     background-color: var(--bg-light);
-    height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
+    min-height: 100vh;
+    padding: 20px;
 }
 
 /* --- CONTENEUR PRINCIPAL --- */
 .auth-container {
     display: flex;
     width: 100%;
-    height: 100vh;
+    max-width: 1200px;
+    height: auto;
+    min-height: 600px;
+    max-height: 90vh;
     background: #fff;
     overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    margin: auto;
 }
 
 /* --- SECTION VISUELLE (GAUCHE) --- */
@@ -54,7 +71,10 @@ body {
 
 .auth-visual .overlay {
     position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%;
     background: linear-gradient(135deg, rgba(31, 35, 82, 0.9) 0%, rgba(28, 132, 128, 0.8) 100%);
 }
 
@@ -62,6 +82,7 @@ body {
     position: relative;
     z-index: 2;
     max-width: 450px;
+    text-align: center;
 }
 
 .auth-logo {
@@ -92,7 +113,7 @@ body {
     position: relative;
     background-color: #fff;
     overflow-y: auto;
-    max-height: 100vh;
+    min-height: 100%;
 }
 
 .form-box {
@@ -107,8 +128,14 @@ body {
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(15px); }
-    to { opacity: 1; transform: translateY(0); }
+    from { 
+        opacity: 0; 
+        transform: translateY(15px); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+    }
 }
 
 /* --- TITRES --- */
@@ -184,7 +211,9 @@ h2 {
     margin-top: 0;
 }
 
-.error-text { color: var(--error); }
+.error-text { 
+    color: var(--error); 
+}
 
 .error-text.visible,
 #strength-text.visible {
@@ -216,7 +245,9 @@ h2 {
     z-index: 5;
 }
 
-.toggle-password:hover { color: var(--secondary); }
+.toggle-password:hover { 
+    color: var(--secondary); 
+}
 
 /* --- JAUGE DE SÉCURITÉ --- */
 .strength-meter {
@@ -246,7 +277,9 @@ h2 {
     font-weight: 500;
 }
 
-.forgot-link:hover { text-decoration: underline; }
+.forgot-link:hover { 
+    text-decoration: underline; 
+}
 
 /* Nouveau Design : Rôles en ligne (compact) */
 .role-selector {
@@ -347,7 +380,10 @@ h2 {
     transition: 0.3s;
 }
 
-.switch-text span:hover { color: var(--primary); text-decoration: underline; }
+.switch-text span:hover { 
+    color: var(--primary); 
+    text-decoration: underline; 
+}
 
 /* Bouton Back */
 .back-btn {
@@ -739,7 +775,46 @@ textarea {
     }
 }
 
-/* --- RESPONSIVE --- */
+/* ============================================
+   CORRECTIONS SPÉCIFIQUES POUR TOUS NAVIGATEURS
+   ============================================ */
+
+/* Garantir le centrage sur Edge/IE */
+@supports (-ms-ime-align: auto) {
+    body {
+        display: flex !important;
+        height: 100vh !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+    
+    .auth-form-section {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+}
+
+/* Support pour Opera */
+@media all and (-webkit-min-device-pixel-ratio:0) and (min-resolution: .001dpcm) {
+    .auth-container {
+        margin: auto;
+        position: relative;
+    }
+}
+
+/* Support pour Firefox */
+@-moz-document url-prefix() {
+    .auth-container {
+        margin-top: auto;
+        margin-bottom: auto;
+    }
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
 @media (max-width: 1024px) {
     .auth-visual { 
         flex: 1; 
@@ -751,24 +826,88 @@ textarea {
     .visual-content p {
         font-size: 0.95rem;
     }
+
+
+    .login-box h2  {
+        text-align: center;
+    }
+
+     .auth-form-section {
+        padding: 15px 20px;
+        align-items: flex-start;
+    }
+
+     .back-btn {
+        top: 25px;
+        left: 25px;
+        font-size: 0.85rem;
+    }
+
+    .form-box { 
+        margin-top: 55px;
+        max-height: 100%;
+        overflow-y: auto;
+    }
 }
 
 @media (max-width: 900px) {
+    .auth-container {
+        flex-direction: column;
+        max-height: 100vh;
+        min-height: 100vh;
+        border-radius: 0;
+        box-shadow: none;
+        margin: 0;
+        padding: 0;
+    }
+    
     .auth-visual { 
-        display: none; 
+        flex: none;
+        height: 200px;
+        width: 100%;
+        padding: 20px;
     }
+    
     .auth-form-section { 
-        flex: 1; 
-        padding: 20px; 
-        align-items: flex-start; 
+        flex: 1;
+        padding: 20px;
+        align-items: flex-start;
+        justify-content: flex-start;
+        min-height: calc(100vh - 200px);
     }
-    .form-box { 
-        margin-top: 10px; 
+    
+    .visual-content {
+        max-width: 100%;
     }
-    .back-btn {
-        top: 15px;
-        left: 15px;
-        font-size: 0.85rem;
+    
+    .auth-logo {
+        width: 120px;
+        margin-bottom: 15px;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+    
+    .auth-container {
+        width: 100%;
+        height: auto;
+        min-height: 100vh;
+    }
+    
+    .auth-visual {
+        height: 180px;
+    }
+    
+    .auth-form-section {
+        padding: 15px;
+        min-height: calc(100vh - 180px);
+    }
+    
+    .form-box {
+        max-width: 100%;
     }
 }
 
@@ -824,8 +963,40 @@ textarea {
 
 /* Version ultra compacte pour très petits écrans */
 @media (max-width: 480px), (max-height: 600px) {
+    body {
+        padding: 0;
+    }
+    
+    .auth-container {
+        width: 100%;
+        height: 100vh;
+        border-radius: 0;
+        box-shadow: none;
+        margin: 0;
+    }
+    
+    .auth-visual {
+        height: 160px;
+        padding: 15px;
+    }
+    
+    .visual-content h1 {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+    }
+    
+    .visual-content p {
+        font-size: 0.9rem;
+    }
+    
+    .auth-logo {
+        width: 100px;
+        margin-bottom: 10px;
+    }
+    
     .auth-form-section {
-        padding: 52px 15px;
+        padding: 15px;
+        min-height: calc(100vh - 160px);
     }
     
     .role-section {
@@ -871,30 +1042,86 @@ textarea {
         padding: 10px;
     }
 
-    #registerTitle{
+    #registerTitle {
         text-align: center;
     }
 
-    .subtext{
+    .subtext {
         text-align: center;
         margin-bottom: 1rem;
     }
 }
 
+/* Support pour les très petits téléphones */
+@media (max-width: 360px) {
+    .role-selector {
+        flex-direction: column;
+        gap: 4px;
+    }
+    
+    .role-content {
+        padding: 6px 0;
+    }
+    
+    .step-indicator {
+        gap: 4px;
+    }
+    
+    .step {
+        width: 24px;
+        height: 24px;
+        font-size: 0.7rem;
+    }
+    
+    .step-line {
+        width: 25px;
+    }
+}
 
-@media (max-width: 768px) {
+/* ============================================
+   CORRECTION FINALE POUR LE CENTRAGE ABSOLU
+   ============================================ */
+
+/* Fallback pour les navigateurs anciens */
+@media all and (max-width: 900px) {
+    html, body {
+        height: auto !important;
+        min-height: 100vh !important;
+    }
+    
+    body {
+        display: block !important;
+        padding: 0 !important;
+    }
+    
     .auth-container {
-        flex-direction: column; /* Passe de flex horizontal à vertical */
-        height: auto; /* Hauteur automatique */
-        min-height: 100vh; /* Minimum 100vh */
+        display: block !important;
+        height: auto !important;
+        min-height: 100vh !important;
     }
     
     .auth-visual {
-        height: 200px; /* Hauteur fixe pour la section visuelle */
-        width: 100%; /* Pleine largeur */
+        position: relative !important;
+        height: 200px !important;
     }
     
     .auth-form-section {
-        min-height: calc(100vh - 200px); /* Prend le reste de l'espace */
+        position: relative !important;
+        height: auto !important;
+        min-height: calc(100vh - 200px) !important;
+        display: flex !important;
+        align-items: flex-start !important;
+        justify-content: center !important;
+    }
+}
+
+/* Fix pour Safari iOS */
+@supports (-webkit-touch-callout: none) {
+    body {
+        height: -webkit-fill-available;
+    }
+    
+    .auth-container {
+        min-height: -webkit-fill-available;
     }
 }
