@@ -258,26 +258,22 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// --- Logique du Preloader (qui déclenche la popup) ---
-// Rappel : la classe "loading" doit être sur la balise <body> de votre HTML
+// --- Logique de la Popup (Nettoyée) ---
 window.addEventListener('load', function() {
-    const preloader = document.getElementById('preloader');
     
-    document.body.classList.remove('loading');
-    document.body.classList.add('loaded');
-
-    if (preloader) {
-        preloader.classList.add('hidden');
-        preloader.addEventListener('transitionend', function() {
-            preloader.remove();
-            // On récupère la fonction openPopup qui est globale
-            const openPopup = document.querySelector('.popup-overlay');
-            if(openPopup) {
-                setTimeout(() => openPopup.classList.add('active'), 1000); 
-            }
-        });
+    // Gestion de la Popup uniquement
+    const openPopup = document.querySelector('.popup-overlay');
+    
+    if (openPopup) {
+        // On attend un peu que le site soit affiché (2.5 secondes)
+        // C'est le temps que le loader disparaisse + un petit temps de lecture
+        setTimeout(() => {
+            openPopup.classList.add('active');
+        }, 2500); 
     }
 });
+
+
 
 // --- Initialisation de la bannière de cookies ---
 // La fonction est globale pour être accessible par le script injecté

@@ -19,7 +19,7 @@
             <div class="container">
                 <div class="hero-content">
                     <div class="back-btn">
-                        <a href="index.html"><i class="fa-solid fa-arrow-left"></i> Retour aux formations</a>
+                        <a href="/"><i class="fa-solid fa-arrow-left"></i> Retour</a>
                     </div>
                     
                     <h1 id="detail-titre">Chargement...</h1>
@@ -31,38 +31,39 @@
                 </div>
 
                 <div class="hero-sidebar">
-                    <h3>Les détails de la formation</h3>
-                    <ul id="detail-points"></ul>
+    <h3>Les détails de la formation</h3>
+    <ul id="detail-points"></ul>
 
-                    <div id="detail-compteur" class="countdown-card"></div>
+    <div id="detail-compteur" class="countdown-card"></div>
 
-                    <div class="price-slider">
-                        <h3>Prix de la formation</h3>
-                        <div class="price">
-                            <span id="detail-prix-actuel" class="price-1">--</span>
-                            <span id="detail-prix-barre" class="original-price">--</span>
-                        </div>
-                    </div>
+    <div class="price-slider">
+        <h3>Prix de la formation</h3>
+        <div class="price">
+            <span id="detail-prix-actuel" class="price-1">--</span>
+            <span id="detail-prix-barre" class="original-price">--</span>
+        </div>
+    </div>
 
-                    <a href="#" id="detail-btn-paiement" class="cta-button cta-button-payment">
-                        <i class="fa-solid fa-piggy-bank"></i> Réservez votre place !
-                    </a>
-                </div>
+    <!-- BOUTON D'ACHAT -->
+    <button id="detail-btn-paiement" class="cta-button cta-button-payment">
+        <i class="fa-solid fa-piggy-bank"></i> Réservez votre place !
+    </button>
+    
+    <!-- MESSAGE DE STATUT (AJOUTÉ) -->
+    <div id="purchase-status-message" style="display: none; margin-top: 10px; padding: 10px; border-radius: 5px; font-size: 0.9rem; background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb;"></div>
+</div>
             </div>
             <div class="rating-box">
                 <span>Note de la formation :</span>
-            <div class="stars-voter" id="stars-container">
-                <i class="fa-solid fa-star" data-value="1"></i>
-                <i class="fa-solid fa-star" data-value="2"></i>
-                <i class="fa-solid fa-star" data-value="3"></i>
-                <i class="fa-solid fa-star" data-value="4"></i>
-                <i class="fa-solid fa-star" data-value="5"></i>
-            </div>
+                <div class="stars-voter" id="stars-container">
+                    <i class="fa-solid fa-star" data-value="1"></i>
+                    <i class="fa-solid fa-star" data-value="2"></i>
+                    <i class="fa-solid fa-star" data-value="3"></i>
+                    <i class="fa-solid fa-star" data-value="4"></i>
+                    <i class="fa-solid fa-star" data-value="5"></i>
+                </div>
                 <span id="vote-count" style="font-size: 0.8rem; color: #666;">(0 avis)</span>
             </div>
-
-            
-
         </section>
 
         <section class="capabilities-section">
@@ -92,7 +93,7 @@
                     <h2>Certificat d'achèvement</h2>
                     <p>À la fin du cours, après avoir complété tous les modules et projets, vous recevrez un certificat d'achèvement que vous pourrez partager.</p>
                 </div>
-                <img src="/Assets/certicate.jpg" alt="Certificat d'achèvement" class="certificate-image">
+                <img src="Assets/certicate.jpg" alt="Certificat d'achèvement" class="certificate-image">
             </div>
         </section>
 
@@ -113,28 +114,44 @@
     </main>
     <div id="footer-placeholder"></div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
+    <!-- Scripts existants -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="menu-burger.js"></script>
     <script src="global-loader.js"></script>
     <script src="script.js"></script>
     <script src="vote.js"></script>
     <script src="load-components.js"></script>
-    
-    
-
-    <!-- <div class="social-media-link">
-    <a href="https://wa.me/message/DMISDTO4HCUDC1" target="_blank" rel="noopener no-referrer">
-        <img src="/Media-links/logo-whatsapp.png" alt="logo-whatsapp"></a>
-</div> -->
-    
-    <script src="load-components.js"></script>
     <script src="detail-compteur.js"></script>
     <script src="animation-compteur.js"></script>
     <script src="compteur-presentiel.js"></script>
-    <script src="/menu-burger.js"></script>
+    
+    <!-- NOUVEAU : Script de gestion d'achat -->
+    <script src="purchase-handler.js"></script>
 
+    <!-- Script pour charger le courseId dynamiquement -->
+    <script>
+        // Ce script récupère l'ID de la formation depuis l'URL
+        document.addEventListener('DOMContentLoaded', function() {
+            // Exemple d'URL : /formation-details.html?id=123
+            const urlParams = new URLSearchParams(window.location.search);
+            const courseId = urlParams.get('id');
+            
+            if (courseId) {
+                // Stocke l'ID dans le bouton
+                const purchaseBtn = document.getElementById('detail-btn-paiement');
+                if (purchaseBtn) {
+                    purchaseBtn.dataset.courseId = courseId;
+                }
+                
+                // Stocke aussi dans une variable globale pour les autres scripts
+                window.currentCourseId = courseId;
+                
+                console.log('Course ID chargé:', courseId);
+            }
+        });
+    </script>
 
-    <!-- Start of LiveChat (www.livechat.com) code -->
+    <!-- LiveChat (gardé tel quel) -->
     <script>
         window.__lc = window.__lc || {};
         window.__lc.license = 19264082;
@@ -144,26 +161,20 @@
     </script>
     <noscript><a href="https://www.livechat.com/chat-with/19264082/" rel="nofollow">Chat with us</a>, powered by <a
             href="https://www.livechat.com/?welcome" rel="noopener nofollow" target="_blank">LiveChat</a></noscript>
-    <!-- End of LiveChat code -->
 
     <script id='pixel-script-poptin' src='https://cdn.popt.in/pixel.js?id=e5988994f2063' async='true'></script>
 
-    <!-- //Fletch cookies injecté par javascript -->
-
+    <!-- Cookies banner -->
     <script>
         fetch('cookie-banner.html')
             .then(response => {
-                // On s'assure que le fichier a bien été trouvé
                 if (!response.ok) {
                     throw new Error('Fichier cookie-banner.html introuvable.');
                 }
                 return response.text();
             })
             .then(html => {
-                // On injecte le HTML à la fin du body
                 document.body.insertAdjacentHTML('beforeend', html);
-
-                // TRES IMPORTANT : On lance la logique des cookies APRES avoir ajouté le HTML
                 initializeCookieBanner();
             })
             .catch(error => {
@@ -171,17 +182,14 @@
             });
     </script>
 
-    <!-- Place aux Popup -->
-
+    <!-- Popup (gardé tel quel) -->
     <div class="popup-overlay">
         <div class="popup-content">
             <span class="popup-close">&times;</span>
-
             <div class="popup-inner">
                 <div class="popup-image">
-                    <img src="/Assets/Mockup-Livre.png" alt="Image pour la pop-up" />
+                    <img src="Assets/Mockup-Livre.png" alt="Image pour la pop-up" />
                 </div>
-
                 <div class="popup-text">
                     <h2>Le guide pratique qui a augmenté les revenus de beaucoup de graphistes.</h2>
                     <p>Découvrez comment ce livre a aidé des milliers de créatifs et autres à gagner + de 200
@@ -193,9 +201,5 @@
             </div>
         </div>
     </div>
-</body>
-
-</html>
-
 </body>
 </html>

@@ -158,6 +158,9 @@ function chargerDetails(data) {
             btnPay.dataset.price = f.prix.valeur_cinetpay;
             btnPay.style.backgroundColor = ""; 
             btnPay.style.cursor = "";
+            
+            // AJOUT IMPORTANT : Configurer le gestionnaire d'achat
+            setupPurchaseHandler(f);
         } else {
             btnPay.innerHTML = `<i class="fa-solid fa-lock"></i> Inscriptions closes`;
             btnPay.style.backgroundColor = "#95a5a6";
@@ -213,6 +216,261 @@ function chargerDetails(data) {
             </div>`).join('');
     }
 }
+
+
+// ============================================================
+// GESTION ACHAT (NOUVELLE FONCTION)
+// ============================================================
+function setupPurchaseHandler(f) {
+    const purchaseBtn = document.getElementById('detail-btn-paiement');
+    const statusMessage = document.getElementById('purchase-status-message');
+    
+    if (!purchaseBtn) return;
+    
+    // Créer le message de statut s'il n'existe pas
+    if (!statusMessage) {
+        const newStatusMsg = document.createElement('div');
+        newStatusMsg.id = 'purchase-status-message';
+        newStatusMsg.style.cssText = 'display: none; margin-top: 10px; padding: 10px; border-radius: 5px; font-size: 0.9rem;';
+        purchaseBtn.parentNode.insertBefore(newStatusMsg, purchaseBtn.nextSibling);
+    }
+    
+    // Stocker les données de formation dans le bouton
+    purchaseBtn.dataset.formationId = f.id;
+    purchaseBtn.dataset.formationSlug = f.slug;
+    purchaseBtn.dataset.formationTitre = f.titre;
+    purchaseBtn.dataset.formationPrix = f.prix.actuel;
+    purchaseBtn.dataset.formationValeur = f.prix.valeur_cinetpay || '50000';
+    
+    console.log('Formation configurée pour achat:', {
+        id: f.id,
+        slug: f.slug,
+        titre: f.titre,
+        prix: f.prix.actuel
+    });
+    
+    // Ajouter l'event listener
+    purchaseBtn.addEventListener('click', handlePurchase);
+    
+    // Afficher un message selon le statut de connexion
+    updatePurchaseStatusMessage();
+}
+
+// Dans script.js - Modifier handlePurchase
+async function handlePurchase(e) {
+    e.preventDefault();
+    
+    const purchaseBtn = e.target;
+    const formationId = purchaseBtn.dataset.formationId;
+    const formationSlug = purchaseBtn.dataset.formationSlug;
+    const formationTitre = purchaseBtn.dataset.formationTitre;
+    const formationPrix = purchaseBtn.dataset.formationPrix;
+    const formationValeur = purchaseBtn.dataset.formationValeur;
+    
+    // Vérifier si l'utilisateur est connecté
+    const token = localStorage.getItem('auth_token');
+    const isLoggedIn = !!token;
+    
+    if (isLoggedIn) {
+        // Utilisateur connecté - Ajout direct au compte
+        await purchaseForLoggedInUser(formationId, formationSlug, token);
+    } else {
+        // Nouveau visiteur - Paiement via Tara
+        await initiateTaraPayment({
+            formationId,
+            formationSlug,
+            formationTitre,
+            formationPrix,
+            formationValeur
+        });
+    }
+}
+
+// Nouvelle fonction pour Tara Payment
+async function initiateTaraPayment(paymentData) {
+    const statusMessage = document.getElementById('purchase-status-message');
+    
+    // 1. Demander l'email du client
+    const customerEmail = prompt("Entrez votre email pour recevoir votre matricule :");
+    if (!customerEmail) {
+        alert('Email requis pour continuer');
+        return;
+    }
+    
+    // 2. Préparer les données pour l'API Tara
+    const productPrice = parseFloat(paymentData.formationValeur) || 
+                        parseFloat(paymentData.formationPrix.replace(/[^\d]/g, ''));
+    
+    const taraPaymentData = {
+        productId: `formation_${paymentData.formationId}_${Date.now()}`,
+        productName: paymentData.formationTitre,
+        productPrice: productPrice,
+        productDescription: `Formation: ${paymentData.formationTitre}`,
+        productPictureUrl: document.getElementById('detail-image')?.src || '',
+        customerEmail: customerEmail,
+        formationId: paymentData.formationId,
+        formationSlug: paymentData.formationSlug,
+        // Ces URLs seront utilisées par ton backend
+        returnUrl: `${window.location.origin}/payment-success.html?formation=${paymentData.formationSlug}&email=${encodeURIComponent(customerEmail)}`,
+        webHookUrl: `${window.location.origin}/api/tara-webhook`
+    };
+    
+    if (statusMessage) {
+        statusMessage.textContent = "Génération des liens de paiement...";
+        statusMessage.style.display = 'block';
+        statusMessage.style.backgroundColor = '#fff3cd';
+        statusMessage.style.color = '#856404';
+    }
+    
+    try {
+        // Appeler TON backend qui appellera l'API Tara
+        const response = await fetch('/api/create-tara-payment', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(taraPaymentData)
+        });
+        
+        const result = await response.json();
+        
+        if (result.success && result.links) {
+            // Afficher les options de paiement
+            window.taraPayment.showPaymentOptions(result.links);
+            
+            if (statusMessage) {
+                statusMessage.textContent = "Sélectionnez votre mode de paiement";
+                statusMessage.style.backgroundColor = '#d1ecf1';
+                statusMessage.style.color = '#0c5460';
+            }
+            
+            // Stocker les données en localStorage pour après paiement
+            localStorage.setItem('pending_purchase', JSON.stringify({
+                customerEmail,
+                formationId: paymentData.formationId,
+                formationSlug: paymentData.formationSlug,
+                productId: taraPaymentData.productId,
+                timestamp: Date.now()
+            }));
+            
+        } else {
+            throw new Error(result.message || 'Erreur lors de la génération des liens');
+        }
+    } catch (error) {
+        console.error('Erreur paiement:', error);
+        if (statusMessage) {
+            statusMessage.textContent = `❌ Erreur: ${error.message}`;
+            statusMessage.style.backgroundColor = '#f8d7da';
+            statusMessage.style.color = '#721c24';
+        }
+    }
+}
+
+function purchaseForLoggedInUser(formationId, formationSlug, token) {
+    const statusMessage = document.getElementById('purchase-status-message');
+    
+    if (statusMessage) {
+        statusMessage.textContent = `Ajout de la formation à votre compte...`;
+        statusMessage.style.display = 'block';
+        statusMessage.style.backgroundColor = '#fff3cd';
+        statusMessage.style.color = '#856404';
+    }
+    
+    // SIMULATION - À remplacer par ton API
+    setTimeout(() => {
+        if (statusMessage) {
+            statusMessage.textContent = `✅ Formation ajoutée à votre compte !`;
+            statusMessage.style.backgroundColor = '#d4edda';
+            statusMessage.style.color = '#155724';
+        }
+        
+        // Redirection après 2 secondes
+        setTimeout(() => {
+            window.location.href = 'dashboard-etudiant.html?purchase=success&formation=' + formationSlug;
+        }, 2000);
+    }, 1500);
+}
+
+function purchaseForNewVisitor(formationId, formationSlug, formationTitre, formationPrix) {
+    // Demander l'email
+    const userEmail = prompt(`Entrez votre email pour recevoir votre matricule :\n\nFormation: ${formationTitre}\nPrix: ${formationPrix}`);
+    
+    if (!userEmail) {
+        alert('Email requis pour continuer');
+        return;
+    }
+    
+    // Valider l'email
+    if (!isValidEmail(userEmail)) {
+        alert('Veuillez entrer un email valide');
+        return;
+    }
+    
+    const statusMessage = document.getElementById('purchase-status-message');
+    
+    if (statusMessage) {
+        statusMessage.textContent = `Traitement de votre achat...`;
+        statusMessage.style.display = 'block';
+        statusMessage.style.backgroundColor = '#fff3cd';
+        statusMessage.style.color = '#856404';
+    }
+    
+    // SIMULATION d'achat
+    setTimeout(() => {
+        // Générer un matricule fictif
+        const matricule = 'AC' + Math.floor(1000 + Math.random() * 9000);
+        
+        if (statusMessage) {
+            statusMessage.innerHTML = `
+                ✅ Achat réussi !<br>
+                <strong>Votre matricule: ${matricule}</strong><br>
+                Un email a été envoyé à ${userEmail}
+            `;
+            statusMessage.style.backgroundColor = '#d4edda';
+            statusMessage.style.color = '#155724';
+        }
+        
+        // Redirection vers l'inscription avec pré-remplissage
+        setTimeout(() => {
+            window.location.href = `login.html?matricule=${matricule}&email=${encodeURIComponent(userEmail)}&formation=${formationSlug}`;
+        }, 3000);
+    }, 2000);
+}
+
+function isValidEmail(email) {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
+}
+
+function updatePurchaseStatusMessage() {
+    const statusMessage = document.getElementById('purchase-status-message');
+    if (!statusMessage) return;
+    
+    const token = localStorage.getItem('auth_token');
+    const isLoggedIn = !!token;
+    
+    if (isLoggedIn) {
+        // Récupérer le nom de l'utilisateur depuis le token (simplifié)
+        try {
+            const tokenData = JSON.parse(atob(token.split('.')[1]));
+            const userName = tokenData.name || 'Utilisateur';
+            statusMessage.textContent = `✅ Connecté en tant que ${userName}. L'achat sera ajouté à votre compte.`;
+            statusMessage.style.backgroundColor = '#d4edda';
+            statusMessage.style.color = '#155724';
+        } catch {
+            statusMessage.textContent = `✅ Vous êtes connecté. L'achat sera ajouté à votre compte.`;
+            statusMessage.style.backgroundColor = '#d4edda';
+            statusMessage.style.color = '#155724';
+        }
+    } else {
+        statusMessage.textContent = `👋 Nouveau ? Après l'achat, vous recevrez un matricule pour créer votre compte.`;
+        statusMessage.style.backgroundColor = '#d1ecf1';
+        statusMessage.style.color = '#0c5460';
+    }
+    
+    statusMessage.style.display = 'block';
+}
+
+
+
 
 // ============================================================
 // OUTILS TECHNIQUES (Commun)

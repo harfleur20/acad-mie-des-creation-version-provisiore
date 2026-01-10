@@ -20,8 +20,8 @@
 
         <div class="auth-form-section">
             <a href="index.html" class="back-btn">
-            <i class="fa-solid fa-chevron-left"></i> Back
-        </a>
+                <i class="fa-solid fa-chevron-left"></i> Retour
+            </a>
             <div class="form-box login-box active" id="loginBox">
                 <h2>Bon retour !</h2>
                 <p class="subtext">Connectez-vous pour continuer votre apprentissage.</p>
@@ -44,49 +44,224 @@
             </div>
 
             <div class="form-box register-box" id="registerBox">
-                <h2>Créer un compte</h2>
-                <p class="subtext">Choisissez votre rôle et commencez l'aventure.</p>
-                <form id="registerForm">
-                <div class="role-selector">
-                    <label class="role-card">
-                        <input type="radio" name="role" value="etudiant" checked />
-                        <div class="role-content">
-                            <i class="fa-solid fa-user-graduate"></i><span>Étudiant</span>
-                        </div>
-                    </label>
-                    <label class="role-card">
-                        <input type="radio" name="role" value="professeur" />
-                        <div class="role-content">
-                            <i class="fa-solid fa-chalkboard-user"></i><span>Professeur</span>
-                        </div>
-                    </label>
-                </div>
-
-                <div class="input-group">
-                    <label>Nom complet</label>
-                    <input type="text" id="regName" placeholder="John Doe" required />
-                    <small class="error-text" id="nameError"></small> </div>
-
-                <div class="input-group">
-                    <label>Email</label>
-                    <input type="email" id="regEmail" placeholder="exemple@mail.com" required />
-                    <small class="error-text" id="emailError"></small> </div>
-
-                <div class="input-group">
-                    <label>Mot de passe</label>
-                    <div class="password-wrapper">
-                        <input type="password" id="regPass" placeholder="Minimum 8 caractères" required />
-                        <i class="fa-regular fa-eye toggle-password" data-target="regPass"></i>
+                <h2 id="registerTitle">Créer un compte</h2>
+                <p class="subtext" id="registerSubtext">Choisissez votre rôle et commencez l'aventure.</p>
+                
+                <!-- ÉTAPE 1 : Informations de base -->
+                <form id="registerFormStep1">
+                    <div class="role-selector">
+                        <label class="role-card">
+                            <input type="radio" name="role" value="etudiant" checked />
+                            <div class="role-content">
+                                <i class="fa-solid fa-user-graduate"></i><span>Étudiant</span>
+                            </div>
+                        </label>
+                        <label class="role-card">
+                            <input type="radio" name="role" value="professeur" />
+                            <div class="role-content">
+                                <i class="fa-solid fa-chalkboard-user"></i><span>Professeur</span>
+                            </div>
+                        </label>
                     </div>
-                    <div class="strength-meter">
-                        <div class="strength-bar" id="strengthBar"></div>
-                    </div>
-                    <p id="strength-text"></p>
-                </div>
 
-                <button type="submit" class="btn-auth" id="submitBtn">Créer mon compte</button>
-            </form>
-                <p class="switch-text">Déjà inscrit ? <span id="toLogin">Se connecter</span></p>
+                    <div class="input-group">
+                        <label>Nom complet</label>
+                        <input type="text" id="regName" placeholder="John Doe" required />
+                        <small class="error-text" id="nameError"></small>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Email</label>
+                        <input type="email" id="regEmail" placeholder="exemple@mail.com" required />
+                        <small class="error-text" id="emailError"></small>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Mot de passe</label>
+                        <div class="password-wrapper">
+                            <input type="password" id="regPass" placeholder="Minimum 8 caractères" required />
+                            <i class="fa-regular fa-eye toggle-password" data-target="regPass"></i>
+                        </div>
+                        <div class="strength-meter">
+                            <div class="strength-bar" id="strengthBar"></div>
+                        </div>
+                        <p id="strength-text"></p>
+                    </div>
+
+                    <button type="submit" class="btn-auth" id="nextStepBtn">Continuer</button>
+                </form>
+                
+                <!-- ÉTAPE 2 : Vérification selon le rôle -->
+                <form id="registerFormStep2" style="display: none;">
+                    <div class="step-indicator">
+                        <div class="step active">1</div>
+                        <div class="step-line"></div>
+                        <div class="step active">2</div>
+                    </div>
+                    
+                    <!-- Section Étudiant -->
+                    <div id="studentSection" class="role-section">
+                        <div class="section-header">
+                            <i class="fa-solid fa-user-graduate"></i>
+                            <h3>Validation Étudiant</h3>
+                        </div>
+                        <div class="input-group">
+                            <label>Matricule étudiant <span class="required">*</span></label>
+                            <input type="text" id="studentCode" 
+                                   placeholder="Votre matricule (ex: AC2035)" 
+                                   title="Votre matricule unique reçu après votre premier achat" />
+                            <small class="error-text" id="studentCodeError"></small>
+                            <div class="info-text">
+                                <i class="fa-solid fa-id-card"></i> 
+                                <span><strong>Votre matricule étudiant.</strong> Reçu par email après votre premier achat.</span>
+                                <br><small>Format : AC suivi de 4 chiffres (ex: AC2035, AC0001)</small>
+                            </div>
+                            <div class="help-links" style="margin-top: 8px; font-size: 0.75rem;">
+                                <a href="#" id="lostMatriculeLink" style="color: var(--secondary); text-decoration: none;">
+                                    <i class="fa-solid fa-question-circle"></i> 
+                                    Vous n'avez pas reçu votre matricule ?
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Section Professeur -->
+                    <div id="teacherSection" class="role-section" style="display: none;">
+                        <div class="section-header">
+                            <i class="fa-solid fa-chalkboard-user"></i>
+                            <h3>Validation Enseignant</h3>
+                        </div>
+                        
+                        <div class="verification-options">
+                            <div class="verif-option">
+                                <input type="radio" id="teacherCodeOption" name="teacherVerif" value="code" checked />
+                                <label for="teacherCodeOption" class="option-label">
+                                    <div class="option-icon">
+                                        <i class="fa-solid fa-key"></i>
+                                    </div>
+                                    <div class="option-text">
+                                        <h4>Code d'invitation</h4>
+                                        <p>J'ai reçu un code d'invitation de l'administration</p>
+                                    </div>
+                                </label>
+                                <div class="option-content">
+                                    <div class="input-group">
+                                        <input type="text" id="teacherCode" placeholder="PR-XXXX-XXXX" />
+                                        <small class="error-text" id="teacherCodeError"></small>
+                                        <div class="info-text">
+                                            <i class="fa-solid fa-info-circle"></i>
+                                            Code reçu par email après validation de vos qualifications
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="verif-option">
+                                <input type="radio" id="teacherRequestOption" name="teacherVerif" value="request" />
+                                <label for="teacherRequestOption" class="option-label">
+                                    <div class="option-icon">
+                                        <i class="fa-solid fa-file-signature"></i>
+                                    </div>
+                                    <div class="option-text">
+                                        <h4>Demande d'approbation</h4>
+                                        <p>Je souhaite devenir enseignant</p>
+                                    </div>
+                                </label>
+                                <div class="option-content">
+                                    <div class="input-group">
+                                        <label>Spécialité principale</label>
+                                        <select id="teacherSpecialty">
+                                            <option value="">Sélectionnez votre spécialité</option>
+                                            <option value="design">Design Graphique</option>
+                                            <option value="dev">Développement Web</option>
+                                            <option value="video">Vidéo & Animation</option>
+                                            <option value="photo">Photographie</option>
+                                            <option value="marketing">Marketing Digital</option>
+                                            <option value="autre">Autre</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="input-group">
+                                        <label>Années d'expérience</label>
+                                        <input type="number" id="teacherExperience" min="0" max="50" placeholder="3" />
+                                    </div>
+                                    
+                                    <div class="input-group">
+                                        <label>Présentez-vous et vos qualifications</label>
+                                        <textarea id="teacherQualifications" rows="3" 
+                                            placeholder="Décrivez votre parcours, expériences, et pourquoi vous souhaitez enseigner..."></textarea>
+                                        <small class="error-text" id="teacherQualificationsError"></small>
+                                    </div>
+                                    
+                                    <div class="input-group">
+                                        <label>Portfolio / CV (lien optionnel)</label>
+                                        <input type="url" id="teacherPortfolio" 
+                                            placeholder="https://votreportfolio.com ou https://linkedin.com/in/..." />
+                                    </div>
+                                    
+                                    <div class="info-box">
+                                        <i class="fa-solid fa-clock"></i>
+                                        <p><strong>Processus de validation :</strong> Notre équipe examinera votre profil sous 48-72h. 
+                                        Une fois approuvé, vous pourrez créer et publier des cours.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-buttons">
+                        <button type="button" class="btn-back" id="backToStep1">
+                            <i class="fa-solid fa-arrow-left"></i> Retour
+                        </button>
+                        <button type="submit" class="btn-auth" id="confirmVerificationBtn">
+                            Valider et continuer
+                        </button>
+                    </div>
+                </form>
+                
+                <!-- ÉTAPE 3 : Message de succès -->
+                <div id="successMessage" style="display: none; text-align: center;">
+                    <div id="successContent">
+                        <i class="fa-solid fa-check-circle success-icon"></i>
+                        <h2 id="successTitle">Inscription validée !</h2>
+                        <p class="subtext" id="successSubtext">Vous allez être redirigé vers votre tableau de bord...</p>
+                        <div class="loading-spinner"></div>
+                    </div>
+                    
+                    <!-- Message spécifique pour enseignants en attente -->
+                    <div id="teacherPendingMessage" style="display: none;">
+                        <i class="fa-solid fa-clock pending-icon"></i>
+                        <h2>Demande enregistrée !</h2>
+                        <p class="subtext">Votre demande d'enseignant a été soumise avec succès.</p>
+                        <div class="pending-details">
+                            <p><strong>Prochaine étape :</strong></p>
+                            <ul>
+                                <li>Notre équipe examinera votre profil sous 48-72h</li>
+                                <li>Vous recevrez une confirmation par email</li>
+                                <li>Une fois approuvé, vous pourrez accéder à votre espace enseignant</li>
+                            </ul>
+                        </div>
+                        <button class="btn-auth" id="returnHomeBtn">Retour à l'accueil</button>
+                    </div>
+                    
+                    <!-- Message spécifique pour étudiants -->
+                    <div id="studentSuccessMessage" style="display: none;">
+                        <i class="fa-solid fa-graduation-cap success-icon" style="color: var(--secondary);"></i>
+                        <h2>Bienvenue étudiant !</h2>
+                        <p class="subtext">Votre compte a été créé avec succès.</p>
+                        <div class="pending-details">
+                            <p><strong>Accès immédiat :</strong></p>
+                            <ul>
+                                <li>Vous avez accès à vos formations achetées</li>
+                                <li>Consultez votre tableau de bord pour commencer</li>
+                                <li>Votre matricule : <strong id="displayMatricule"></strong></li>
+                            </ul>
+                        </div>
+                        <button class="btn-auth" id="goToDashboardBtn">Accéder à mon tableau de bord</button>
+                    </div>
+                </div>
+                
+                <p class="switch-text" id="switchLoginText">Déjà inscrit ? <span id="toLogin">Se connecter</span></p>
             </div>
         </div>
     </div>

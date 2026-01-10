@@ -193,7 +193,7 @@ header img {
 }
 
 header#navbar.scrolled .btn-link {
-  padding: 0.5rem 0.8rem;
+  padding: 0.5rem 1rem;
   font-size: 0.9rem;
 }
 
@@ -227,7 +227,7 @@ header#navbar.scrolled .desktop-btn {
   border: 1px solid var(--couleur-principale);
   color: var(--couleur-principale);
   cursor: pointer;
-  padding: 0.5rem 0.8rem;
+  padding: 0.5rem 1rem;
   border-radius: 20px;
   transition: all 0.3s ease-in-out;
   font-weight: 500;
@@ -2346,14 +2346,18 @@ RESPONSIVE TABLETTE | MOBILE | PC
     margin: 2rem auto 0;
     padding: 0.6rem 1.2rem;
     border-radius: 50px;
-    background-color: var(--couleur-secondaire);
+    border: 1px solid var(--couleur-texte-clair);
     color: var(--couleur-texte-clair);
     font-size: 0.9rem;
   }
 
   header .nav-links .mobile-btn:hover {
-    background-color: #fff;
+    border: 1px solid var(--couleur-secondaire);
     color: var(--couleur-principale);
+  }
+
+  .btn-link .icon i{
+    color : #1c8480;
   }
 
   /* Place au hero section */
@@ -3220,4 +3224,71 @@ RESPONSIVE TABLETTE | MOBILE | PC : 1024px
   }
 }
 
+/* Améliorations pour le loader */
+#preloader {
+    transition: opacity 0.8s ease-out, visibility 0.8s ease-out;
+}
 
+/* S'assurer que le contenu est bien caché pendant le chargement */
+body.loading {
+    overflow: hidden; /* Empêche le scroll pendant le chargement */
+}
+
+body.loading #header-placeholder,
+body.loading main,
+body.loading #footer-placeholder {
+    opacity: 0 !important;
+    visibility: hidden !important;
+}
+
+body.loaded #header-placeholder,
+body.loaded main,
+body.loaded #footer-placeholder {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transition: opacity 0.5s ease-in-out 0.3s; /* Délai pour fluidité */
+}
+
+/* Animation plus fluide pour le loader */
+.loader {
+    position: relative;
+    width: 100px;
+    height: 100px;
+}
+
+.circle {
+    width: 100px;
+    height: 100px;
+    border: 5px solid rgba(243, 243, 243, 0.3);
+    border-top: 5px solid #1f2352;
+    border-radius: 50%;
+    animation: spin 1.2s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.gif-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 70px;
+    height: 70px;
+    transform: translate(-50%, -50%);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 0.8; transform: translate(-50%, -50%) scale(1); }
+    50% { opacity: 1; transform: translate(-50%, -50%) scale(1.05); }
+    100% { opacity: 0.8; transform: translate(-50%, -50%) scale(1); }
+}
+
+.no-scroll {
+    overflow: hidden !important;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+}
