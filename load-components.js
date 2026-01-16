@@ -1,4 +1,5 @@
-function loadComponent(id, file) {
+// 1. Modifiez la fonction pour accepter un "callback" (une action à faire après)
+function loadComponent(id, file, callback) {
     fetch(file)
         .then(response => {
             if (!response.ok) throw new Error("Erreur : " + file);
@@ -6,81 +7,53 @@ function loadComponent(id, file) {
         })
         .then(data => {
             document.getElementById(id).innerHTML = data;
+            // C'est ici que la magie opère : si une action est prévue, on la lance MAINTENANT
+            if (callback) {
+                callback();
+            }
         })
         .catch(error => console.error(error));
 }
 
-// 1. Lancer le chargement des composants
-loadComponent('header-placeholder', 'header.html');
-loadComponent('footer-placeholder', 'footer.html');
-
-// 2. Activer l'effet de réduction au scroll pour TOUTES les pages
-window.addEventListener('scroll', function() {
-    const navbar = document.getElementById('navbar');
-    if (navbar) { // On vérifie que la navbar est bien chargée
-        if (window.scrollY > 50) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
-        }
-    }
-});
-
-// menu-burger.js - VERSION CORRIGÉE
-document.addEventListener('DOMContentLoaded', () => {
-    // Attendre que le header soit chargé
-    setTimeout(() => {
-        initializeBurgerMenu();
-    }, 100);
-});
-
+// 2. La fonction qui gère le burger (gardez-la telle quelle, retirez juste le DOMContentLoaded inutile autour)
 function initializeBurgerMenu() {
     const burger = document.querySelector('.menu-toggle');
     const nav = document.querySelector('.nav-links');
+    const closeIcon = document.querySelector('.close-icon'); // Ajout pour gérer la croix si besoin
+
+    if (!burger || !nav) return; // Sécurité
+
+    // Nettoyage des anciens écouteurs pour éviter les doublons si rechargé
+    const newBurger = burger.cloneNode(true);
+    burger.parentNode.replaceChild(newBurger, burger);
     
-    console.log('Initialisation menu burger:', { burger, nav });
-
-    if (!burger || !nav) {
-        console.error('Éléments du menu burger non trouvés');
-        return;
-    }
-
-    burger.addEventListener('click', (e) => {
+    newBurger.addEventListener('click', (e) => {
         e.stopPropagation();
-        console.log('Clic sur burger');
-        
         nav.classList.toggle('active');
-        burger.classList.toggle('active');
+        newBurger.classList.toggle('active'); // Pour l'animation croix/barres
         document.body.classList.toggle('no-scroll');
     });
+
+    // Gestion de la fermeture (clic ailleurs)
+    document.addEventListener('click', (e) => {
+        if (nav.classList.contains('active') && !nav.contains(e.target) && !newBurger.contains(e.target)) {
+            nav.classList.remove('active');
+            newBurger.classList.remove('active');
+            document.body.classList.remove('no-scroll');
+        }
+    });
     
-    // Fermer le menu quand on clique sur un lien
-    const navLinks = nav.querySelectorAll('a');
-    navLinks.forEach(link => {
+    // Gestion des liens
+    nav.querySelectorAll('a').forEach(link => {
         link.addEventListener('click', () => {
             nav.classList.remove('active');
-            burger.classList.remove('active');
+            newBurger.classList.remove('active');
             document.body.classList.remove('no-scroll');
         });
     });
-    
-    // Fermer en cliquant à l'extérieur
-    document.addEventListener('click', (event) => {
-        if (nav.classList.contains('active') && 
-            !nav.contains(event.target) && 
-            !burger.contains(event.target)) {
-            nav.classList.remove('active');
-            burger.classList.remove('active');
-            document.body.classList.remove('no-scroll');
-        }
-    });
-    
-    // Fermer avec la touche Échap
-    document.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape' && nav.classList.contains('active')) {
-            nav.classList.remove('active');
-            burger.classList.remove('active');
-            document.body.classList.remove('no-scroll');
-        }
-    });
 }
+
+// 3. Lancement : On charge le header ET on lance le menu tout de suite après
+// Supprimez vos anciens setTimeout et document.addEventListener('DOMContentLoaded'...)
+loadComponent('header-placeholder', 'header.html', initializeBurgerMenu);
+loadComponent('footer-placeholder', 'footer.html'); // Pas besoin de callback ici
