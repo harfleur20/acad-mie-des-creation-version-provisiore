@@ -619,6 +619,12 @@ header#navbar.scrolled .desktop-btn {
   .pre-list-card {
     grid-template-columns: repeat(2, 1fr); /* 2 cartes par ligne */
   }
+
+  .form-en-ligne-contenair .form-title-haut{
+    margin-bottom: 0;
+  }
+
+
 }
 
 /* Pour les téléphones */
@@ -3221,6 +3227,13 @@ RESPONSIVE TABLETTE | MOBILE | PC : 1024px
     font-size: clamp(0.5rem, 1.3rem, 1.3rem) !important;
     padding: 1rem 2rem;
     font-weight: 800;
+  }
+}
+
+@media (max-width:400px){
+   .card-bloc.new-design {
+    max-width: 270px; /* Largeur maximale sur mobile */
+    margin:0 auto; /* Centrer les cartes */
   }
 }
 
