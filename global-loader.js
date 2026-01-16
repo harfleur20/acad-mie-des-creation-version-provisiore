@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (document.getElementById('container-formations-ligne') || document.getElementById('container-formations-presentiel')) {
             chargerAccueil(data);
             lancerAnimationStats(); 
-            injecterRatingsSupabase();
+            injecterRatingsSupabase(); // Décommentez si vous utilisez supabase
         }
 
         // 2. Gestion Page Détails
@@ -88,8 +88,6 @@ function genererHTMLCarte(f) {
         badgesSpeciauxHTML = `<div class="badges-column">${content}</div>`;
     }
 
-    
-
     return `
         <div class="card-bloc new-design">
             <div class="card-image countdown-card" data-end="${f.date_evenement}">
@@ -128,7 +126,7 @@ function genererHTMLCarte(f) {
 }
 
 // ============================================================
-// CHARGEMENT PAGE DÉTAILS (CORRIGÉ & COMPLET)
+// CHARGEMENT PAGE DÉTAILS (CORRIGÉ & LOGIQUE)
 // ============================================================
 function chargerDetails(data) {
     const params = new URLSearchParams(window.location.search);
@@ -147,28 +145,66 @@ function chargerDetails(data) {
     setText('detail-prix-barre', f.prix.original);
     setText('detail-audience', f.audience);
 
-    // 2. État du bouton Paiement & Compteur
-    const etat = determinerEtat(f.date_evenement);
+    // 2. Gestion INTELLIGENTE du Bouton "Réserver"
     const btnPay = document.getElementById('detail-btn-paiement');
-    const compteur = document.getElementById('detail-compteur');
+    const etat = determinerEtat(f.date_evenement);
 
     if(btnPay) {
-        if (!etat.estPasse) {
-            btnPay.innerHTML = `<i class="fa-solid fa-piggy-bank"></i> ${etat.texteDetail}`;
-            btnPay.dataset.price = f.prix.valeur_cinetpay;
-            btnPay.style.backgroundColor = ""; 
-            btnPay.style.cursor = "";
+        // On clone le bouton pour supprimer TOUS les anciens écouteurs parasites
+        const newBtn = btnPay.cloneNode(true);
+        btnPay.parentNode.replaceChild(newBtn, btnPay);
+
+        // CAS A : La date est passée -> GRIS (Fermé)
+        if (etat.estPasse) {
+            newBtn.innerHTML = `<i class="fa-solid fa-lock"></i> Inscriptions closes`;
+            newBtn.style.backgroundColor = "#95a5a6"; // Gris
+            newBtn.style.cursor = "not-allowed";
+            newBtn.style.opacity = "1";
+            newBtn.onclick = (e) => e.preventDefault();
+        } 
+        // CAS B : Date OK mais Pas de lien -> ORANGE (Bientôt)
+        else if (!f.lien_reservation || f.lien_reservation.trim() === "") {
+            newBtn.innerHTML = `<i class="fa-solid fa-hourglass-half"></i> Bientôt disponible`;
+            newBtn.style.backgroundColor = "#f39c12"; // Orange
+            newBtn.style.cursor = "not-allowed";
+            newBtn.style.opacity = "0.8";
             
-            // AJOUT IMPORTANT : Configurer le gestionnaire d'achat
-            setupPurchaseHandler(f);
-        } else {
-            btnPay.innerHTML = `<i class="fa-solid fa-lock"></i> Inscriptions closes`;
-            btnPay.style.backgroundColor = "#95a5a6";
-            btnPay.style.cursor = "not-allowed";
-            btnPay.onclick = (e) => e.preventDefault();
+            newBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const msgDiv = createMessageDivIfNeeded(newBtn);
+                msgDiv.innerHTML = "⚠️ Les inscriptions ne sont pas encore ouvertes pour cette session.";
+                msgDiv.style.display = 'block';
+                msgDiv.style.backgroundColor = '#fff3cd'; // Jaune pâle
+                msgDiv.style.color = '#856404';
+                setTimeout(() => { msgDiv.style.display = 'none'; }, 3000);
+            });
+        }
+        // CAS C : Date OK et Lien OK -> VERT (Go !)
+        else {
+            newBtn.innerHTML = `<i class="fa-solid fa-piggy-bank"></i> Réservez votre place !`;
+            newBtn.style.backgroundColor = ""; // Garde le vert du CSS
+            newBtn.style.cursor = "pointer";
+            newBtn.style.opacity = "1";
+
+            newBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+
+                const msgDiv = createMessageDivIfNeeded(newBtn);
+                msgDiv.innerHTML = "🚀 Redirection vers le site partenaire...";
+                msgDiv.style.display = 'block';
+                msgDiv.style.backgroundColor = '#d4edda'; // Vert pâle
+                msgDiv.style.color = '#155724';
+
+                setTimeout(() => {
+                    window.open(f.lien_reservation, '_blank');
+                }, 1000);
+            });
         }
     }
 
+    // 3. Gestion du Compte à rebours
+    const compteur = document.getElementById('detail-compteur');
     if(compteur) {
         compteur.innerHTML = ''; 
         if(!etat.estPasse) {
@@ -182,17 +218,15 @@ function chargerDetails(data) {
         }
     }
 
-    // 3. Listes (Points clés & Objectifs)
+    // 4. Remplissage des listes
     fillList('detail-points', f.points_cles);
     fillList('detail-objectifs', f.objectifs);
     
-    // 4. Travaux Pratiques (Images)
     const tpContainer = document.getElementById('detail-tp');
     if(tpContainer && f.travaux_pratiques) {
         tpContainer.innerHTML = f.travaux_pratiques.map(img => `<img src="${img}" alt="TP">`).join('');
     }
 
-    // 5. Modules (Accordéon)
     const modContainer = document.getElementById('detail-modules');
     if(modContainer && f.modules) {
         modContainer.innerHTML = f.modules.map(m => `
@@ -200,11 +234,10 @@ function chargerDetails(data) {
                 <div class="accordion-header" onclick="this.parentElement.classList.toggle('active')">
                     <span>${m.nom}</span> <i class="fas fa-chevron-down"></i>
                 </div>
-                <div class="accordion-content">${m.points.map(p => `<p>${p}</p>`).join('')}</div>
+                <div class="accordion-content">${m.points ? m.points.map(p => `<p>${p}</p>`).join('') : (m.modules ? m.modules.map(p => `<p>${p}</p>`).join('') : '')}</div>
             </div>`).join('');
     }
 
-    // 6. FAQ (Accordéon)
     const faqContainer = document.getElementById('detail-faq');
     if(faqContainer && f.faq) {
         faqContainer.innerHTML = f.faq.map(item => `
@@ -215,262 +248,25 @@ function chargerDetails(data) {
                 <div class="accordion-content"><p>${item.r}</p></div>
             </div>`).join('');
     }
+
+    setupSocialSharing(f.titre);
 }
 
-
-// ============================================================
-// GESTION ACHAT (NOUVELLE FONCTION)
-// ============================================================
-function setupPurchaseHandler(f) {
-    const purchaseBtn = document.getElementById('detail-btn-paiement');
-    const statusMessage = document.getElementById('purchase-status-message');
-    
-    if (!purchaseBtn) return;
-    
-    // Créer le message de statut s'il n'existe pas
-    if (!statusMessage) {
-        const newStatusMsg = document.createElement('div');
-        newStatusMsg.id = 'purchase-status-message';
-        newStatusMsg.style.cssText = 'display: none; margin-top: 10px; padding: 10px; border-radius: 5px; font-size: 0.9rem;';
-        purchaseBtn.parentNode.insertBefore(newStatusMsg, purchaseBtn.nextSibling);
+// Petit utilitaire pour créer la div de message si elle n'existe pas
+function createMessageDivIfNeeded(btnElement) {
+    let msgDiv = document.getElementById('purchase-status-message');
+    if (!msgDiv) {
+        msgDiv = document.createElement('div');
+        msgDiv.id = 'purchase-status-message';
+        msgDiv.style.marginTop = '10px';
+        msgDiv.style.padding = '10px';
+        msgDiv.style.borderRadius = '5px';
+        msgDiv.style.textAlign = 'center';
+        msgDiv.style.fontWeight = 'bold';
+        btnElement.parentNode.insertBefore(msgDiv, btnElement.nextSibling);
     }
-    
-    // Stocker les données de formation dans le bouton
-    purchaseBtn.dataset.formationId = f.id;
-    purchaseBtn.dataset.formationSlug = f.slug;
-    purchaseBtn.dataset.formationTitre = f.titre;
-    purchaseBtn.dataset.formationPrix = f.prix.actuel;
-    purchaseBtn.dataset.formationValeur = f.prix.valeur_cinetpay || '50000';
-    
-    console.log('Formation configurée pour achat:', {
-        id: f.id,
-        slug: f.slug,
-        titre: f.titre,
-        prix: f.prix.actuel
-    });
-    
-    // Ajouter l'event listener
-    purchaseBtn.addEventListener('click', handlePurchase);
-    
-    // Afficher un message selon le statut de connexion
-    updatePurchaseStatusMessage();
+    return msgDiv;
 }
-
-// Dans script.js - Modifier handlePurchase
-async function handlePurchase(e) {
-    e.preventDefault();
-    
-    const purchaseBtn = e.target;
-    const formationId = purchaseBtn.dataset.formationId;
-    const formationSlug = purchaseBtn.dataset.formationSlug;
-    const formationTitre = purchaseBtn.dataset.formationTitre;
-    const formationPrix = purchaseBtn.dataset.formationPrix;
-    const formationValeur = purchaseBtn.dataset.formationValeur;
-    
-    // Vérifier si l'utilisateur est connecté
-    const token = localStorage.getItem('auth_token');
-    const isLoggedIn = !!token;
-    
-    if (isLoggedIn) {
-        // Utilisateur connecté - Ajout direct au compte
-        await purchaseForLoggedInUser(formationId, formationSlug, token);
-    } else {
-        // Nouveau visiteur - Paiement via Tara
-        await initiateTaraPayment({
-            formationId,
-            formationSlug,
-            formationTitre,
-            formationPrix,
-            formationValeur
-        });
-    }
-}
-
-// Nouvelle fonction pour Tara Payment
-async function initiateTaraPayment(paymentData) {
-    const statusMessage = document.getElementById('purchase-status-message');
-    
-    // 1. Demander l'email du client
-    const customerEmail = prompt("Entrez votre email pour recevoir votre matricule :");
-    if (!customerEmail) {
-        alert('Email requis pour continuer');
-        return;
-    }
-    
-    // 2. Préparer les données pour l'API Tara
-    const productPrice = parseFloat(paymentData.formationValeur) || 
-                        parseFloat(paymentData.formationPrix.replace(/[^\d]/g, ''));
-    
-    const taraPaymentData = {
-        productId: `formation_${paymentData.formationId}_${Date.now()}`,
-        productName: paymentData.formationTitre,
-        productPrice: productPrice,
-        productDescription: `Formation: ${paymentData.formationTitre}`,
-        productPictureUrl: document.getElementById('detail-image')?.src || '',
-        customerEmail: customerEmail,
-        formationId: paymentData.formationId,
-        formationSlug: paymentData.formationSlug,
-        // Ces URLs seront utilisées par ton backend
-        returnUrl: `${window.location.origin}/payment-success.html?formation=${paymentData.formationSlug}&email=${encodeURIComponent(customerEmail)}`,
-        webHookUrl: `${window.location.origin}/api/tara-webhook`
-    };
-    
-    if (statusMessage) {
-        statusMessage.textContent = "Génération des liens de paiement...";
-        statusMessage.style.display = 'block';
-        statusMessage.style.backgroundColor = '#fff3cd';
-        statusMessage.style.color = '#856404';
-    }
-    
-    try {
-        // Appeler TON backend qui appellera l'API Tara
-        const response = await fetch('/api/create-tara-payment', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(taraPaymentData)
-        });
-        
-        const result = await response.json();
-        
-        if (result.success && result.links) {
-            // Afficher les options de paiement
-            window.taraPayment.showPaymentOptions(result.links);
-            
-            if (statusMessage) {
-                statusMessage.textContent = "Sélectionnez votre mode de paiement";
-                statusMessage.style.backgroundColor = '#d1ecf1';
-                statusMessage.style.color = '#0c5460';
-            }
-            
-            // Stocker les données en localStorage pour après paiement
-            localStorage.setItem('pending_purchase', JSON.stringify({
-                customerEmail,
-                formationId: paymentData.formationId,
-                formationSlug: paymentData.formationSlug,
-                productId: taraPaymentData.productId,
-                timestamp: Date.now()
-            }));
-            
-        } else {
-            throw new Error(result.message || 'Erreur lors de la génération des liens');
-        }
-    } catch (error) {
-        console.error('Erreur paiement:', error);
-        if (statusMessage) {
-            statusMessage.textContent = `❌ Erreur: ${error.message}`;
-            statusMessage.style.backgroundColor = '#f8d7da';
-            statusMessage.style.color = '#721c24';
-        }
-    }
-}
-
-function purchaseForLoggedInUser(formationId, formationSlug, token) {
-    const statusMessage = document.getElementById('purchase-status-message');
-    
-    if (statusMessage) {
-        statusMessage.textContent = `Ajout de la formation à votre compte...`;
-        statusMessage.style.display = 'block';
-        statusMessage.style.backgroundColor = '#fff3cd';
-        statusMessage.style.color = '#856404';
-    }
-    
-    // SIMULATION - À remplacer par ton API
-    setTimeout(() => {
-        if (statusMessage) {
-            statusMessage.textContent = `✅ Formation ajoutée à votre compte !`;
-            statusMessage.style.backgroundColor = '#d4edda';
-            statusMessage.style.color = '#155724';
-        }
-        
-        // Redirection après 2 secondes
-        setTimeout(() => {
-            window.location.href = 'dashboard-etudiant.html?purchase=success&formation=' + formationSlug;
-        }, 2000);
-    }, 1500);
-}
-
-function purchaseForNewVisitor(formationId, formationSlug, formationTitre, formationPrix) {
-    // Demander l'email
-    const userEmail = prompt(`Entrez votre email pour recevoir votre matricule :\n\nFormation: ${formationTitre}\nPrix: ${formationPrix}`);
-    
-    if (!userEmail) {
-        alert('Email requis pour continuer');
-        return;
-    }
-    
-    // Valider l'email
-    if (!isValidEmail(userEmail)) {
-        alert('Veuillez entrer un email valide');
-        return;
-    }
-    
-    const statusMessage = document.getElementById('purchase-status-message');
-    
-    if (statusMessage) {
-        statusMessage.textContent = `Traitement de votre achat...`;
-        statusMessage.style.display = 'block';
-        statusMessage.style.backgroundColor = '#fff3cd';
-        statusMessage.style.color = '#856404';
-    }
-    
-    // SIMULATION d'achat
-    setTimeout(() => {
-        // Générer un matricule fictif
-        const matricule = 'AC' + Math.floor(1000 + Math.random() * 9000);
-        
-        if (statusMessage) {
-            statusMessage.innerHTML = `
-                ✅ Achat réussi !<br>
-                <strong>Votre matricule: ${matricule}</strong><br>
-                Un email a été envoyé à ${userEmail}
-            `;
-            statusMessage.style.backgroundColor = '#d4edda';
-            statusMessage.style.color = '#155724';
-        }
-        
-        // Redirection vers l'inscription avec pré-remplissage
-        setTimeout(() => {
-            window.location.href = `login.html?matricule=${matricule}&email=${encodeURIComponent(userEmail)}&formation=${formationSlug}`;
-        }, 3000);
-    }, 2000);
-}
-
-function isValidEmail(email) {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(email);
-}
-
-function updatePurchaseStatusMessage() {
-    const statusMessage = document.getElementById('purchase-status-message');
-    if (!statusMessage) return;
-    
-    const token = localStorage.getItem('auth_token');
-    const isLoggedIn = !!token;
-    
-    if (isLoggedIn) {
-        // Récupérer le nom de l'utilisateur depuis le token (simplifié)
-        try {
-            const tokenData = JSON.parse(atob(token.split('.')[1]));
-            const userName = tokenData.name || 'Utilisateur';
-            statusMessage.textContent = `✅ Connecté en tant que ${userName}. L'achat sera ajouté à votre compte.`;
-            statusMessage.style.backgroundColor = '#d4edda';
-            statusMessage.style.color = '#155724';
-        } catch {
-            statusMessage.textContent = `✅ Vous êtes connecté. L'achat sera ajouté à votre compte.`;
-            statusMessage.style.backgroundColor = '#d4edda';
-            statusMessage.style.color = '#155724';
-        }
-    } else {
-        statusMessage.textContent = `👋 Nouveau ? Après l'achat, vous recevrez un matricule pour créer votre compte.`;
-        statusMessage.style.backgroundColor = '#d1ecf1';
-        statusMessage.style.color = '#0c5460';
-    }
-    
-    statusMessage.style.display = 'block';
-}
-
-
-
 
 // ============================================================
 // OUTILS TECHNIQUES (Commun)
@@ -544,5 +340,60 @@ function setText(id, text) { const el = document.getElementById(id); if(el) el.t
 function setImage(id, src) { const el = document.getElementById(id); if(el) el.src = src || ''; }
 function fillList(id, array) { const el = document.getElementById(id); if(el && array) el.innerHTML = array.map(i => `<li><i class="fas fa-check"></i> ${i}</li>`).join(''); }
 
-//fonction pour gerer les votes dans vote.js
+// ============================================================
+// GESTION DU PARTAGE (Réseaux Sociaux)
+// ============================================================
+function setupSocialSharing(titreFormation) {
+    const url = encodeURIComponent(window.location.href);
+    const text = encodeURIComponent(`Découvre cette formation incroyable : ${titreFormation}`);
+    
+    // 1. Configuration Facebook
+    const btnFb = document.getElementById('share-facebook');
+    if(btnFb) btnFb.href = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
 
+    // 2. Configuration WhatsApp
+    const btnWa = document.getElementById('share-whatsapp');
+    if(btnWa) btnWa.href = `https://api.whatsapp.com/send?text=${text}%20${url}`;
+
+    // 3. Configuration Copie Lien
+    const btnCopy = document.getElementById('share-copy');
+    if(btnCopy) {
+        btnCopy.onclick = async () => {
+            try {
+                await navigator.clipboard.writeText(window.location.href);
+                // Petit feedback visuel
+                const tooltip = document.createElement('div');
+                tooltip.className = 'tooltip-copied';
+                tooltip.innerText = 'Lien copié dans le presse-papier !';
+                document.body.appendChild(tooltip);
+                setTimeout(() => tooltip.remove(), 2000);
+            } catch (err) {
+                console.error('Erreur copie', err);
+                alert('Lien : ' + window.location.href);
+            }
+        };
+    }
+
+    // 4. Configuration Partage Natif (Mobile)
+    // Si le navigateur supporte le partage natif (ex: Chrome sur Android, Safari sur iPhone)
+    if (navigator.share) {
+        const btnNative = document.getElementById('share-native');
+        const btnsClassique = document.querySelectorAll('.share-btn:not(.native)');
+        
+        if(btnNative) {
+            // On affiche le bouton natif
+            btnNative.style.display = 'flex';
+            
+            // Optionnel : On peut masquer les autres boutons sur mobile pour épurér
+            // btnsClassique.forEach(b => b.style.display = 'none'); 
+
+            btnNative.onclick = () => {
+                navigator.share({
+                    title: document.title,
+                    text: `Je viens de voir cette formation : ${titreFormation}`,
+                    url: window.location.href
+                }).catch(console.error);
+            };
+        }
+    }
+}

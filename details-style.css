@@ -98,6 +98,76 @@ header{
     border: 1px solid var(--border-color);
 }
 
+/* DANS DETAILS-STYLE.CSS */
+
+.share-container {
+    margin-top: 25px;
+    text-align: center;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+
+.share-container p {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.share-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.share-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-decoration: none;
+    font-size: 1.1rem;
+    transition: transform 0.2s ease, opacity 0.2s;
+    border: none;
+    cursor: pointer;
+}
+
+.share-btn:hover {
+    transform: translateY(-3px);
+    opacity: 0.9;
+}
+
+/* Couleurs spécifiques */
+.share-btn.fb { background-color: #1877f2; }
+.share-btn.wa { background-color: #25d366; }
+.share-btn.cp { background-color: #34495e; }
+.share-btn.native { background-color: #f39c12; }
+
+/* Feedback visuel pour la copie */
+.tooltip-copied {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #333;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 30px;
+    font-size: 0.9rem;
+    z-index: 1000;
+    animation: fadeInOut 2s forwards;
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0; transform: translate(-50%, 20px); }
+    10% { opacity: 1; transform: translate(-50%, 0); }
+    80% { opacity: 1; transform: translate(-50%, 0); }
+    100% { opacity: 0; transform: translate(-50%, -20px); }
+}
+
 .rating-box {
     margin: 30px ;
     display: flex;

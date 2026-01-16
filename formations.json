@@ -18,6 +18,7 @@
       "niveau": "PRO",
       "image_principale": "/Flyers/packaging.jpg",
       "description_seo": "La méthode efficace pour maitriser les techniques avancées de conceptions des patrons et comprendre les outils de modelisation et d'animation des Packaging",
+      "lien_reservation": "",
       "points_cles": [
         "1 mois de formation",
         "4 Modules à apprendrer",
@@ -26,7 +27,7 @@
         "Formation en ligne",
         "Certificat de fin de formation"
       ],
-      "date_evenement": "2026-01-08T10:00:00",
+      "date_evenement": "2026-02-15T10:00:00",
       "prix": {
         "actuel": "50 000 FCFA",
         "original": "70 000 FCFA",
@@ -80,7 +81,7 @@
       "id": 2,
       "slug": "identite-visuelle",
       "type": "ligne",
-      "titre": "Formation complète en conception d'identité visuelle",
+      "titre": "Démarques toi des autres graphistes, deviens un Brand Designer",
       "categorie": "design",
       "badges": [],  
       "formateur": "Niveau débutant",
@@ -89,6 +90,7 @@
       "niveau": "PRO",
       "image_principale": "/Flyers/brand-identity.jpg",
       "description_seo": "La méthode efficace pour maitriser les techniques avancées de conceptions des patrons et comprendre les outils de modelisation et d'animation des Packaging",
+      "lien_reservation": "",
       "points_cles": [
         "1 moi de formation",
         "4 Modules à apprendre",
@@ -97,7 +99,7 @@
         "Formation en ligne",
         "Certificat de fin de formation"
       ],
-      "date_evenement": "2026-03-08T10:00:00",
+      "date_evenement": "2025-03-08T10:00:00",
       "prix": {
         "actuel": "85 000 FCFA",
         "original": "",
@@ -151,7 +153,7 @@
       "id": 3,
       "slug": "motion-design",
       "type": "ligne",
-      "titre": "Formation complète en motion design",
+      "titre": "Apprendre le motion design par la pratique (+40h de formation)",
       "categorie": "design",
       "badges": ["populaire"],  
       "formateur": "Niveau débutant - intermédiaire",
@@ -160,6 +162,7 @@
       "niveau": "PRO",
       "image_principale": "/Flyers/Motion-design.jpg",
       "description_seo": "Apprenez le motion design de A à Z et maîtrisez les techniques d'animation graphique pour créer des vidéos captivantes et dynamiques.",
+      "lien_reservation": "",
       "points_cles": [
         "2 mois de formation",
         "4 Modules à apprendre",
@@ -168,10 +171,10 @@
         "Formation en ligne",
         "Certificat de fin de formation"
       ],
-      "date_evenement": "2025-03-08T10:00:00",
+      "date_evenement": "2026-01-28T10:00:00",
       "prix": {
-        "actuel": "95 000 FCFA",
-        "original": "",
+        "actuel": "65 000 FCFA",
+        "original": "95 000 FCFA",
         "valeur_cinetpay": "50000"
       },
       "objectifs": [
@@ -222,7 +225,7 @@
       "id": 4,
       "slug": "monétisation-tiktok",
       "type": "ligne",
-      "titre": "Formation complète sur la monétisation TikTok",
+      "titre": "Apprenez à monétiser votre contenu TikTok et transformez votre audience en revenus stables. ",
       "categorie": "design",
       "badges": ["premium"],  
       "formateur": "Tous niveaux",
@@ -231,6 +234,7 @@
       "niveau": "PRO",
       "image_principale": "/Flyers/Flyer_TIKTOK_Academie.jpg",
       "description_seo": "Apprenez à monétiser votre contenu TikTok et transformez votre audience en revenus stables. Découvrez les stratégies et techniques pour réussir sur cette plateforme dynamique.",
+      "lien_reservation": "",
       "points_cles": [
         "1 mois de formation",
         "4 Modules à apprendre",
@@ -239,9 +243,9 @@
         "Formation en ligne",
         "Certificat de fin de formation"
       ],
-      "date_evenement": "2025-03-08T10:00:00",
+      "date_evenement": "2026-01-23T10:00:00",
       "prix": {
-        "actuel": "52 000 FCFA",
+        "actuel": "50 000 FCFA",
         "original": "",
         "valeur_cinetpay": "50000"
       },

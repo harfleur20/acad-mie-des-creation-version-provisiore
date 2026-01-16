@@ -15,7 +15,7 @@ function loadComponent(id, file, callback) {
         .catch(error => console.error(error));
 }
 
-// 2. La fonction qui gère le burger (gardez-la telle quelle, retirez juste le DOMContentLoaded inutile autour)
+//gestion du burger
 function initializeBurgerMenu() {
     const burger = document.querySelector('.menu-toggle');
     const nav = document.querySelector('.nav-links');
@@ -54,6 +54,5 @@ function initializeBurgerMenu() {
 }
 
 // 3. Lancement : On charge le header ET on lance le menu tout de suite après
-// Supprimez vos anciens setTimeout et document.addEventListener('DOMContentLoaded'...)
 loadComponent('header-placeholder', 'header.html', initializeBurgerMenu);
-loadComponent('footer-placeholder', 'footer.html'); // Pas besoin de callback ici
+loadComponent('footer-placeholder', 'footer.html'); 
