@@ -143,6 +143,8 @@ function chargerDetails(data) {
         return;
     }
 
+    updateMetaTagsImmediately(f.titre, f.description_seo, f.image_principale);
+
     // MISE À JOUR DE L'URL DANS LA BARRE D'ADRESSE (affichage du slug)
     const newUrl = `${window.location.pathname}?slug=${slug}`;
     window.history.replaceState({slug: slug}, '', newUrl);
@@ -310,6 +312,86 @@ function chargerDetails(data) {
 }
 
 // ============================================================
+// MISE À JOUR IMMÉDIATE DES BALISES OPEN GRAPH
+// ============================================================
+function updateMetaTagsImmediately(titre, description, imageUrl) {
+    console.log('📱 Mise à jour des balises Open Graph...');
+    
+    // 1. Mettre à jour le titre de la page
+    document.title = titre + ' - Académie des créatifs';
+    
+    // 2. Construire l'URL absolue de l'image
+    const baseUrl = window.location.origin;
+    const absoluteImageUrl = imageUrl.startsWith('http') ? imageUrl : baseUrl + imageUrl;
+    
+    console.log('🖼️ Image pour OG:', absoluteImageUrl);
+    console.log('📝 Titre pour OG:', titre);
+    console.log('📋 Description pour OG:', description);
+    
+    // 3. Fonction pour créer ou mettre à jour une balise meta
+    const updateOrCreateMeta = (property, content) => {
+        // Chercher la balise existante
+        let meta = document.querySelector(`meta[property="${property}"]`) || 
+                   document.querySelector(`meta[name="${property}"]`);
+        
+        // Si elle n'existe pas, la créer
+        if (!meta) {
+            meta = document.createElement('meta');
+            if (property.startsWith('og:') || property.startsWith('twitter:')) {
+                meta.setAttribute('property', property);
+            } else {
+                meta.setAttribute('name', property);
+            }
+            document.head.appendChild(meta);
+            console.log(`✅ Créé: ${property}`);
+        } else {
+            console.log(`✏️ Mis à jour: ${property}`);
+        }
+        
+        // Mettre à jour le contenu
+        meta.setAttribute('content', content);
+        return meta;
+    };
+    
+    // 4. Mettre à jour TOUTES les balises OG et Twitter
+    try {
+        // Open Graph (Facebook, LinkedIn, WhatsApp)
+        updateOrCreateMeta('og:title', titre);
+        updateOrCreateMeta('og:description', description);
+        updateOrCreateMeta('og:image', absoluteImageUrl);
+        updateOrCreateMeta('og:image:secure_url', absoluteImageUrl);
+        updateOrCreateMeta('og:image:width', '1200');
+        updateOrCreateMeta('og:image:height', '630');
+        updateOrCreateMeta('og:url', window.location.href);
+        updateOrCreateMeta('og:type', 'website');
+        updateOrCreateMeta('og:site_name', 'Académie des créatifs');
+        
+        // Twitter Cards
+        updateOrCreateMeta('twitter:card', 'summary_large_image');
+        updateOrCreateMeta('twitter:title', titre);
+        updateOrCreateMeta('twitter:description', description);
+        updateOrCreateMeta('twitter:image', absoluteImageUrl);
+        
+        // Meta description standard
+        updateOrCreateMeta('description', description);
+        
+        // Forcer une actualisation pour certains navigateurs
+        const linkCanonical = document.querySelector('link[rel="canonical"]');
+        if (!linkCanonical) {
+            const link = document.createElement('link');
+            link.rel = 'canonical';
+            link.href = window.location.href;
+            document.head.appendChild(link);
+        }
+        
+        console.log('✅ Toutes les balises OG sont mises à jour!');
+        
+    } catch (error) {
+        console.error('❌ Erreur lors de la mise à jour des meta tags:', error);
+    }
+}
+
+// ============================================================
 // GÉNÉRATION AUTOMATIQUE DE POSTER VIDÉO (OPTION A - INTELLIGENTE)
 // ============================================================
 function generateVideoPoster(videoSrc, allItems) {
@@ -438,82 +520,257 @@ function lancerAnimationStats() {
 // ============================================================
 // GESTION DU PARTAGE (Réseaux Sociaux) - VERSION COMPLÈTE
 // ============================================================
+
 function setupSocialSharing(titreFormation, description, imageUrl) {
-    const url = encodeURIComponent(window.location.href);
-    const titre = encodeURIComponent(titreFormation);
-    const desc = encodeURIComponent(description || 'Découvrez cette formation incroyable');
+    console.log('🔗 Configuration du partage social...');
     
-    // Construire l'URL complète de l'image (absolue)
+    // Construire l'URL absolue de l'image (CRITIQUE pour les réseaux sociaux)
     const baseUrl = window.location.origin;
     const fullImageUrl = imageUrl.startsWith('http') ? imageUrl : baseUrl + imageUrl;
     
-    // Mise à jour des balises meta Open Graph pour un meilleur partage
-    updateMetaTags(titreFormation, description, fullImageUrl);
+    console.log('📸 Image pour partage:', fullImageUrl);
+    console.log('🏷️ Titre:', titreFormation);
+    console.log('📝 Description:', description);
     
-    // 1. Configuration Facebook
+    // 1. MISE À JOUR IMMÉDIATE ET FORCÉE des balises Open Graph
+    // Cette fonction DOIT être appelée AVANT toute configuration de bouton
+    updateMetaTagsForSharing(titreFormation, description, fullImageUrl);
+    
+    // URL encodée pour le partage
+    const currentUrl = window.location.href;
+    const encodedUrl = encodeURIComponent(currentUrl);
+    
+    // 2. Configuration Facebook
     const btnFb = document.getElementById('share-facebook');
     if(btnFb) {
-        btnFb.href = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+        // Facebook utilisera les OG tags automatiquement
+        btnFb.href = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`;
+        btnFb.target = '_blank';
+        console.log('✅ Facebook configuré');
     }
 
-    // 2. Configuration WhatsApp
+    // 3. Configuration WhatsApp - VERSION AMÉLIORÉE
     const btnWa = document.getElementById('share-whatsapp');
     if(btnWa) {
-        const message = `🎓 ${titreFormation}\n\n${description}\n\n👉 Voir la formation : `;
-        btnWa.href = `https://api.whatsapp.com/send?text=${encodeURIComponent(message)}${url}`;
+        // WhatsApp: Texte + URL (l'aperçu vient des OG tags)
+        const message = `🎓 *${titreFormation}*\n\n${description.substring(0, 200)}...\n\n👉 Voir la formation : `;
+        btnWa.href = `https://wa.me/?text=${encodeURIComponent(message + currentUrl)}`;
+        btnWa.target = '_blank';
+        console.log('✅ WhatsApp configuré');
     }
 
-    // 3. Configuration Copie Lien
+    // 4. Configuration Copie Lien
     const btnCopy = document.getElementById('share-copy');
     if(btnCopy) {
-        btnCopy.onclick = async () => {
+        btnCopy.onclick = async (e) => {
+            e.preventDefault();
             try {
-                await navigator.clipboard.writeText(window.location.href);
-                const tooltip = document.createElement('div');
-                tooltip.className = 'tooltip-copied';
-                tooltip.style.cssText = `
-                    position: fixed;
-                    bottom: 20px;
-                    right: 20px;
-                    background: #28a745;
-                    color: white;
-                    padding: 15px 20px;
-                    border-radius: 8px;
-                    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-                    z-index: 10000;
-                    font-weight: bold;
-                    animation: slideIn 0.3s ease;
-                `;
-                tooltip.innerHTML = '<i class="fas fa-check-circle"></i> Lien copié !';
-                document.body.appendChild(tooltip);
-                setTimeout(() => tooltip.remove(), 2000);
+                await navigator.clipboard.writeText(currentUrl);
+                showShareNotification('✅ Lien copié dans le presse-papier !');
             } catch (err) {
                 console.error('Erreur copie', err);
-                alert('Lien : ' + window.location.href);
+                // Fallback pour anciens navigateurs
+                const textArea = document.createElement('textarea');
+                textArea.value = currentUrl;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                showShareNotification('✅ Lien copié !');
             }
         };
     }
 
-    // 4. Configuration Partage Natif (Mobile)
-    if (navigator.share) {
-        const btnNative = document.getElementById('share-native');
-        if(btnNative) {
-            btnNative.style.display = 'flex';
-            btnNative.onclick = async () => {
-                try {
-                    await navigator.share({
-                        title: titreFormation,
-                        text: description,
-                        url: window.location.href
-                    });
-                } catch(err) {
-                    console.log('Partage annulé ou non supporté');
-                }
-            };
-        }
+    // 5. Configuration Partage Natif (Mobile)
+    const btnNative = document.getElementById('share-native');
+    if (navigator.share && btnNative) {
+        btnNative.style.display = 'flex';
+        btnNative.onclick = async (e) => {
+            e.preventDefault();
+            try {
+                await navigator.share({
+                    title: titreFormation,
+                    text: description,
+                    url: currentUrl
+                });
+            } catch(err) {
+                // L'utilisateur a annulé le partage
+                console.log('Partage annulé');
+            }
+        };
+        console.log('✅ Partage natif disponible');
+    } else if (btnNative) {
+        btnNative.style.display = 'none';
     }
 }
 
+// ============================================================
+// FONCTION CRITIQUE : Mise à jour FORCÉE des balises OG
+// ============================================================
+function updateMetaTagsForSharing(titre, description, imageUrl) {
+    console.log('🔄 Mise à jour FORCÉE des balises Open Graph...');
+    
+    // 1. Fonction helper pour créer/mettre à jour les meta tags
+    const updateOrCreateMeta = (property, content) => {
+        let meta = document.querySelector(`meta[property="${property}"]`);
+        
+        if (!meta) {
+            // Vérifier si existe avec name=
+            meta = document.querySelector(`meta[name="${property.replace('twitter:', '')}"]`);
+        }
+        
+        if (!meta) {
+            // Créer la balise si elle n'existe pas
+            meta = document.createElement('meta');
+            if (property.startsWith('og:')) {
+                meta.setAttribute('property', property);
+            } else if (property.startsWith('twitter:')) {
+                meta.setAttribute('name', property.replace('twitter:', 'twitter:'));
+                meta.setAttribute('property', property);
+            } else {
+                meta.setAttribute('name', property);
+            }
+            document.head.appendChild(meta);
+            console.log(`➕ Créé: ${property}`);
+        }
+        
+        // FORCER la mise à jour même si le contenu semble identique
+        const oldContent = meta.getAttribute('content') || '';
+        if (oldContent !== content) {
+            meta.setAttribute('content', content);
+            console.log(`✏️ Mis à jour: ${property} = "${content.substring(0, 50)}..."`);
+        }
+        
+        return meta;
+    };
+    
+    // 2. Mettre à jour le titre de la page
+    document.title = `${titre} - Académie des créatifs`;
+    console.log(`📄 Titre page: ${document.title}`);
+    
+    // 3. URL absolue (déjà passée en paramètre)
+    console.log(`🖼️ Image URL: ${imageUrl}`);
+    
+    // 4. Mettre à jour toutes les balises CRITIQUES
+    try {
+        // Open Graph (Facebook, LinkedIn, WhatsApp)
+        updateOrCreateMeta('og:title', titre);
+        updateOrCreateMeta('og:description', description);
+        updateOrCreateMeta('og:image', imageUrl);
+        updateOrCreateMeta('og:url', window.location.href);
+        updateOrCreateMeta('og:type', 'website');
+        updateOrCreateMeta('og:site_name', 'Académie des créatifs');
+        
+        // Dimensions d'image (optionnel mais recommandé)
+        updateOrCreateMeta('og:image:width', '1200');
+        updateOrCreateMeta('og:image:height', '630');
+        
+        // Twitter Cards
+        updateOrCreateMeta('twitter:card', 'summary_large_image');
+        updateOrCreateMeta('twitter:title', titre);
+        updateOrCreateMeta('twitter:description', description);
+        updateOrCreateMeta('twitter:image', imageUrl);
+        
+        // Meta description standard
+        updateOrCreateMeta('description', description);
+        
+        // 5. FORCER la mise à jour du cache du navigateur
+        // Ajouter un timestamp pour éviter le cache
+        const canonicalUrl = `${window.location.href.split('?')[0]}?slug=${new URLSearchParams(window.location.search).get('slug')}&t=${Date.now()}`;
+        
+        // Mettre à jour ou créer la balise canonical
+        let canonical = document.querySelector('link[rel="canonical"]');
+        if (!canonical) {
+            canonical = document.createElement('link');
+            canonical.rel = 'canonical';
+            document.head.appendChild(canonical);
+        }
+        canonical.href = canonicalUrl;
+        
+        console.log('✅ Toutes les balises OG sont à jour !');
+        
+        // 6. DEBUG: Afficher toutes les balises OG
+        setTimeout(() => {
+            console.log('🔍 VÉRIFICATION des balises OG:');
+            const allMeta = document.querySelectorAll('meta');
+            allMeta.forEach(meta => {
+                const prop = meta.getAttribute('property') || meta.getAttribute('name');
+                if (prop && (prop.includes('og:') || prop.includes('twitter:') || prop === 'description')) {
+                    const content = meta.getAttribute('content') || '';
+                    console.log(`  ${prop}: ${content.substring(0, 80)}${content.length > 80 ? '...' : ''}`);
+                }
+            });
+        }, 100);
+        
+    } catch (error) {
+        console.error('❌ Erreur mise à jour OG:', error);
+    }
+}
+
+// ============================================================
+// FONCTION D'AFFICHAGE DE NOTIFICATION
+// ============================================================
+function showShareNotification(message) {
+    // Supprimer toute notification existante
+    const existing = document.querySelector('.share-notification');
+    if (existing) existing.remove();
+    
+    // Créer la nouvelle notification
+    const notification = document.createElement('div');
+    notification.className = 'share-notification';
+    notification.style.cssText = `
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: linear-gradient(135deg, #28a745, #20c997);
+        color: white;
+        padding: 15px 20px;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        z-index: 10000;
+        font-weight: bold;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        animation: slideInRight 0.3s ease-out;
+        max-width: 350px;
+    `;
+    
+    notification.innerHTML = `
+        <i class="fas fa-check-circle" style="font-size: 18px;"></i>
+        <span>${message}</span>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Ajouter les styles d'animation si nécessaire
+    if (!document.querySelector('#notification-animations')) {
+        const style = document.createElement('style');
+        style.id = 'notification-animations';
+        style.textContent = `
+            @keyframes slideInRight {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes fadeOut {
+                from { opacity: 1; }
+                to { opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+    
+    // Supprimer après 3 secondes
+    setTimeout(() => {
+        notification.style.animation = 'fadeOut 0.5s ease';
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.parentNode.removeChild(notification);
+            }
+        }, 500);
+    }, 3000);
+}
 // Fonction pour mettre à jour les balises meta Open Graph dynamiquement
 function updateMetaTags(titre, description, imageUrl) {
     // Mettre à jour le titre de la page
