@@ -459,10 +459,8 @@ function setupSocialSharing(titreFormation, description, imageUrl) {
     // 2. Configuration WhatsApp
     const btnWa = document.getElementById('share-whatsapp');
     if(btnWa) {
-        // WhatsApp affiche l'aperçu du lien (avec image) SEULEMENT si on envoie juste l'URL
-        // Pour avoir l'image + texte, on met le texte APRÈS l'URL
-        const message = `🎓 *${titreFormation}*\n\n${description}\n\n`;
-        btnWa.href = `https://api.whatsapp.com/send?text=${encodeURIComponent(message + window.location.href)}`;
+        const message = `🎓 ${titreFormation}\n\n${description}\n\n👉 Voir la formation : `;
+        btnWa.href = `https://api.whatsapp.com/send?text=${encodeURIComponent(message)}${url}`;
     }
 
     // 3. Configuration Copie Lien
@@ -521,12 +519,6 @@ function updateMetaTags(titre, description, imageUrl) {
     // Mettre à jour le titre de la page
     document.title = titre + ' - Académie des créatifs';
     
-    // S'assurer que l'URL de l'image est absolue (obligatoire pour Open Graph)
-    const baseUrl = window.location.origin;
-    const absoluteImageUrl = imageUrl.startsWith('http') ? imageUrl : baseUrl + imageUrl;
-    
-    console.log('🖼️ Image Open Graph:', absoluteImageUrl); // Debug
-    
     // Fonction helper pour créer ou mettre à jour une balise meta
     const setMetaTag = (property, content) => {
         let meta = document.querySelector(`meta[property="${property}"]`) || 
@@ -544,23 +536,18 @@ function updateMetaTags(titre, description, imageUrl) {
         meta.setAttribute('content', content);
     };
     
-    // Open Graph (Facebook, LinkedIn, WhatsApp)
+    // Open Graph (Facebook, LinkedIn, etc.)
     setMetaTag('og:title', titre);
     setMetaTag('og:description', description);
-    setMetaTag('og:image', absoluteImageUrl);
-    setMetaTag('og:image:secure_url', absoluteImageUrl); // Important pour HTTPS
-    setMetaTag('og:image:width', '1200'); // Taille recommandée
-    setMetaTag('og:image:height', '630');
-    setMetaTag('og:image:type', 'image/jpeg');
+    setMetaTag('og:image', imageUrl);
     setMetaTag('og:url', window.location.href);
     setMetaTag('og:type', 'website');
-    setMetaTag('og:site_name', 'Académie des créatifs');
     
     // Twitter Cards
     setMetaTag('twitter:card', 'summary_large_image');
     setMetaTag('twitter:title', titre);
     setMetaTag('twitter:description', description);
-    setMetaTag('twitter:image', absoluteImageUrl);
+    setMetaTag('twitter:image', imageUrl);
     
     // Description générale
     setMetaTag('description', description);
