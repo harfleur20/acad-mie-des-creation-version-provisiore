@@ -1723,6 +1723,7 @@ header#navbar.scrolled .desktop-btn {
 .footer-container {
   width: 100%;
   display: flex;
+  background-color: white;
   flex-direction: column;
   align-items: center;
   flex-wrap: wrap;

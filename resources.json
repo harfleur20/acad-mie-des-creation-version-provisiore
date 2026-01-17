@@ -1,0 +1,108 @@
+{
+  "resources": [
+    {
+      "id": 1,
+      "title": "Guide Complet JavaScript ES6+",
+      "description": "Tous les concepts modernes de JavaScript expliqués avec des exemples pratiques",
+      "category": "PDF",
+      "type": "download",
+      "thumbnail": "https://images.unsplash.com/photo-1627398242454-45a1465c2479?w=400&h=300&fit=crop",
+      "fileSize": "2.4 MB",
+      "date": "2025-01-15",
+      "url": "/downloads/javascript-guide.pdf",
+      "tags": ["JavaScript", "Débutant"],
+      "isNew": true
+    },
+    {
+      "id": 2,
+      "title": "Template React + Tailwind",
+      "description": "Un starter kit prêt à l'emploi pour vos projets React",
+      "category": "Template",
+      "type": "download",
+      "thumbnail": "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=400&h=300&fit=crop",
+      "fileSize": "856 KB",
+      "date": "2025-01-12",
+      "url": "/downloads/react-tailwind-template.zip",
+      "tags": ["React", "Template"],
+      "isNew": true
+    },
+    {
+      "id": 3,
+      "title": "Tutoriel CSS Grid & Flexbox",
+      "description": "Maîtrisez les layouts modernes avec des exemples interactifs",
+      "category": "Vidéo",
+      "type": "link",
+      "thumbnail": "https://images.unsplash.com/photo-1507721999472-8ed4421c4af2?w=400&h=300&fit=crop",
+      "fileSize": null,
+      "date": "2025-01-10",
+      "url": "https://youtube.com/watch?v=example",
+      "tags": ["CSS", "Tutoriel"],
+      "isNew": false
+    },
+    {
+      "id": 4,
+      "title": "Collection d'Icônes SVG",
+      "description": "Plus de 500 icônes vectorielles optimisées pour le web",
+      "category": "Archive",
+      "type": "download",
+      "thumbnail": "https://images.unsplash.com/photo-1618005198919-d3d4b5a92ead?w=400&h=300&fit=crop",
+      "fileSize": "12.8 MB",
+      "date": "2025-01-08",
+      "url": "/downloads/svg-icons-collection.zip",
+      "tags": ["Design", "Icônes"],
+      "isNew": false
+    },
+    {
+      "id": 5,
+      "title": "Cheatsheet Git Commands",
+      "description": "Toutes les commandes Git essentielles en un coup d'œil",
+      "category": "PDF",
+      "type": "download",
+      "thumbnail": "https://images.unsplash.com/photo-1556075798-4825dfaaf498?w=400&h=300&fit=crop",
+      "fileSize": "450 KB",
+      "date": "2025-01-05",
+      "url": "/downloads/git-cheatsheet.pdf",
+      "tags": ["Git", "Référence"],
+      "isNew": false
+    },
+    {
+      "id": 6,
+      "title": "Formation API REST avec Node.js",
+      "description": "Créez votre première API professionnelle étape par étape",
+      "category": "Vidéo",
+      "type": "link",
+      "thumbnail": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=400&h=300&fit=crop",
+      "fileSize": null,
+      "date": "2025-01-03",
+      "url": "https://youtube.com/watch?v=example2",
+      "tags": ["Node.js", "API"],
+      "isNew": false
+    },
+    {
+      "id": 7,
+      "title": "Guide Responsive Design",
+      "description": "Créez des sites web adaptatifs pour tous les appareils",
+      "category": "PDF",
+      "type": "download",
+      "thumbnail": "https://images.unsplash.com/photo-1559028012-481c04fa702d?w=400&h=300&fit=crop",
+      "fileSize": "3.1 MB",
+      "date": "2025-01-02",
+      "url": "/downloads/responsive-design-guide.pdf",
+      "tags": ["CSS", "Responsive", "Design"],
+      "isNew": false
+    },
+    {
+      "id": 8,
+      "title": "Portfolio Template HTML/CSS",
+      "description": "Un template de portfolio moderne et professionnel",
+      "category": "Template",
+      "type": "download",
+      "thumbnail": "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=400&h=300&fit=crop",
+      "fileSize": "1.2 MB",
+      "date": "2024-12-28",
+      "url": "/downloads/portfolio-template.zip",
+      "tags": ["HTML", "CSS", "Portfolio"],
+      "isNew": false
+    }
+  ]
+}
