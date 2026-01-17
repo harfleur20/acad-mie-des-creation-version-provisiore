@@ -238,27 +238,40 @@ if(tpContainer && f.travaux_pratiques) {
         if(isVideo) {
             // SOLUTION SIMPLE : vidéo avec première frame comme preview
             return `
-                <div class="tp-item video-thumbnail landscape" onclick="openLightbox(${index})">
-                    <video 
-                        src="${src}" 
-                        muted 
-                        playsinline 
-                        webkit-playsinline 
-                        preload="metadata"
-                        crossorigin="anonymous"
-                        onloadeddata="if(this.readyState >= 2) { this.currentTime = 0.1; }"
-                    ></video>
-                    <div class="play-button">
-                        <i class="fas fa-play"></i>
-                    </div>
-                    <div class="video-badge">
-                        <i class="fas fa-video"></i> Vidéo
+                <div class="tp-item video-thumbnail landscape" onclick="openLightbox(${index})" data-video-src="${src}">
+                    <div class="video-preview-container">
+                        <!-- Poster sera généré automatiquement -->
+                        <img class="video-poster" src="" alt="Preview vidéo">
+                        <video 
+                            class="video-source"
+                            src="${src}" 
+                            muted 
+                            playsinline 
+                            webkit-playsinline 
+                            preload="metadata"
+                            crossorigin="anonymous"
+                            style="display: none;"
+                        ></video>
+                        <div class="play-button">
+                            <i class="fas fa-play"></i>
+                        </div>
+                        <div class="video-badge">
+                            <i class="fas fa-video"></i> Vidéo
+                        </div>
+                        <div class="loading-spinner">
+                            <i class="fas fa-spinner fa-spin"></i>
+                        </div>
                     </div>
                 </div>`;
         } else {
             return `<img src="${src}" alt="TP" class="tp-item image-thumbnail" onclick="openLightbox(${index})">`;
         }
     }).join('');
+    
+    // 3. GÉNÉRER LES PREVIEWS APRÈS LE CHARGEMENT
+    setTimeout(() => {
+        generateVideoPreviews();
+    }, 1000);
     
     // Si aucune TP, afficher un message
     if(f.travaux_pratiques.length === 0) {
@@ -316,6 +329,78 @@ if(tpContainer && f.travaux_pratiques) {
             }
         });
     }, 500);
+}
+
+// ============================================================
+// GÉNÉRATION DES PREVIEWS VIDÉO
+// ============================================================
+async function generateVideoPreviews() {
+    const videoThumbnails = document.querySelectorAll('.video-thumbnail');
+    
+    videoThumbnails.forEach(async (thumbnail, index) => {
+        const videoSrc = thumbnail.getAttribute('data-video-src');
+        const videoElement = thumbnail.querySelector('.video-source');
+        const posterImg = thumbnail.querySelector('.video-poster');
+        const spinner = thumbnail.querySelector('.loading-spinner');
+        
+        if (!videoSrc || !videoElement || !posterImg) return;
+        
+        try {
+            // Afficher le spinner
+            if (spinner) spinner.style.display = 'flex';
+            
+            // Créer un élément vidéo temporaire pour capturer la preview
+            const tempVideo = document.createElement('video');
+            tempVideo.crossOrigin = 'anonymous';
+            tempVideo.muted = true;
+            tempVideo.preload = 'metadata';
+            tempVideo.src = videoSrc;
+            
+            // Attendre que la vidéo soit prête
+            await new Promise((resolve, reject) => {
+                tempVideo.addEventListener('loadeddata', resolve);
+                tempVideo.addEventListener('error', reject);
+                tempVideo.addEventListener('stalled', reject);
+                
+                // Timeout de sécurité
+                setTimeout(() => reject(new Error('Timeout loading video')), 5000);
+            });
+            
+            // Créer un canvas pour capturer la première frame
+            tempVideo.currentTime = 0.5; // Un peu après le début
+            await new Promise((resolve) => {
+                tempVideo.addEventListener('seeked', resolve);
+                setTimeout(resolve, 1000);
+            });
+            
+            const canvas = document.createElement('canvas');
+            canvas.width = 320;
+            canvas.height = 180;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(tempVideo, 0, 0, canvas.width, canvas.height);
+            
+            // Convertir en image
+            const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
+            posterImg.src = dataUrl;
+            posterImg.style.display = 'block';
+            
+            // Cacher le spinner
+            if (spinner) spinner.style.display = 'none';
+            
+            // Nettoyer
+            tempVideo.remove();
+            
+        } catch (error) {
+            console.error(`Erreur génération preview pour ${videoSrc}:`, error);
+            
+            // Fallback : utiliser une image placeholder
+            posterImg.src = 'Assets/video-placeholder.jpg'; // Créez cette image
+            posterImg.style.display = 'block';
+            
+            // Cacher le spinner
+            if (spinner) spinner.style.display = 'none';
+        }
+    });
 }
 
 // ============================================================
