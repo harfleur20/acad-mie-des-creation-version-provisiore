@@ -68,7 +68,7 @@ function genererHTMLCarte(f) {
 
     if (!etat.estPasse) {
         const dateBadge = formaterDateBadge(f.date_evenement);
-        badgeSessionHTML = `<div class="session-badge"><i class="fa-solid fa-clock"></i> <span>ProchaineSession : ${dateBadge}</span></div>`;
+        badgeSessionHTML = `<div class="session-badge"><i class="fa-solid fa-clock"></i> <span>Prochaine Session : ${dateBadge}</span></div>`;
         const diffJours = (new Date(f.date_evenement).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24);
         if (diffJours <= 5) compteurHTML = genererHTMLCompteur();
     }
@@ -126,18 +126,26 @@ function genererHTMLCarte(f) {
 }
 
 // ============================================================
-// CHARGEMENT PAGE DÉTAILS
-// ============================================================
-// ============================================================
 // CHARGEMENT PAGE DÉTAILS (COMPLÈTE)
 // ============================================================
 function chargerDetails(data) {
     const params = new URLSearchParams(window.location.search);
     const slug = params.get('slug');
-    if (!slug) return; 
+    
+    if (!slug) {
+        console.error("Aucun slug trouvé dans l'URL");
+        return;
+    }
 
     const f = data.formations.find(item => item.slug === slug);
-    if (!f) return;
+    if (!f) {
+        console.error("Formation non trouvée pour le slug:", slug);
+        return;
+    }
+
+    // MISE À JOUR DE L'URL DANS LA BARRE D'ADRESSE (affichage du slug)
+    const newUrl = `${window.location.pathname}?slug=${slug}`;
+    window.history.replaceState({slug: slug}, '', newUrl);
 
     // 1. Textes de base
     document.title = f.titre;
@@ -148,19 +156,18 @@ function chargerDetails(data) {
     setText('detail-prix-barre', f.prix.original);
     setText('detail-audience', f.audience);
 
-    // 2. Gestion INTELLIGENTE du Bouton "Réserver"
+    // 2. Gestion INTELLIGENTE du Bouton "Réserver" - REDIRECTION EXTERNE
     const btnPay = document.getElementById('detail-btn-paiement');
     const etat = determinerEtat(f.date_evenement);
 
     if(btnPay) {
-        // On clone le bouton pour supprimer TOUS les anciens écouteurs parasites
         const newBtn = btnPay.cloneNode(true);
         btnPay.parentNode.replaceChild(newBtn, btnPay);
 
         // CAS A : La date est passée -> GRIS (Fermé)
         if (etat.estPasse) {
             newBtn.innerHTML = `<i class="fa-solid fa-lock"></i> Inscriptions closes`;
-            newBtn.style.backgroundColor = "#95a5a6"; // Gris
+            newBtn.style.backgroundColor = "#95a5a6";
             newBtn.style.cursor = "not-allowed";
             newBtn.style.opacity = "1";
             newBtn.onclick = (e) => e.preventDefault();
@@ -168,7 +175,7 @@ function chargerDetails(data) {
         // CAS B : Date OK mais Pas de lien -> ORANGE (Bientôt)
         else if (!f.lien_reservation || f.lien_reservation.trim() === "") {
             newBtn.innerHTML = `<i class="fa-solid fa-hourglass-half"></i> Bientôt les inscriptions`;
-            newBtn.style.backgroundColor = "#f39c12"; // Orange
+            newBtn.style.backgroundColor = "#f39c12";
             newBtn.style.cursor = "not-allowed";
             newBtn.style.opacity = "0.8";
             
@@ -177,31 +184,24 @@ function chargerDetails(data) {
                 const msgDiv = createMessageDivIfNeeded(newBtn);
                 msgDiv.innerHTML = "⚠️ Les inscriptions ne sont pas encore ouvertes pour cette session.";
                 msgDiv.style.display = 'block';
-                msgDiv.style.backgroundColor = '#fff3cd'; // Jaune pâle
+                msgDiv.style.backgroundColor = '#fff3cd';
                 msgDiv.style.color = '#856404';
                 setTimeout(() => { msgDiv.style.display = 'none'; }, 3000);
             });
         }
-        // CAS C : Date OK et Lien OK -> VERT (Go !)
+        // CAS C : Date OK et Lien OK -> REDIRECTION DIRECTE VERS LIEN EXTERNE
         else {
             newBtn.innerHTML = `<i class="fa-solid fa-piggy-bank"></i> Réservez votre place !`;
-            newBtn.style.backgroundColor = ""; // Garde le vert du CSS
+            newBtn.style.backgroundColor = "";
             newBtn.style.cursor = "pointer";
             newBtn.style.opacity = "1";
 
             newBtn.addEventListener('click', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
-
-                const msgDiv = createMessageDivIfNeeded(newBtn);
-                msgDiv.innerHTML = "🚀 Tous les paiements sont acceptés : Mobile Money, VISA et Autres";
-                msgDiv.style.display = 'block';
-                msgDiv.style.backgroundColor = '#cae3f2'; // Vert pâle
-                msgDiv.style.color = '#005586';
-
-                setTimeout(() => {
-                    window.open(f.lien_reservation, '_self');
-                }, 1000);
+                
+                // Redirection immédiate vers le lien externe (nouvel onglet)
+                window.open(f.lien_reservation, '_blank');
             });
         }
     }
@@ -225,32 +225,35 @@ function chargerDetails(data) {
     fillList('detail-points', f.points_cles);
     fillList('detail-objectifs', f.objectifs);
     
-    // 5. GESTION DES TP AVEC PREVIEW AUTOMATIQUE POUR VIDÉOS (GRAND FORMAT PAYSAGE)
-const tpContainer = document.getElementById('detail-tp');
-if(tpContainer && f.travaux_pratiques) {
-    // 1. Sauvegarder la liste complète dans la variable globale
-    currentGalleryItems = f.travaux_pratiques;
+    // 5. GESTION DES TP AVEC PREVIEW AMÉLIORÉE (Compatible iOS - Option A)
+    const tpContainer = document.getElementById('detail-tp');
+    if(tpContainer && f.travaux_pratiques) {
+        currentGalleryItems = f.travaux_pratiques;
 
-    // 2. Générer le HTML avec preview automatique pour vidéos
-    tpContainer.innerHTML = f.travaux_pratiques.map((src, index) => {
-        const isVideo = src.toLowerCase().endsWith('.mp4') || src.toLowerCase().endsWith('.webm');
-        
-        if(isVideo) {
-            // SOLUTION SIMPLE : vidéo avec première frame comme preview
-            return `
-                <div class="tp-item video-thumbnail landscape" onclick="openLightbox(${index})" data-video-src="${src}">
-                    <div class="video-preview-container">
-                        <!-- Poster sera généré automatiquement -->
-                        <img class="video-poster" src="" alt="Preview vidéo">
+        // Identifier les images utilisées comme posters (pour ne pas les afficher 2 fois)
+        const usedAsPosters = new Set();
+        f.travaux_pratiques.forEach((src, index) => {
+            const isVideo = src.toLowerCase().endsWith('.mp4') || src.toLowerCase().endsWith('.webm');
+            if(isVideo) {
+                const posterSrc = generateVideoPoster(src, f.travaux_pratiques);
+                usedAsPosters.add(posterSrc);
+            }
+        });
+
+        tpContainer.innerHTML = f.travaux_pratiques.map((src, index) => {
+            const isVideo = src.toLowerCase().endsWith('.mp4') || src.toLowerCase().endsWith('.webm');
+            
+            if(isVideo) {
+                const posterSrc = generateVideoPoster(src, f.travaux_pratiques);
+                return `
+                    <div class="tp-item video-thumbnail landscape" onclick="openLightbox(${index})">
                         <video 
-                            class="video-source"
                             src="${src}" 
+                            poster="${posterSrc}"
                             muted 
                             playsinline 
                             webkit-playsinline 
-                            preload="metadata"
-                            crossorigin="anonymous"
-                            style="display: none;"
+                            preload="none"
                         ></video>
                         <div class="play-button">
                             <i class="fas fa-play"></i>
@@ -258,31 +261,25 @@ if(tpContainer && f.travaux_pratiques) {
                         <div class="video-badge">
                             <i class="fas fa-video"></i> Vidéo
                         </div>
-                        <div class="loading-spinner">
-                            <i class="fas fa-spinner fa-spin"></i>
-                        </div>
-                    </div>
+                    </div>`;
+            } else {
+                // Ne pas afficher l'image si elle est utilisée comme poster
+                if(usedAsPosters.has(src)) {
+                    return ''; // Masquer cette image
+                }
+                return `<img src="${src}" alt="TP" class="tp-item image-thumbnail" onclick="openLightbox(${index})">`;
+            }
+        }).join('');
+        
+        if(f.travaux_pratiques.length === 0) {
+            tpContainer.innerHTML = `
+                <div class="no-tp-message">
+                    <i class="fas fa-photo-video"></i>
+                    <h3>Aucun travail pratique disponible</h3>
+                    <p>Les supports de TP seront ajoutés prochainement</p>
                 </div>`;
-        } else {
-            return `<img src="${src}" alt="TP" class="tp-item image-thumbnail" onclick="openLightbox(${index})">`;
         }
-    }).join('');
-    
-    // 3. GÉNÉRER LES PREVIEWS APRÈS LE CHARGEMENT
-    setTimeout(() => {
-        generateVideoPreviews();
-    }, 1000);
-    
-    // Si aucune TP, afficher un message
-    if(f.travaux_pratiques.length === 0) {
-        tpContainer.innerHTML = `
-            <div class="no-tp-message">
-                <i class="fas fa-photo-video"></i>
-                <h3>Aucun travail pratique disponible</h3>
-                <p>Les supports de TP seront ajoutés prochainement</p>
-            </div>`;
     }
-}
 
     // 6. Gestion des modules
     const modContainer = document.getElementById('detail-modules');
@@ -310,104 +307,36 @@ if(tpContainer && f.travaux_pratiques) {
 
     // 8. Initialiser le partage social
     setupSocialSharing(f.titre);
-
-    // 9. FORCER LA PREVIEW DES VIDÉOS APRÈS CHARGEMENT
-    setTimeout(() => {
-        document.querySelectorAll('.video-thumbnail video').forEach(video => {
-            // S'assurer que la première frame est affichée
-            video.addEventListener('loadeddata', function() {
-                if(this.readyState >= 2) { // HAVE_CURRENT_DATA
-                    this.currentTime = 0.1;
-                    this.pause();
-                }
-            });
-            
-            // Si déjà chargé
-            if(video.readyState >= 2) {
-                video.currentTime = 0.1;
-                video.pause();
-            }
-        });
-    }, 500);
 }
 
 // ============================================================
-// GÉNÉRATION DES PREVIEWS VIDÉO
+// GÉNÉRATION AUTOMATIQUE DE POSTER VIDÉO (OPTION A - INTELLIGENTE)
 // ============================================================
-async function generateVideoPreviews() {
-    const videoThumbnails = document.querySelectorAll('.video-thumbnail');
-    
-    videoThumbnails.forEach(async (thumbnail, index) => {
-        const videoSrc = thumbnail.getAttribute('data-video-src');
-        const videoElement = thumbnail.querySelector('.video-source');
-        const posterImg = thumbnail.querySelector('.video-poster');
-        const spinner = thumbnail.querySelector('.loading-spinner');
-        
-        if (!videoSrc || !videoElement || !posterImg) return;
-        
-        try {
-            // Afficher le spinner
-            if (spinner) spinner.style.display = 'flex';
-            
-            // Créer un élément vidéo temporaire pour capturer la preview
-            const tempVideo = document.createElement('video');
-            tempVideo.crossOrigin = 'anonymous';
-            tempVideo.muted = true;
-            tempVideo.preload = 'metadata';
-            tempVideo.src = videoSrc;
-            
-            // Attendre que la vidéo soit prête
-            await new Promise((resolve, reject) => {
-                tempVideo.addEventListener('loadeddata', resolve);
-                tempVideo.addEventListener('error', reject);
-                tempVideo.addEventListener('stalled', reject);
-                
-                // Timeout de sécurité
-                setTimeout(() => reject(new Error('Timeout loading video')), 5000);
-            });
-            
-            // Créer un canvas pour capturer la première frame
-            tempVideo.currentTime = 0.5; // Un peu après le début
-            await new Promise((resolve) => {
-                tempVideo.addEventListener('seeked', resolve);
-                setTimeout(resolve, 1000);
-            });
-            
-            const canvas = document.createElement('canvas');
-            canvas.width = 320;
-            canvas.height = 180;
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(tempVideo, 0, 0, canvas.width, canvas.height);
-            
-            // Convertir en image
-            const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
-            posterImg.src = dataUrl;
-            posterImg.style.display = 'block';
-            
-            // Cacher le spinner
-            if (spinner) spinner.style.display = 'none';
-            
-            // Nettoyer
-            tempVideo.remove();
-            
-        } catch (error) {
-            console.error(`Erreur génération preview pour ${videoSrc}:`, error);
-            
-            // Fallback : utiliser une image placeholder
-            posterImg.src = 'Assets/video-placeholder.jpg'; // Créez cette image
-            posterImg.style.display = 'block';
-            
-            // Cacher le spinner
-            if (spinner) spinner.style.display = 'none';
+function generateVideoPoster(videoSrc, allItems) {
+    // STRATÉGIE 1 : Chercher une image JUSTE APRÈS la vidéo dans la liste
+    const videoIndex = allItems.indexOf(videoSrc);
+    if (videoIndex !== -1 && videoIndex + 1 < allItems.length) {
+        const nextItem = allItems[videoIndex + 1];
+        const isImage = /\.(jpg|jpeg|png|webp|avif|gif)$/i.test(nextItem);
+        if (isImage) {
+            return nextItem; // Utiliser l'image suivante comme poster ✅
         }
-    });
+    }
+
+    // STRATÉGIE 2 : Chercher un fichier poster dédié (même nom, extension différente)
+    // Ex: /Flyers/packaging.mp4 → /Flyers/packaging-poster.png
+    const posterPath = videoSrc.replace(/\.(mp4|webm)$/i, '-poster.png');
+    
+    // STRATÉGIE 3 : Image par défaut (optionnel - décommentez si besoin)
+    // return '/Assets/default-video-poster.png';
+    
+    return posterPath; // Essaie le poster dédié si pas d'image après
 }
 
 // ============================================================
 // FONCTIONS UTILITAIRES
 // ============================================================
 
-// Petit utilitaire pour créer la div de message si elle n'existe pas
 function createMessageDivIfNeeded(btnElement) {
     let msgDiv = document.getElementById('purchase-status-message');
     if (!msgDiv) {
@@ -423,7 +352,6 @@ function createMessageDivIfNeeded(btnElement) {
     return msgDiv;
 }
 
-// Fonctions de remplissage de base
 function setText(id, text) { 
     const el = document.getElementById(id); 
     if(el) el.textContent = text || ''; 
@@ -438,24 +366,6 @@ function fillList(id, array) {
     const el = document.getElementById(id); 
     if(el && array) el.innerHTML = array.map(i => `<li><i class="fas fa-check"></i> ${i}</li>`).join(''); 
 }
-
-// Petit utilitaire pour créer la div de message si elle n'existe pas
-function createMessageDivIfNeeded(btnElement) {
-    let msgDiv = document.getElementById('purchase-status-message');
-    if (!msgDiv) {
-        msgDiv = document.createElement('div');
-        msgDiv.id = 'purchase-status-message';
-        msgDiv.style.marginTop = '10px';
-        msgDiv.style.padding = '10px';
-        msgDiv.style.borderRadius = '5px';
-        msgDiv.style.textAlign = 'center';
-        msgDiv.style.fontWeight = 'bold';
-        btnElement.parentNode.insertBefore(msgDiv, btnElement.nextSibling);
-    }
-    return msgDiv;
-}
-
-
 
 // ============================================================
 // OUTILS TECHNIQUES (Commun)
@@ -525,10 +435,6 @@ function lancerAnimationStats() {
     document.querySelectorAll('.decompte-chiffre span').forEach(s => observer.observe(s));
 }
 
-function setText(id, text) { const el = document.getElementById(id); if(el) el.textContent = text || ''; }
-function setImage(id, src) { const el = document.getElementById(id); if(el) el.src = src || ''; }
-function fillList(id, array) { const el = document.getElementById(id); if(el && array) el.innerHTML = array.map(i => `<li><i class="fas fa-check"></i> ${i}</li>`).join(''); }
-
 // ============================================================
 // GESTION DU PARTAGE (Réseaux Sociaux)
 // ============================================================
@@ -536,21 +442,17 @@ function setupSocialSharing(titreFormation) {
     const url = encodeURIComponent(window.location.href);
     const text = encodeURIComponent(`Découvre cette formation incroyable : ${titreFormation}`);
     
-    // 1. Configuration Facebook
     const btnFb = document.getElementById('share-facebook');
     if(btnFb) btnFb.href = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
 
-    // 2. Configuration WhatsApp
     const btnWa = document.getElementById('share-whatsapp');
     if(btnWa) btnWa.href = `https://api.whatsapp.com/send?text=${text}%20${url}`;
 
-    // 3. Configuration Copie Lien
     const btnCopy = document.getElementById('share-copy');
     if(btnCopy) {
         btnCopy.onclick = async () => {
             try {
                 await navigator.clipboard.writeText(window.location.href);
-                // Petit feedback visuel
                 const tooltip = document.createElement('div');
                 tooltip.className = 'tooltip-copied';
                 tooltip.innerText = 'Lien copié dans le presse-papier !';
@@ -563,14 +465,10 @@ function setupSocialSharing(titreFormation) {
         };
     }
 
-    // 4. Configuration Partage Natif (Mobile)
     if (navigator.share) {
         const btnNative = document.getElementById('share-native');
-        const btnsClassique = document.querySelectorAll('.share-btn:not(.native)');
-        
         if(btnNative) {
             btnNative.style.display = 'flex';
-            
             btnNative.onclick = () => {
                 navigator.share({
                     title: document.title,
@@ -586,36 +484,30 @@ function setupSocialSharing(titreFormation) {
 // LIGHTBOX MODERNE (NAVIGATION & ZERO OMBRE)
 // ============================================================
 
-// Variables globales pour la galerie
 let currentGalleryItems = []; 
 let currentGalleryIndex = 0;
 
-// Fonction appelée au clic sur une miniature
 function openLightbox(index) {
     const modal = document.getElementById('lightbox-modal');
     if (!modal || currentGalleryItems.length === 0) return;
 
-    currentGalleryIndex = index; // On définit l'image de départ
-    updateLightboxContent(); // On affiche l'image
+    currentGalleryIndex = index;
+    updateLightboxContent();
     
     modal.style.display = "flex";
 
-    // Gestion fermeture
     const span = document.getElementsByClassName("close-lightbox")[0];
     if(span) span.onclick = closeLightbox;
     
-    // Fermer si clic en dehors (fond noir)
     modal.onclick = function(event) {
         if (event.target === modal) closeLightbox();
     }
     document.addEventListener('keydown', handleKeyboardNav);
 }
 
-// Fonction pour changer de slide (+1 ou -1)
 function changeSlide(n) {
     currentGalleryIndex += n;
     
-    // Boucle infinie
     if (currentGalleryIndex >= currentGalleryItems.length) {
         currentGalleryIndex = 0;
     }
@@ -626,7 +518,6 @@ function changeSlide(n) {
     updateLightboxContent();
 }
 
-// Met à jour l'image ou la vidéo affichée
 function updateLightboxContent() {
     const modalImg = document.getElementById('lightbox-img');
     const modalVid = document.getElementById('lightbox-video');
@@ -635,10 +526,8 @@ function updateLightboxContent() {
     const isVideo = src.toLowerCase().endsWith('.mp4') || src.toLowerCase().endsWith('.webm');
 
     if (isVideo) {
-        // Cacher l'image
         modalImg.style.display = 'none';
         
-        // Configurer la vidéo pour un grand affichage
         modalVid.style.display = 'block';
         modalVid.style.maxWidth = '90vw';
         modalVid.style.maxHeight = '80vh';
@@ -647,29 +536,22 @@ function updateLightboxContent() {
         modalVid.style.borderRadius = '8px';
         modalVid.style.backgroundColor = '#000';
         
-        // Mettre à jour la source
         modalVid.src = src;
-        
-        // Forcer le rechargement
         modalVid.load();
         
-        // Ajouter des attributs pour un bon affichage
         modalVid.setAttribute('controls', 'true');
         modalVid.setAttribute('playsinline', 'true');
         modalVid.setAttribute('webkit-playsinline', 'true');
         
-        // Essayer de jouer automatiquement
         modalVid.play().catch(e => {
             console.log("Auto-play bloqué - l'utilisateur doit cliquer pour jouer");
         });
         
     } else {
-        // Cacher la vidéo
         modalVid.style.display = 'none';
         modalVid.pause();
         modalVid.currentTime = 0;
         
-        // Afficher l'image en grand
         modalImg.style.display = 'block';
         modalImg.src = src;
         modalImg.style.maxWidth = '90vw';
@@ -688,13 +570,12 @@ function closeLightbox() {
         modal.style.display = "none";
         if(modalVid) {
             modalVid.pause();
-            modalVid.currentTime = 0; // Reset vidéo
+            modalVid.currentTime = 0;
         }
     }
     document.removeEventListener('keydown', handleKeyboardNav);
 }
 
-// Navigation clavier (Flèches + Echap)
 function handleKeyboardNav(e) {
     if (e.key === "Escape") closeLightbox();
     if (e.key === "ArrowRight") changeSlide(1);

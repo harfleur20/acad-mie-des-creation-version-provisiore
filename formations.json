@@ -263,8 +263,11 @@
       ],
       "travaux_pratiques": [
         "/Flyers/anim-logo.mp4",
+        "/Flyers/anim-logo.png",
         "/Flyers/animate-flyer.mp4",
-        "/Flyers/anim-perso.mp4"
+        "/Flyers/flyer-anime.png",
+        "/Flyers/anim-perso.mp4",
+        "/Flyers/flyer-anime2.png"
       ],
       "audience": "Cette formation s’adresse aux étudiants et professionnels du design, ainsi qu’aux entrepreneurs souhaitant créer des visuels animés modernes et impactants pour leurs projets.",
       "modules": [
