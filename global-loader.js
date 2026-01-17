@@ -456,6 +456,7 @@ function updateLightboxContent() {
     const modalImg = document.getElementById('lightbox-img');
     const modalVid = document.getElementById('lightbox-video');
     
+    // On récupère le lien actuel
     const src = currentGalleryItems[currentGalleryIndex];
     const isVideo = src.toLowerCase().endsWith('.mp4') || src.toLowerCase().endsWith('.webm');
 
@@ -463,16 +464,16 @@ function updateLightboxContent() {
         modalImg.style.display = 'none';
         modalVid.style.display = 'block';
         
-        // CORRECTION IPHONE : t=0.001 force l'affichage de la première image
+        // CORRECTION IPHONE : On ajoute #t=0.001 pour forcer l'affichage de la première image
+        // Et on s'assure que playsinline et muted sont présents pour Safari
         modalVid.src = src + "#t=0.001";
+        modalVid.setAttribute('playsinline', 'true');
+        modalVid.setAttribute('webkit-playsinline', 'true');
+        modalVid.muted = true; // Indispensable pour l'auto-preview sur iPhone
         
-        // Attributs indispensables pour Safari mobile
-        modalVid.setAttribute('playsinline', '');
-        modalVid.setAttribute('webkit-playsinline', '');
-        modalVid.setAttribute('preload', 'metadata');
-        
-        modalVid.play().catch(error => {
-            console.log("Lecture auto bloquée, l'image est affichée grâce au timer.");
+        modalVid.load(); // Force le rechargement du nouvel attribut src
+        modalVid.play().catch(() => {
+            console.log("Prévisualisation chargée (lecture auto bloquée par le navigateur)");
         });
     } else {
         modalVid.style.display = 'none';
