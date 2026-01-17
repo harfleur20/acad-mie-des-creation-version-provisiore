@@ -623,6 +623,18 @@ header#navbar.scrolled .desktop-btn {
     grid-template-columns: repeat(2, 1fr); /* 2 cartes par ligne */
   }
 
+  .bloc-list-card,
+.pre-list-card {
+  display: grid;
+  grid-template-columns: repeat(
+    4,
+    1fr
+  ); /* 4 cartes par ligne sur grand écran */
+  gap: 70px; /* Espacement entre les cartes */
+  width: 100%;
+  padding: 20px 0;
+}
+
   .form-en-ligne-contenair .form-title-haut {
     margin-bottom: 0;
   }
@@ -661,7 +673,7 @@ header#navbar.scrolled .desktop-btn {
 }
 
 /* ============================================================
-   DESIGN FINAL DES CARTES (VERSION CORRIGÉE ET OPTIMISÉE)
+   DESIGN FINAL DES CARTES 
    ============================================================ */
 
 .card-bloc.new-design {
@@ -687,10 +699,10 @@ header#navbar.scrolled .desktop-btn {
 /* --- ZONE IMAGE --- */
 .card-bloc.new-design .card-image {
   width: 100%;
-  height: 200px; /* Hauteur fixe pour l'image */
+  height: 200px; 
   position: relative;
   overflow: hidden;
-  border-radius: 0; /* Pas de border-radius interne */
+  border-radius: 0; 
 }
 
 .card-bloc.new-design .card-image img {
@@ -730,7 +742,7 @@ header#navbar.scrolled .desktop-btn {
 .card-meta-row {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start; /* Aligné en haut pour la colonne de badges */
+  align-items: flex-start; 
   margin-top: 5px;
 }
 
@@ -760,9 +772,9 @@ header#navbar.scrolled .desktop-btn {
 
 /* Couleurs des badges */
 .badge-premium {
-  background: #000;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.5));
   color: #ffd700;
-  border: 1px solid #ffd700;
+  border: 1px solid #fff2ac;
 }
 .badge-populaire {
   background: #ff8c00;
@@ -802,7 +814,7 @@ header#navbar.scrolled .desktop-btn {
   font-weight: 700;
   color: #1f2352;
   line-height: 1.4;
-  margin: 0;
+  margin-bottom: 5px;
   display: -webkit-box;
   -webkit-line-clamp: 2; /* Affiche max 2 lignes */
   line-clamp: 2;

@@ -1075,7 +1075,7 @@ video::-webkit-media-controls-start-playback-button {
     max-height: 85vh;
     object-fit: contain;
     border-radius: 4px; /* Très léger arrondi */
-    box-shadow: none; /* Suppression de l'ombre demandée */
+    box-shadow: none; 
     border: none;
 }
 
@@ -1201,7 +1201,7 @@ video::-webkit-media-controls-start-playback-button {
 }
 
 .lightbox-prev:hover, .lightbox-next:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(5, 153, 106, 0.8);
 }
 
 /* Sur mobile, on réduit un peu les flèches */
