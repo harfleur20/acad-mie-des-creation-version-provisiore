@@ -1,5 +1,5 @@
 // ===================================================================
-//   BLOG SCRIPT - VERSION FINALE ET CORRIGÉE
+//   BLOG SCRIPT - VERSION FINALE (Clean)
 // ===================================================================
 
 // --- INITIALISATION DES PAGES ---
@@ -71,12 +71,6 @@ async function loadBlogIndex() {
 /**
  * Charge un article unique, son contenu, et gère le système de vote.
  */
-// Dans blog-script.js, remplacez toute la fonction loadSinglePost
-
-// Dans blog-script.js, remplacez toute la fonction loadSinglePost
-
-// Dans le fichier : blog-script.js
-
 async function loadSinglePost() {
     try {
         const postId = new URLSearchParams(window.location.search).get('id');
@@ -94,7 +88,11 @@ async function loadSinglePost() {
 
         const posts = await postsResponse.json();
         const postMeta = posts.find(p => p.id === postId);
-        const markdown = await markdownResponse.text();
+        
+        // Vérification de sécurité si marked existe
+        const markdownContent = typeof marked !== 'undefined' 
+            ? marked.parse(await markdownResponse.text()) 
+            : "<p>Erreur: La librairie 'marked' n'est pas chargée.</p>" + await markdownResponse.text();
 
         document.title = `${postMeta.title} - Le Blog des Créatifs`;
         const header = document.getElementById('post-header');
@@ -105,11 +103,15 @@ async function loadSinglePost() {
                 <h1>${postMeta.title}</h1>
                 <p class="post-meta">Par ${postMeta.author} • ${postMeta.date}</p>
             </div>`;
-        document.getElementById('post-body').innerHTML = marked.parse(markdown);
         
+        document.getElementById('post-body').innerHTML = markdownContent;
+        
+        // Initialisation du partage
         setupShareLinks(postMeta.title);
+        
         loadRecentPosts(posts, postId);
 
+        // Gestion des Votes
         const ratingWidget = document.querySelector('.rating-widget');
         const avgRatingContainer = document.getElementById('average-rating-display');
         const starsContainer = document.getElementById('user-rating-stars');
@@ -122,7 +124,6 @@ async function loadSinglePost() {
             avgRatingContainer.innerHTML = `Note moyenne : <span class="avg-stars">Pas encore noté</span>`;
         }
 
-        // On vérifie si un score a été enregistré pour cet article
         const userVote = localStorage.getItem(`voted_score_${postId}`);
         if (userVote) {
             ratingWidget.classList.add('rated');
@@ -130,7 +131,7 @@ async function loadSinglePost() {
             const stars = starsContainer.querySelectorAll('i');
             stars.forEach((star, index) => {
                 if (index < userScore) {
-                    star.classList.add('user-rated'); // On colore les étoiles correspondantes
+                    star.classList.add('user-rated');
                 }
             });
         }
@@ -143,7 +144,6 @@ async function loadSinglePost() {
                 if (error) {
                     console.error('Erreur lors de l\'envoi du vote:', error);
                 } else {
-                    // On enregistre le score précis
                     localStorage.setItem(`voted_score_${postId}`, score.toString());
                     location.reload();
                 }
@@ -162,14 +162,17 @@ async function loadSinglePost() {
 function displayPage(page) {
     const featuredContainer = document.getElementById('featured-post-container');
     const gridContainer = document.getElementById('posts-grid');
+    if(!gridContainer) return;
+
     gridContainer.innerHTML = '';
-    featuredContainer.innerHTML = '';
+    if(featuredContainer) featuredContainer.innerHTML = '';
+    
     currentPage = page;
 
     const featuredPost = allPosts.find(p => p.isFeatured);
     let postsToDisplay = [...currentPosts];
 
-    if (page === 1 && featuredPost && currentPosts.includes(featuredPost)) {
+    if (page === 1 && featuredPost && currentPosts.includes(featuredPost) && featuredContainer) {
         featuredContainer.innerHTML = createPostCard(featuredPost);
         postsToDisplay = postsToDisplay.filter(p => !p.isFeatured);
     }
@@ -185,15 +188,11 @@ function displayPage(page) {
 /**
  * Crée le HTML pour une carte d'article.
  */
-// Dans blog-script.js, remplacez la fonction createPostCard
-
 const createPostCard = (post) => {
     const categoryClass = (post.category || '').toLowerCase().replace(/\s+/g, '-');
     
-    // ▼▼▼ LOGIQUE AMÉLIORÉE ICI ▼▼▼
-    let ratingHtml = ''; // Par défaut, on n'affiche rien
+    let ratingHtml = ''; 
     if (post.rating) {
-        // Si l'article a une note, on l'affiche
         ratingHtml = `
             <div class="card-rating">
                 <i class="fa-solid fa-star"></i>
@@ -201,14 +200,12 @@ const createPostCard = (post) => {
             </div>
         `;
     } else {
-        // Sinon, on affiche un message par défaut
         ratingHtml = `
             <div class="card-rating no-rating">
                 <span>Pas encore noté</span>
             </div>
         `;
     }
-    // ▲▲▲ FIN DE LA LOGIQUE AMÉLIORÉE ▲▲▲
 
     return `
     <article class="post-card">
@@ -248,9 +245,7 @@ function setupPagination() {
         }
         btn.addEventListener('click', () => {
             displayPage(i);
-            const currentActive = document.querySelector('.pagination-button.active');
-            if(currentActive) currentActive.classList.remove('active');
-            btn.classList.add('active');
+            setupPagination(); // On rafraichit la pagination pour la classe active
         });
         paginationContainer.appendChild(btn);
     }
@@ -301,14 +296,62 @@ function loadRecentPosts(posts, currentPostId) {
     `).join('');
 }
 
+// ============================================================
+// GESTION DU PARTAGE (Blog) - Nouvelle Version Sécurisée
+// ============================================================
 function setupShareLinks(title) {
     const url = window.location.href; 
-    const text = encodeURIComponent(title);
+    const text = encodeURIComponent(`À lire absolument sur le blog : ${title}`);
+    
+    // 1. Facebook
     const facebookLink = document.getElementById('share-facebook');
-    const whatsappLink = document.getElementById('share-whatsapp');
-    const linkedinLink = document.getElementById('share-linkedin');
-
     if (facebookLink) facebookLink.href = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
-    if (whatsappLink) whatsappLink.href = `https://api.whatsapp.com/send?text=${text}%20${encodeURIComponent(url)}`;
-    if (linkedinLink) linkedinLink.href = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(url)}&title=${text}`;
+
+    // 2. WhatsApp
+    const whatsappLink = document.getElementById('share-whatsapp');
+    if (whatsappLink) whatsappLink.href = `https://api.whatsapp.com/send?text=${text}%20${url}`;
+
+    // 3. LinkedIn
+    const linkedinLink = document.getElementById('share-linkedin');
+    if (linkedinLink) linkedinLink.href = `https://www.linkedin.com/sharing/share-offsite/?url=${url}`;
+
+    // 4. Copier le lien
+    const btnCopy = document.getElementById('share-copy');
+    if(btnCopy) {
+        const newBtnCopy = btnCopy.cloneNode(true);
+        btnCopy.parentNode.replaceChild(newBtnCopy, btnCopy);
+
+        newBtnCopy.onclick = async () => {
+            try {
+                await navigator.clipboard.writeText(url);
+                const tooltip = document.createElement('div');
+                tooltip.className = 'tooltip-copied';
+                tooltip.innerText = 'Lien copié !';
+                document.body.appendChild(tooltip);
+                setTimeout(() => tooltip.remove(), 2000);
+            } catch (err) {
+                console.error('Erreur copie', err);
+                alert('Lien : ' + url);
+            }
+        };
+    }
+
+    // 5. Partage Natif (Mobile)
+    if (navigator.share) {
+        const btnNative = document.getElementById('share-native');
+        if(btnNative) {
+            btnNative.style.display = 'flex'; 
+            
+            const newBtnNative = btnNative.cloneNode(true);
+            btnNative.parentNode.replaceChild(newBtnNative, btnNative);
+
+            newBtnNative.onclick = () => {
+                navigator.share({
+                    title: document.title,
+                    text: `J'ai trouvé cet article intéressant : ${title}`,
+                    url: url
+                }).catch(console.error);
+            };
+        }
+    }
 }

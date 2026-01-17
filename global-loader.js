@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (document.getElementById('container-formations-ligne') || document.getElementById('container-formations-presentiel')) {
             chargerAccueil(data);
             lancerAnimationStats(); 
-            injecterRatingsSupabase(); // Décommentez si vous utilisez supabase
+            injecterRatingsSupabase(); 
         }
 
         // 2. Gestion Page Détails
@@ -164,7 +164,7 @@ function chargerDetails(data) {
         } 
         // CAS B : Date OK mais Pas de lien -> ORANGE (Bientôt)
         else if (!f.lien_reservation || f.lien_reservation.trim() === "") {
-            newBtn.innerHTML = `<i class="fa-solid fa-hourglass-half"></i> Bientôt disponible`;
+            newBtn.innerHTML = `<i class="fa-solid fa-hourglass-half"></i> Bientôt les inscriptions`;
             newBtn.style.backgroundColor = "#f39c12"; // Orange
             newBtn.style.cursor = "not-allowed";
             newBtn.style.opacity = "0.8";
@@ -191,10 +191,10 @@ function chargerDetails(data) {
                 e.stopPropagation();
 
                 const msgDiv = createMessageDivIfNeeded(newBtn);
-                msgDiv.innerHTML = "🚀 Redirection vers le site partenaire...";
+                msgDiv.innerHTML = "🚀 Tous les paiements sont acceptés : Mobile Money, VISA et Autres";
                 msgDiv.style.display = 'block';
-                msgDiv.style.backgroundColor = '#d4edda'; // Vert pâle
-                msgDiv.style.color = '#155724';
+                msgDiv.style.backgroundColor = '#cae3f2'; // Vert pâle
+                msgDiv.style.color = '#005586';
 
                 setTimeout(() => {
                     window.open(f.lien_reservation, '_blank');
@@ -222,9 +222,23 @@ function chargerDetails(data) {
     fillList('detail-points', f.points_cles);
     fillList('detail-objectifs', f.objectifs);
     
+    // GESTION DES TP (AVEC NAVIGATION & LIGHTBOX)
     const tpContainer = document.getElementById('detail-tp');
     if(tpContainer && f.travaux_pratiques) {
-        tpContainer.innerHTML = f.travaux_pratiques.map(img => `<img src="${img}" alt="TP">`).join('');
+        
+        // 1. On sauvegarde la liste complète des TP dans la variable globale
+        currentGalleryItems = f.travaux_pratiques;
+
+        // 2. On génère le HTML en utilisant l'index pour la navigation
+        tpContainer.innerHTML = f.travaux_pratiques.map((src, index) => {
+            const isVideo = src.toLowerCase().endsWith('.mp4') || src.toLowerCase().endsWith('.webm');
+            
+            if(isVideo) {
+                return `<video src="${src}" class="tp-item" onclick="openLightbox(${index})" muted></video>`;
+            } else {
+                return `<img src="${src}" alt="TP" class="tp-item" onclick="openLightbox(${index})">`;
+            }
+        }).join('');
     }
 
     const modContainer = document.getElementById('detail-modules');
@@ -375,18 +389,13 @@ function setupSocialSharing(titreFormation) {
     }
 
     // 4. Configuration Partage Natif (Mobile)
-    // Si le navigateur supporte le partage natif (ex: Chrome sur Android, Safari sur iPhone)
     if (navigator.share) {
         const btnNative = document.getElementById('share-native');
         const btnsClassique = document.querySelectorAll('.share-btn:not(.native)');
         
         if(btnNative) {
-            // On affiche le bouton natif
             btnNative.style.display = 'flex';
             
-            // Optionnel : On peut masquer les autres boutons sur mobile pour épurér
-            // btnsClassique.forEach(b => b.style.display = 'none'); 
-
             btnNative.onclick = () => {
                 navigator.share({
                     title: document.title,
@@ -396,4 +405,90 @@ function setupSocialSharing(titreFormation) {
             };
         }
     }
+}
+
+// ============================================================
+// LIGHTBOX MODERNE (NAVIGATION & ZERO OMBRE)
+// ============================================================
+
+// Variables globales pour la galerie
+let currentGalleryItems = []; 
+let currentGalleryIndex = 0;
+
+// Fonction appelée au clic sur une miniature
+function openLightbox(index) {
+    const modal = document.getElementById('lightbox-modal');
+    if (!modal || currentGalleryItems.length === 0) return;
+
+    currentGalleryIndex = index; // On définit l'image de départ
+    updateLightboxContent(); // On affiche l'image
+    
+    modal.style.display = "flex";
+
+    // Gestion fermeture
+    const span = document.getElementsByClassName("close-lightbox")[0];
+    if(span) span.onclick = closeLightbox;
+    
+    // Fermer si clic en dehors (fond noir)
+    modal.onclick = function(event) {
+        if (event.target === modal) closeLightbox();
+    }
+    document.addEventListener('keydown', handleKeyboardNav);
+}
+
+// Fonction pour changer de slide (+1 ou -1)
+function changeSlide(n) {
+    currentGalleryIndex += n;
+    
+    // Boucle infinie
+    if (currentGalleryIndex >= currentGalleryItems.length) {
+        currentGalleryIndex = 0;
+    }
+    if (currentGalleryIndex < 0) {
+        currentGalleryIndex = currentGalleryItems.length - 1;
+    }
+    
+    updateLightboxContent();
+}
+
+// Met à jour l'image ou la vidéo affichée
+function updateLightboxContent() {
+    const modalImg = document.getElementById('lightbox-img');
+    const modalVid = document.getElementById('lightbox-video');
+    
+    // On récupère le lien actuel
+    const src = currentGalleryItems[currentGalleryIndex];
+    const isVideo = src.toLowerCase().endsWith('.mp4') || src.toLowerCase().endsWith('.webm');
+
+    if (isVideo) {
+        modalImg.style.display = 'none';
+        modalVid.style.display = 'block';
+        modalVid.src = src;
+        modalVid.play();
+    } else {
+        modalVid.style.display = 'none';
+        modalVid.pause();
+        modalImg.style.display = 'block';
+        modalImg.src = src;
+    }
+}
+
+function closeLightbox() {
+    const modal = document.getElementById('lightbox-modal');
+    const modalVid = document.getElementById('lightbox-video');
+    if(modal) {
+        modal.style.display = "none";
+        if(modalVid) {
+            modalVid.pause();
+            modalVid.currentTime = 0; // Reset vidéo
+        }
+    }
+    document.removeEventListener('keydown', handleKeyboardNav);
+}
+
+// Navigation clavier (Flèches + Echap)
+function handleKeyboardNav(e) {
+    if (e.key === "Escape") closeLightbox();
+    if (e.key === "ArrowRight") changeSlide(1);
+    if (e.key === "ArrowLeft") changeSlide(-1);
 }

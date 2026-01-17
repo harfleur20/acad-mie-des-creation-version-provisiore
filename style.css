@@ -1,4 +1,3 @@
-
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
 /* Paramètre globaux */
@@ -110,7 +109,7 @@ body.loaded footer {
   position: absolute;
   top: 50%;
   left: 50%;
-  max-width: 85%; /* max 50% de la largeur de l'écran */
+  max-width: 100%; /* max 50% de la largeur de l'écran */
   height: auto;
   transform: translate(-50%, -50%);
 }
@@ -599,7 +598,10 @@ header#navbar.scrolled .desktop-btn {
 .bloc-list-card,
 .pre-list-card {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* 4 cartes par ligne sur grand écran */
+  grid-template-columns: repeat(
+    4,
+    1fr
+  ); /* 4 cartes par ligne sur grand écran */
   gap: 30px; /* Espacement entre les cartes */
   width: 100%;
   padding: 20px 0;
@@ -620,11 +622,9 @@ header#navbar.scrolled .desktop-btn {
     grid-template-columns: repeat(2, 1fr); /* 2 cartes par ligne */
   }
 
-  .form-en-ligne-contenair .form-title-haut{
+  .form-en-ligne-contenair .form-title-haut {
     margin-bottom: 0;
   }
-
-
 }
 
 /* Pour les téléphones */
@@ -804,6 +804,7 @@ header#navbar.scrolled .desktop-btn {
   margin: 0;
   display: -webkit-box;
   -webkit-line-clamp: 2; /* Affiche max 2 lignes */
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden; /* Cache ce qui dépasse */
   text-overflow: ellipsis;
@@ -2309,7 +2310,6 @@ RESPONSIVE TABLETTE | MOBILE | PC
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    z-index: 999;
     box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2);
     transition: right 0.3s ease-in-out;
     padding-top: 5rem;
@@ -2362,8 +2362,8 @@ RESPONSIVE TABLETTE | MOBILE | PC
     color: var(--couleur-principale);
   }
 
-  .btn-link .icon i{
-    color : #1c8480;
+  .btn-link .icon i {
+    color: #1c8480;
   }
 
   /* Place au hero section */
@@ -2902,7 +2902,7 @@ RESPONSIVE TABLETTE | MOBILE | PC : 1024px
     margin-bottom: 1.5rem;
   }
 
-   .card-bloc.new-design {
+  .card-bloc.new-design {
     max-width: 350px; /* Largeur maximale sur mobile */
     margin: 0 auto; /* Centrer les cartes */
   }
@@ -3230,78 +3230,125 @@ RESPONSIVE TABLETTE | MOBILE | PC : 1024px
   }
 }
 
-@media (max-width:400px){
-   .card-bloc.new-design {
+@media (max-width: 400px) {
+  .card-bloc.new-design {
     max-width: 270px; /* Largeur maximale sur mobile */
-    margin:0 auto; /* Centrer les cartes */
+    margin: 0 auto; /* Centrer les cartes */
   }
 }
 
 /* Améliorations pour le loader */
 #preloader {
-    transition: opacity 0.8s ease-out, visibility 0.8s ease-out;
+  transition: opacity 0.8s ease-out, visibility 0.8s ease-out;
 }
 
 /* S'assurer que le contenu est bien caché pendant le chargement */
 body.loading {
-    overflow: hidden; /* Empêche le scroll pendant le chargement */
+  overflow: hidden; /* Empêche le scroll pendant le chargement */
 }
 
 body.loading #header-placeholder,
 body.loading main,
 body.loading #footer-placeholder {
-    opacity: 0 !important;
-    visibility: hidden !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
 }
 
 body.loaded #header-placeholder,
 body.loaded main,
 body.loaded #footer-placeholder {
-    opacity: 1 !important;
-    visibility: visible !important;
-    transition: opacity 0.5s ease-in-out 0.3s; /* Délai pour fluidité */
+  opacity: 1 !important;
+  visibility: visible !important;
+  transition: opacity 0.5s ease-in-out 0.3s; /* Délai pour fluidité */
 }
 
 /* Animation plus fluide pour le loader */
 .loader {
-    position: relative;
-    width: 100px;
-    height: 100px;
+  position: relative;
+  width: 100px;
+  height: 100px;
 }
 
 .circle {
-    width: 100px;
-    height: 100px;
-    border: 5px solid rgba(243, 243, 243, 0.3);
-    border-top: 5px solid #1f2352;
-    border-radius: 50%;
-    animation: spin 1.2s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
+  width: 100px;
+  height: 100px;
+  border: 5px solid rgba(243, 243, 243, 0.3);
+  border-top: 5px solid #1f2352;
+  border-radius: 50%;
+  animation: spin 1.2s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .gif-center {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 70px;
-    height: 70px;
-    transform: translate(-50%, -50%);
-    animation: pulse 2s infinite;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 70px;
+  height: 70px;
+  transform: translate(-50%, -50%);
+  animation: pulse 2s infinite;
 }
 
 @keyframes pulse {
-    0% { opacity: 0.8; transform: translate(-50%, -50%) scale(1); }
-    50% { opacity: 1; transform: translate(-50%, -50%) scale(1.05); }
-    100% { opacity: 0.8; transform: translate(-50%, -50%) scale(1); }
+  0% {
+    opacity: 0.8;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.05);
+  }
+  100% {
+    opacity: 0.8;
+    transform: translate(-50%, -50%) scale(1);
+  }
 }
 
 .no-scroll {
-    overflow: hidden !important;
-    position: fixed;
-    width: 100%;
-    height: 100%;
+  overflow: hidden !important;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+}
+
+/* Overlay : Fond sombre et flou */
+.menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.9); /* Sombre mat */
+  backdrop-filter: blur(8px); /* Flou gaussien */
+  -webkit-backdrop-filter: blur(8px); /* Safari */
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s ease, visibility 0.4s;
+  z-index: 2000; /* Juste sous le header */
+}
+
+/* État affiché */
+.menu-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Style du logo quand le menu est ouvert */
+header#navbar img.logo-blur {
+  filter: blur(8px); /* Intensité du flou */
+  opacity: 0.4; /* On baisse un peu l'opacité pour le style */
+  transition: all 0.4s ease; /* Transition fluide */
+}
+
+/* On s'assure que le logo redevient normal quand le menu ferme */
+header#navbar img {
+  transition: all 0.4s ease;
 }

@@ -9,9 +9,9 @@
       "id": 1,
       "slug": "conception-packaging",
       "type": "ligne",
-      "titre": "Formation complète en conception de Packaging",
+      "titre": "Maîtrisez le Design de Packaging de A à Z - De la découpe à l'impression",
       "categorie": "design",
-      "badges": [],  
+      "badges": ["populaire"],  
       "formateur": "Niveau intermédiaire",
       "note": 3,
       "avis": 65,
@@ -27,10 +27,10 @@
         "Formation en ligne",
         "Certificat de fin de formation"
       ],
-      "date_evenement": "2026-02-15T10:00:00",
+      "date_evenement": "2025-02-15T10:00:00",
       "prix": {
         "actuel": "50 000 FCFA",
-        "original": "70 000 FCFA",
+        "original": "",
         "valeur_cinetpay": "50000"
       },
       "objectifs": [
@@ -43,8 +43,11 @@
       ],
       "travaux_pratiques": [
         "/Assets/1.jpg",
+        "/Flyers/packaging.mp4",
         "/Assets/2.png",
-        "/Assets/3.jpg"
+        "/Flyers/packaging2.jpg!sw800",
+        "/Flyers/emballage-boite-coupe-epreuve_1396481-223.avif",
+        "/Flyers/model-packaging.avif"
       ],
       "audience": "Cette formation est conçue pour les étudiants en design graphique, les graphistes qui veulent se spécialiser, les entrepreneurs souhaitant créer le packaging de leurs produits...",
       "modules": [
@@ -52,9 +55,12 @@
           "nom": "Module 1 : Initiation aux Packaging",
           "points": [
             "C'est quoi un Packaging ?",
-            "Rôle, objectif et enjeux côté graphiste",
+            "Rôle, objectif et enjeu côté graphiste",
             "Les types de Packaging",
-            "Le processus créatif"
+            "Le Patron / Gabarits",
+            "Où trouver les Patrons",
+           "Les bons réflexes",
+            "Le processus créatif d'un Packaging (du Brief jusqu'à la conception)"
           ]
         },
         {
@@ -62,6 +68,22 @@
           "points": [
             "Prise en main de Pacdora",
             "Mise en pratique"
+          ]
+        },
+        {
+          "nom": "Module 3 : Conception des Packaging",
+          "points": [
+            "Les techniques de conception des éléments d'un Patron sur Illustrator",
+            "Conception d'un packaging à partir d'une commande clientèle",
+            "Conception d'un packaging à partir d'un modèle existant"
+          ]
+        },
+        {
+          "nom": "Module 4 : TP Créatifs",
+          "points": [
+            "Conception du packaging d'une boîte de vitamines format horizontal linéaire : Norma GOLD",
+            "Conception du packaging d'un sachet de détergent : Projet Bingo+",
+            "Concevoir le packaging d'une boîte de médicament rectangulaire horizontale : Projet AMZVAL"
           ]
         }
       ],
@@ -83,70 +105,124 @@
       "type": "ligne",
       "titre": "Démarques toi des autres graphistes, deviens un Brand Designer",
       "categorie": "design",
-      "badges": [],  
-      "formateur": "Niveau débutant",
+      "badges": ["premium"],  
+      "formateur": "Niveau intermédiaire",
       "note": 4,
       "avis": 205,
       "niveau": "PRO",
       "image_principale": "/Flyers/brand-identity.jpg",
-      "description_seo": "La méthode efficace pour maitriser les techniques avancées de conceptions des patrons et comprendre les outils de modelisation et d'animation des Packaging",
+      "description_seo": "La méthode efficace pour maîtriser les techniques avancées de branding et comprendre les outils de création et d’animation graphique",
       "lien_reservation": "",
       "points_cles": [
-        "1 moi de formation",
-        "4 Modules à apprendre",
-        "3 projets réels à réaliser",
-        "Tout pour passer de débutant à PRO",
+        "1 mois de formation",
+        "5 Modules à apprendre",
+        "Plusieurs projets à réaliser",
+        "Tout pour passer à PRO",
         "Formation en ligne",
         "Certificat de fin de formation"
       ],
-      "date_evenement": "2025-03-08T10:00:00",
+      "date_evenement": "2026-02-06T10:00:00",
       "prix": {
-        "actuel": "85 000 FCFA",
+        "actuel": "65 000 FCFA",
         "original": "",
         "valeur_cinetpay": "50000"
       },
+      
       "objectifs": [
-        "Maîtriser les outils fondamentaux de Illustrator",
-        "Analyser les briefs clientèles",
-        "Etablir un processus de conception de packaging",
-        "Maitriser les techniques de conception des patrons",
-        "Créer des Packaging partant de zéro",
-        "Maitriser les logiciels de prototypages"
+        "Maîtriser les fondamentaux de la conception d’identité visuelle",
+        "Analyser et interpréter efficacement les briefs clientèles",
+        "Maîtriser les techniques avancées de conception de logo",
+        "Construire une charte graphique cohérente et professionnelle",
+        "Maîtriser la typographie et son application dans une identité de marque",
+        "Présenter les projets à l’aide de mockups professionnels",
+        "Comprendre les bases de la facturation, des devis et de la relation client",
+        "Créer et animer des éléments vectoriels pour valoriser une identité visuelle"
       ],
+
       "travaux_pratiques": [
-        "/Assets/1.jpg",
-        "/Assets/2.png",
-        "/Assets/3.jpg"
+        "/Flyers/croquis-logo.png",
+        "/Flyers/logo-grille.jpg",
+        "/Flyers/logo-twitter-nombre-dor-golden-ratio.jpg",
+        "/Flyers/identité-visuelle.jpg",
+        "/Flyers/sb1.jpg",
+        "/Flyers/strategy.webp"
       ],
-      "audience": "Cette formation est conçue pour les étudiants en design graphique, les graphistes qui veulent se spécialiser, les entrepreneurs souhaitant créer le packaging de leurs produits...",
+      "audience": "Cette formation s’adresse aux étudiants, graphistes et entrepreneurs souhaitant maîtriser la conception d’identité visuelle, du logo à la présentation professionnelle des projets.",
       "modules": [
-        {
-          "nom": "Module 1 : Initiation aux Packaging",
-          "points": [
-            "C'est quois un Packaging ?",
-            "Rôle, objectif et enjeux côté graphiste",
-            "Les types de Packaging",
-            "Le processus créatif"
-          ]
-        },
-        {
-          "nom": "Module 2 : Pacdora",
-          "points": [
-            "Prise en main de Pacdora",
-            "Mise en pratique"
-          ]
-        }
-      ],
-      "faq": [
-        {
-          "q": "Quel est le niveau requis ?",
-          "r": "Une connaissance de base sur Illustrator est recommandée."
-        },
-        {
-          "q": "Paiement en tranche ?",
-          "r": "Non ! les paiements de moins de 50 000f sont payés en 1 fois"
-        }
-      ]
+  {
+    "nom": "Module 1 : Stratégie de marque et analyse du brief",
+    "points": [
+      "Le rôle du Brand Designer",
+      "Analyse et compréhension d’un brief client",
+      "Recherche de marque et positionnement",
+      "Moodboard et direction artistique",
+      "Structuration du processus de validation client"
+    ]
+  },
+  {
+    "nom": "Module 2 : Techniques avancées de conception de logo",
+    "points": [
+      "Méthodologie de conception de logo",
+      "Construction de logos typographiques et symboliques",
+      "Grilles, proportions et cohérence visuelle",
+      "Déclinaisons du logo (couleurs, noir et blanc, responsive)",
+      "Tests d’usage et optimisation"
+    ]
+  },
+  {
+    "nom": "Module 3 : Typographie et charte graphique",
+    "points": [
+      "Choix et associations typographiques",
+      "Hiérarchie et lisibilité",
+      "Construction d’une palette de couleurs cohérente",
+      "Création d’une charte graphique professionnelle",
+      "Règles d’utilisation et bonnes pratiques"
+    ]
+  },
+  {
+    "nom": "Module 4 : Présentation, mockups et animation vectorielle",
+    "points": [
+      "Présentation professionnelle d’une identité visuelle",
+      "Utilisation de mockups réalistes",
+      "Introduction à l’animation vectorielle",
+      "Animation de logo et d’éléments graphiques",
+      "Export pour supports digitaux et réseaux sociaux"
+    ]
+  },
+  {
+    "nom": "Module 5 : Business du designer et projet final",
+    "points": [
+      "Devis, facturation et structuration des offres",
+      "Relation client et gestion des retours",
+      "Organisation et livraison d’un projet branding",
+      "Construction d’un portfolio professionnel",
+      "Réalisation du projet final d’identité visuelle animée"
+    ]
+  }
+],
+
+     "faq": [
+  {
+    "q": "Quel est le niveau requis ?",
+    "r": "Cette formation est de niveau intermédiaire. Une connaissance de base en design graphique et en Illustrator ou Photoshop est recommandée."
+  },
+  {
+    "q": "Le paiement peut-il se faire en plusieurs fois ?",
+    "r": "Non, le paiement se fait en une seule fois. Les inscriptions inférieures à 50 000 F sont également réglées en un seul versement."
+  },
+  {
+    "q": "Quels logiciels vais-je utiliser ?",
+    "r": "Vous apprendrez à utiliser Illustrator, Photoshop et After Effects pour la conception graphique, la typographie, la création de logos et l’animation vectorielle."
+  },
+  {
+    "q": "Que vais-je produire pendant la formation ?",
+    "r": "Vous réaliserez des logos, une charte graphique complète, des mockups professionnels et une animation vectorielle et un votre projet final individuel à réaliser et à remettre."
+  },
+  {
+    "q": "La formation est-elle adaptée aux freelances et entrepreneurs ?",
+    "r": "Oui, la formation inclut des modules sur la relation client, la facturation, les devis et la présentation professionnelle des projets."
+  }
+]
     },
 
     {
@@ -156,56 +232,86 @@
       "titre": "Apprendre le motion design par la pratique (+40h de formation)",
       "categorie": "design",
       "badges": ["populaire"],  
-      "formateur": "Niveau débutant - intermédiaire",
+      "formateur": "Niveau intermédiaire",
       "note": 3,
       "avis": 895,
       "niveau": "PRO",
       "image_principale": "/Flyers/Motion-design.jpg",
       "description_seo": "Apprenez le motion design de A à Z et maîtrisez les techniques d'animation graphique pour créer des vidéos captivantes et dynamiques.",
-      "lien_reservation": "",
+      "lien_reservation": "https://we.academiecreatif.com/prd_g18eeh/checkout",
       "points_cles": [
         "2 mois de formation",
         "4 Modules à apprendre",
-        "3 projets réels à réaliser",
+        "4 projets concrets à réaliser",
         "Tout pour passer de débutant à PRO",
         "Formation en ligne",
         "Certificat de fin de formation"
       ],
-      "date_evenement": "2026-01-28T10:00:00",
+      "date_evenement": "2026-02-16T10:00:00",
       "prix": {
-        "actuel": "65 000 FCFA",
+        "actuel": "70 000 FCFA",
         "original": "95 000 FCFA",
         "valeur_cinetpay": "50000"
       },
       "objectifs": [
-        "Maîtriser les outils fondamentaux de Illustrator",
-        "Analyser les briefs clientèles",
-        "Etablir un processus de conception de packaging",
-        "Maitriser les techniques de conception des patrons",
-        "Créer des Packaging partant de zéro",
-        "Maitriser les logiciels de prototypages"
+        "Maîtriser les outils fondamentaux d’After Effects",
+        "Analyser et interpréter un brief client en motion design",
+        "Établir un processus complet de conception motion (concept → storyboard → animation)",
+        "Maîtriser les techniques d’animation graphique et typographique",
+       "Créer des animations motion design en partant de zéro",
+        "Maîtriser les outils de prototypage et de prévisualisation vidéo (mockups, previews, formats réseaux)"
       ],
       "travaux_pratiques": [
-        "/Assets/1.jpg",
-        "/Assets/2.png",
-        "/Assets/3.jpg"
+        "/Flyers/anim-logo.mp4",
+        "/Flyers/animate-flyer.mp4",
+        "/Flyers/anim-perso.mp4"
       ],
-      "audience": "Cette formation est conçue pour les étudiants en design graphique, les graphistes qui veulent se spécialiser, les entrepreneurs souhaitant créer le packaging de leurs produits...",
+      "audience": "Cette formation s’adresse aux étudiants et professionnels du design, ainsi qu’aux entrepreneurs souhaitant créer des visuels animés modernes et impactants pour leurs projets.",
       "modules": [
         {
-          "nom": "Module 1 : Initiation aux Packaging",
+          "nom": "Module 1 : Fondations du Motion Design (Bases solides)",
           "points": [
-            "C'est quois un Packaging ?",
-            "Rôle, objectif et enjeux côté graphiste",
-            "Les types de Packaging",
-            "Le processus créatif"
+            "Qu’est-ce que le motion design (usages, débouchés, styles)",
+            "Interface complète d’After Effects",
+            "Transformations (position, scale, rotation, opacity)",
+            "Interpolation & easing (Easy Ease, Graph Editor)",
+            "Organisation d’un projet pro (dossiers, naming, workflow)"
           ]
         },
         {
-          "nom": "Module 2 : Pacdora",
+          "nom": "Module 2 : Animation Graphique & Typographie",
           "points": [
-            "Prise en main de Pacdora",
-            "Mise en pratique"
+            "Animation de textes (kinetic typography)",
+            "Masques & shapes layers",
+            "Parentage & null objects",
+            "Principes d’animation (anticipation, timing, overlap)",
+            "Couleurs, lisibilité et hiérarchie visuelle",
+            "TP-1 : Concevoir un logo animé",
+            "TP-2 : Concevoir un flyer Night club animé"
+          ]
+        },
+        {
+          "nom": "Module 3 : Motion Design Avancé & Effets",
+          "points": [
+            "Effets essentiels (Blur, Glow, Motion Tile, CC plugins)",
+            "Animation avec expressions (bases utiles, pas de maths compliquées)",
+            "Transitions professionnelles grâce aux plugins",
+            "Introduction à l’animation de personnages (simple)",
+            "Couleurs, lisibilité et hiérarchie visuelle",
+            "TP-3 : Animer un personnage 2D",
+            "TP-4 : Animer une main avec action d'un objet"
+          ]
+        },
+        {
+          "nom": "Module 4 : Projet Professionnel (PFF)",
+          "points": [
+            "Idée & concept",
+            "Storyboard",
+            "Design des éléments",
+            "Animation complète",
+            "Sound design",
+            "Export & présentation",
+            "Projet Professionnel + accompagnement"
           ]
         }
       ],
@@ -216,7 +322,11 @@
         },
         {
           "q": "Paiement en tranche ?",
-          "r": "Non ! les paiements de moins de 50 000f sont payés en 1 fois"
+          "r": "Oui, vous avez la possibilité de payer en 2 tranches pour cette formation. Il faudra nous contacter individuellement directement via l'icon whatsapp situé au pied de page de ce site internet."
+        },
+        {
+          "q": "Y'a-il un accompagnement après la formation ?",
+          "r": "Oui, effectivement après la formation nous éffectuons un suivi personnalisé pour chacun des apprenants pendant 1 mois, et restons disponible pour tout soucis même après la formation."
         }
       ]
     },
@@ -225,7 +335,7 @@
       "id": 4,
       "slug": "monétisation-tiktok",
       "type": "ligne",
-      "titre": "Apprenez à monétiser votre contenu TikTok et transformez votre audience en revenus stables. ",
+      "titre": "De la création à la monétisation : La méthode complète pour vivre de votre audience TikTok",
       "categorie": "design",
       "badges": ["premium"],  
       "formateur": "Tous niveaux",
@@ -234,16 +344,16 @@
       "niveau": "PRO",
       "image_principale": "/Flyers/Flyer_TIKTOK_Academie.jpg",
       "description_seo": "Apprenez à monétiser votre contenu TikTok et transformez votre audience en revenus stables. Découvrez les stratégies et techniques pour réussir sur cette plateforme dynamique.",
-      "lien_reservation": "",
+      "lien_reservation": "https://we.academiecreatif.com/prd_21sb6c/checkout",
       "points_cles": [
         "1 mois de formation",
-        "4 Modules à apprendre",
+        "5 Modules à apprendre",
         "1 projet réels en Live",
-        "Tout pour passer de débutant à PRO",
+        "Monétiser ton compte Tiktok en 1 mois",
         "Formation en ligne",
         "Certificat de fin de formation"
       ],
-      "date_evenement": "2026-01-23T10:00:00",
+      "date_evenement": "2026-02-09T10:00:00",
       "prix": {
         "actuel": "50 000 FCFA",
         "original": "",
@@ -253,15 +363,15 @@
        "Maitrisez les bases de TikTok",
        "Comprendre l'algorithme de TikTok",
         "Créer du contenu engageant",
-        "Avoir 10 000 en 3 jours",
+        "Avoir 10 000 abonnés en 3 jours",
         "Avoir 100 000 vues en 7 jours",
         "Explorer les différentes méthodes de monétisation",
         "Analyser les performances et optimiser les revenus"
       ],
       "travaux_pratiques": [
-        "/Assets/1.jpg",
-        "/Assets/2.png",
-        "/Assets/3.jpg"
+        "/Flyers/10000abonnes.jpg",
+        "/Flyers/activermonetisation.jpg",
+        "/Flyers/validationTiktok.png"
       ],
       "audience": "Cette formation est conçue pour les créateurs de contenu, les influenceurs, les entrepreneurs et toute personne souhaitant tirer parti de TikTok pour générer des revenus.",
       "modules": [
@@ -270,21 +380,21 @@
           "nom": "Module 1 : Introduction à TikTok",
           "points": [
             "Comprendre la plateforme TikTok",
-            "Créer un compte optimisé"
+            "Créer un compte optimisé & monétiser"
           ]
         },
         {
-          "nom": "Module 2 : Création de contenu engageant",
+          "nom": "Module 2 : Avoir ses premiers 10 000 Abonnés",
           "points": [
-            "Techniques de création de vidéos",
-            "Utilisation des tendances et challenges"
+            "Stratégies pour avoir 10 000 abonnés en mois de 3 jours",
+            "implémentation des 10 000 abonnés"
           ]
         },
         {
-          "nom": "Module 3 : Croissance de l'audience",
+          "nom": "Module 3 : Avoir 100 000 vues en moins de 3 jours",
           "points": [
-            "Stratégies pour augmenter les followers",
-            "Engagement avec la communauté"
+            "Stratégies pour augmenter les vues de video",
+            "implémentation des 100 000 vues"
           ]
         },
         {
@@ -318,7 +428,7 @@
         },
         {
           "q": "Puis-je accéder à la formation à mon rythme ?",
-          "r": "Oui, la formation est en ligne et vous pouvez y accéder à tout moment."
+          "r": "Non, la formation est en live, donc en direct avec la possibillité d'accéder aux ressources."
         },
         {
           "q": "Y a-t-il un certificat à la fin ?",
