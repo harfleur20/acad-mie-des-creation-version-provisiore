@@ -1784,15 +1784,16 @@ header#navbar.scrolled .desktop-btn {
   transform: scale(1.03);
 }
 
-.btn-news button {
+.btn-news .btn-abonne {
   padding: 1rem 2rem;
   border-radius: 50px;
+  background-color: #d9d9d9;
   border: none;
   transition: all 0.3s ease-in-out;
   cursor: pointer;
 }
 
-.btn-news button:hover {
+.btn-news .btn-abonne:hover {
   color: #1c8480;
   transform: scale(1.03);
 }
