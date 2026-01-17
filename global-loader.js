@@ -126,7 +126,7 @@ function genererHTMLCarte(f) {
 }
 
 // ============================================================
-// CHARGEMENT PAGE DÉTAILS (CORRIGÉ & LOGIQUE)
+// CHARGEMENT PAGE DÉTAILS
 // ============================================================
 function chargerDetails(data) {
     const params = new URLSearchParams(window.location.search);
@@ -197,7 +197,7 @@ function chargerDetails(data) {
                 msgDiv.style.color = '#005586';
 
                 setTimeout(() => {
-                    window.open(f.lien_reservation, '_blank');
+                    window.open(f.lien_reservation, '_self');
                 }, 1000);
             });
         }
