@@ -128,6 +128,9 @@ function genererHTMLCarte(f) {
 // ============================================================
 // CHARGEMENT PAGE DÉTAILS
 // ============================================================
+// ============================================================
+// CHARGEMENT PAGE DÉTAILS (COMPLÈTE)
+// ============================================================
 function chargerDetails(data) {
     const params = new URLSearchParams(window.location.search);
     const slug = params.get('slug');
@@ -222,25 +225,53 @@ function chargerDetails(data) {
     fillList('detail-points', f.points_cles);
     fillList('detail-objectifs', f.objectifs);
     
-    // GESTION DES TP (AVEC NAVIGATION & LIGHTBOX)
-    const tpContainer = document.getElementById('detail-tp');
-    if(tpContainer && f.travaux_pratiques) {
+    // 5. GESTION DES TP AVEC PREVIEW AUTOMATIQUE POUR VIDÉOS (GRAND FORMAT PAYSAGE)
+const tpContainer = document.getElementById('detail-tp');
+if(tpContainer && f.travaux_pratiques) {
+    // 1. Sauvegarder la liste complète dans la variable globale
+    currentGalleryItems = f.travaux_pratiques;
+
+    // 2. Générer le HTML avec preview automatique pour vidéos
+    tpContainer.innerHTML = f.travaux_pratiques.map((src, index) => {
+        const isVideo = src.toLowerCase().endsWith('.mp4') || src.toLowerCase().endsWith('.webm');
         
-        // 1. On sauvegarde la liste complète des TP dans la variable globale
-        currentGalleryItems = f.travaux_pratiques;
-
-        // 2. On génère le HTML en utilisant l'index pour la navigation
-        tpContainer.innerHTML = f.travaux_pratiques.map((src, index) => {
-            const isVideo = src.toLowerCase().endsWith('.mp4') || src.toLowerCase().endsWith('.webm');
-            
-            if(isVideo) {
-                return `<video src="${src}" class="tp-item" onclick="openLightbox(${index})" muted></video>`;
-            } else {
-                return `<img src="${src}" alt="TP" class="tp-item" onclick="openLightbox(${index})">`;
-            }
-        }).join('');
+        if(isVideo) {
+            // SOLUTION SIMPLE : vidéo avec première frame comme preview
+            return `
+                <div class="tp-item video-thumbnail landscape" onclick="openLightbox(${index})">
+                    <video 
+                        src="${src}" 
+                        muted 
+                        playsinline 
+                        webkit-playsinline 
+                        preload="metadata"
+                        crossorigin="anonymous"
+                        onloadeddata="if(this.readyState >= 2) { this.currentTime = 0.1; }"
+                    ></video>
+                    <div class="play-button">
+                        <i class="fas fa-play"></i>
+                    </div>
+                    <div class="video-badge">
+                        <i class="fas fa-video"></i> Vidéo
+                    </div>
+                </div>`;
+        } else {
+            return `<img src="${src}" alt="TP" class="tp-item image-thumbnail" onclick="openLightbox(${index})">`;
+        }
+    }).join('');
+    
+    // Si aucune TP, afficher un message
+    if(f.travaux_pratiques.length === 0) {
+        tpContainer.innerHTML = `
+            <div class="no-tp-message">
+                <i class="fas fa-photo-video"></i>
+                <h3>Aucun travail pratique disponible</h3>
+                <p>Les supports de TP seront ajoutés prochainement</p>
+            </div>`;
     }
+}
 
+    // 6. Gestion des modules
     const modContainer = document.getElementById('detail-modules');
     if(modContainer && f.modules) {
         modContainer.innerHTML = f.modules.map(m => `
@@ -252,6 +283,7 @@ function chargerDetails(data) {
             </div>`).join('');
     }
 
+    // 7. Gestion de la FAQ
     const faqContainer = document.getElementById('detail-faq');
     if(faqContainer && f.faq) {
         faqContainer.innerHTML = f.faq.map(item => `
@@ -263,7 +295,63 @@ function chargerDetails(data) {
             </div>`).join('');
     }
 
+    // 8. Initialiser le partage social
     setupSocialSharing(f.titre);
+
+    // 9. FORCER LA PREVIEW DES VIDÉOS APRÈS CHARGEMENT
+    setTimeout(() => {
+        document.querySelectorAll('.video-thumbnail video').forEach(video => {
+            // S'assurer que la première frame est affichée
+            video.addEventListener('loadeddata', function() {
+                if(this.readyState >= 2) { // HAVE_CURRENT_DATA
+                    this.currentTime = 0.1;
+                    this.pause();
+                }
+            });
+            
+            // Si déjà chargé
+            if(video.readyState >= 2) {
+                video.currentTime = 0.1;
+                video.pause();
+            }
+        });
+    }, 500);
+}
+
+// ============================================================
+// FONCTIONS UTILITAIRES
+// ============================================================
+
+// Petit utilitaire pour créer la div de message si elle n'existe pas
+function createMessageDivIfNeeded(btnElement) {
+    let msgDiv = document.getElementById('purchase-status-message');
+    if (!msgDiv) {
+        msgDiv = document.createElement('div');
+        msgDiv.id = 'purchase-status-message';
+        msgDiv.style.marginTop = '10px';
+        msgDiv.style.padding = '10px';
+        msgDiv.style.borderRadius = '5px';
+        msgDiv.style.textAlign = 'center';
+        msgDiv.style.fontWeight = 'bold';
+        btnElement.parentNode.insertBefore(msgDiv, btnElement.nextSibling);
+    }
+    return msgDiv;
+}
+
+// Fonctions de remplissage de base
+function setText(id, text) { 
+    const el = document.getElementById(id); 
+    if(el) el.textContent = text || ''; 
+}
+
+function setImage(id, src) { 
+    const el = document.getElementById(id); 
+    if(el) el.src = src || ''; 
+}
+
+function fillList(id, array) { 
+    const el = document.getElementById(id); 
+    if(el && array) el.innerHTML = array.map(i => `<li><i class="fas fa-check"></i> ${i}</li>`).join(''); 
 }
 
 // Petit utilitaire pour créer la div de message si elle n'existe pas
@@ -281,6 +369,8 @@ function createMessageDivIfNeeded(btnElement) {
     }
     return msgDiv;
 }
+
+
 
 // ============================================================
 // OUTILS TECHNIQUES (Commun)
@@ -456,30 +546,53 @@ function updateLightboxContent() {
     const modalImg = document.getElementById('lightbox-img');
     const modalVid = document.getElementById('lightbox-video');
     
-    // On récupère le lien actuel
     const src = currentGalleryItems[currentGalleryIndex];
     const isVideo = src.toLowerCase().endsWith('.mp4') || src.toLowerCase().endsWith('.webm');
 
     if (isVideo) {
+        // Cacher l'image
         modalImg.style.display = 'none';
-        modalVid.style.display = 'block';
         
-        // CORRECTION IPHONE : On ajoute #t=0.001 pour forcer l'affichage de la première image
-        // Et on s'assure que playsinline et muted sont présents pour Safari
-        modalVid.src = src + "#t=0.001";
+        // Configurer la vidéo pour un grand affichage
+        modalVid.style.display = 'block';
+        modalVid.style.maxWidth = '90vw';
+        modalVid.style.maxHeight = '80vh';
+        modalVid.style.width = 'auto';
+        modalVid.style.height = 'auto';
+        modalVid.style.borderRadius = '8px';
+        modalVid.style.backgroundColor = '#000';
+        
+        // Mettre à jour la source
+        modalVid.src = src;
+        
+        // Forcer le rechargement
+        modalVid.load();
+        
+        // Ajouter des attributs pour un bon affichage
+        modalVid.setAttribute('controls', 'true');
         modalVid.setAttribute('playsinline', 'true');
         modalVid.setAttribute('webkit-playsinline', 'true');
-        modalVid.muted = true; // Indispensable pour l'auto-preview sur iPhone
         
-        modalVid.load(); // Force le rechargement du nouvel attribut src
-        modalVid.play().catch(() => {
-            console.log("Prévisualisation chargée (lecture auto bloquée par le navigateur)");
+        // Essayer de jouer automatiquement
+        modalVid.play().catch(e => {
+            console.log("Auto-play bloqué - l'utilisateur doit cliquer pour jouer");
         });
+        
     } else {
+        // Cacher la vidéo
         modalVid.style.display = 'none';
         modalVid.pause();
+        modalVid.currentTime = 0;
+        
+        // Afficher l'image en grand
         modalImg.style.display = 'block';
         modalImg.src = src;
+        modalImg.style.maxWidth = '90vw';
+        modalImg.style.maxHeight = '80vh';
+        modalImg.style.width = 'auto';
+        modalImg.style.height = 'auto';
+        modalImg.style.objectFit = 'contain';
+        modalImg.style.borderRadius = '8px';
     }
 }
 

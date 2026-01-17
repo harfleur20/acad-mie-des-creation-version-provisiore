@@ -663,6 +663,175 @@ h2 {
     border-radius: 8px;   /* Garde les mêmes arrondis que tes images */
 }
 
+/* =========================================== */
+/* TP - TRAVAUX PRATIQUES (VIDÉOS PAYSAGE) */
+/* =========================================== */
+
+#detail-tp {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 25px;
+    margin: 30px 0;
+}
+
+/* Conteneur principal pour chaque TP */
+.tp-item {
+    cursor: pointer;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    position: relative;
+    background: #f8f9fa;
+}
+
+.tp-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* VIDÉO EN FORMAT PAYSAGE (16:9) */
+.video-thumbnail.landscape {
+    aspect-ratio: 16 / 9; /* Format paysage */
+    width: 100%;
+    background: #000;
+}
+
+.video-thumbnail.landscape video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.video-thumbnail.landscape:hover video {
+    transform: scale(1.05);
+}
+
+/* IMAGES (format carré ou libre) */
+.image-thumbnail {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    background: #f0f0f0;
+}
+
+/* BOUTON PLAY SUR LA VIDÉO */
+.play-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px;
+    height: 60px;
+    background: rgba(0, 36, 98, 0.85);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 20px;
+    z-index: 2;
+    backdrop-filter: blur(2px);
+    transition: all 0.3s ease;
+}
+
+.play-button:hover {
+    background: rgba(0, 36, 98, 0.95);
+    transform: translate(-50%, -50%) scale(1.1);
+}
+
+/* BADGE "VIDÉO" */
+.video-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    z-index: 2;
+    backdrop-filter: blur(4px);
+}
+
+/* Pour cacher les contrôles sur iOS */
+video::-webkit-media-controls {
+    display: none !important;
+}
+
+video::-webkit-media-controls-panel {
+    display: none !important;
+}
+
+video::-webkit-media-controls-play-button {
+    display: none !important;
+}
+
+video::-webkit-media-controls-start-playback-button {
+    display: none !important;
+}
+
+/* MESSAGE SI AUCUN TP */
+.no-tp-message {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 60px 20px;
+    background: #f8f9fa;
+    border-radius: 12px;
+    border: 2px dashed #dee2e6;
+}
+
+.no-tp-message i {
+    font-size: 48px;
+    color: #6c757d;
+    margin-bottom: 20px;
+}
+
+.no-tp-message h3 {
+    color: #495057;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.no-tp-message p {
+    color: #6c757d;
+    font-size: 16px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    #detail-tp {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 20px;
+    }
+    
+    .play-button {
+        width: 50px;
+        height: 50px;
+        font-size: 18px;
+    }
+    
+    .image-thumbnail {
+        height: 200px;
+    }
+}
+
+@media (max-width: 480px) {
+    #detail-tp {
+        grid-template-columns: 1fr;
+    }
+    
+    .video-thumbnail.landscape {
+        aspect-ratio: 16 / 9;
+    }
+}
+
 .modal-content .cta-button {
     width: 100%;
     margin-top: 1rem;
@@ -908,6 +1077,83 @@ h2 {
     border-radius: 4px; /* Très léger arrondi */
     box-shadow: none; /* Suppression de l'ombre demandée */
     border: none;
+}
+
+/* =========================================== */
+/* LIGHTBOX MODIFIÉE POUR VIDÉOS PAYSAGE */
+/* =========================================== */
+
+.lightbox-content {
+    max-width: 90vw;
+    max-height: 80vh;
+    border-radius: 8px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+/* Conteneur pour maintenir le ratio */
+.lightbox-content-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.9);
+    border-radius: 12px;
+    overflow: hidden;
+    padding: 20px;
+}
+
+/* Vidéo en plein écran dans la lightbox */
+#lightbox-video {
+    width: auto;
+    height: auto;
+    max-width: 90vw;
+    max-height: 80vh;
+    background: #000;
+}
+
+/* Boutons de navigation */
+.prev-lightbox, .next-lightbox {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 36, 98, 0.8);
+    color: white;
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+.prev-lightbox:hover, .next-lightbox:hover {
+    background: rgba(0, 36, 98, 1);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.prev-lightbox {
+    left: 20px;
+}
+
+.next-lightbox {
+    right: 20px;
+}
+
+@media (max-width: 768px) {
+    .lightbox-content {
+        max-width: 95vw;
+        max-height: 70vh;
+    }
+    
+    .prev-lightbox, .next-lightbox {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+    }
 }
 
 /* 5. Bouton Fermer (Croix minimaliste) */
