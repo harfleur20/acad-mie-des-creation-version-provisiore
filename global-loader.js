@@ -305,8 +305,8 @@ function chargerDetails(data) {
             </div>`).join('');
     }
 
-    // 8. Initialiser le partage social
-    setupSocialSharing(f.titre);
+    // 8. Initialiser le partage social avec toutes les infos de la formation
+    setupSocialSharing(f.titre, f.description_seo, f.image_principale);
 }
 
 // ============================================================
@@ -436,18 +436,36 @@ function lancerAnimationStats() {
 }
 
 // ============================================================
-// GESTION DU PARTAGE (Réseaux Sociaux)
+// GESTION DU PARTAGE (Réseaux Sociaux) - VERSION COMPLÈTE
 // ============================================================
-function setupSocialSharing(titreFormation) {
+function setupSocialSharing(titreFormation, description, imageUrl) {
     const url = encodeURIComponent(window.location.href);
-    const text = encodeURIComponent(`Découvre cette formation incroyable : ${titreFormation}`);
+    const titre = encodeURIComponent(titreFormation);
+    const desc = encodeURIComponent(description || 'Découvrez cette formation incroyable');
     
+    // Construire l'URL complète de l'image (absolue)
+    const baseUrl = window.location.origin;
+    const fullImageUrl = imageUrl.startsWith('http') ? imageUrl : baseUrl + imageUrl;
+    
+    // Mise à jour des balises meta Open Graph pour un meilleur partage
+    updateMetaTags(titreFormation, description, fullImageUrl);
+    
+    // 1. Configuration Facebook
     const btnFb = document.getElementById('share-facebook');
-    if(btnFb) btnFb.href = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+    if(btnFb) {
+        btnFb.href = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+    }
 
+    // 2. Configuration WhatsApp
     const btnWa = document.getElementById('share-whatsapp');
-    if(btnWa) btnWa.href = `https://api.whatsapp.com/send?text=${text}%20${url}`;
+    if(btnWa) {
+        // WhatsApp affiche l'aperçu du lien (avec image) SEULEMENT si on envoie juste l'URL
+        // Pour avoir l'image + texte, on met le texte APRÈS l'URL
+        const message = `🎓 *${titreFormation}*\n\n${description}\n\n`;
+        btnWa.href = `https://api.whatsapp.com/send?text=${encodeURIComponent(message + window.location.href)}`;
+    }
 
+    // 3. Configuration Copie Lien
     const btnCopy = document.getElementById('share-copy');
     if(btnCopy) {
         btnCopy.onclick = async () => {
@@ -455,7 +473,20 @@ function setupSocialSharing(titreFormation) {
                 await navigator.clipboard.writeText(window.location.href);
                 const tooltip = document.createElement('div');
                 tooltip.className = 'tooltip-copied';
-                tooltip.innerText = 'Lien copié dans le presse-papier !';
+                tooltip.style.cssText = `
+                    position: fixed;
+                    bottom: 20px;
+                    right: 20px;
+                    background: #28a745;
+                    color: white;
+                    padding: 15px 20px;
+                    border-radius: 8px;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+                    z-index: 10000;
+                    font-weight: bold;
+                    animation: slideIn 0.3s ease;
+                `;
+                tooltip.innerHTML = '<i class="fas fa-check-circle"></i> Lien copié !';
                 document.body.appendChild(tooltip);
                 setTimeout(() => tooltip.remove(), 2000);
             } catch (err) {
@@ -465,19 +496,74 @@ function setupSocialSharing(titreFormation) {
         };
     }
 
+    // 4. Configuration Partage Natif (Mobile)
     if (navigator.share) {
         const btnNative = document.getElementById('share-native');
         if(btnNative) {
             btnNative.style.display = 'flex';
-            btnNative.onclick = () => {
-                navigator.share({
-                    title: document.title,
-                    text: `Je viens de voir cette formation : ${titreFormation}`,
-                    url: window.location.href
-                }).catch(console.error);
+            btnNative.onclick = async () => {
+                try {
+                    await navigator.share({
+                        title: titreFormation,
+                        text: description,
+                        url: window.location.href
+                    });
+                } catch(err) {
+                    console.log('Partage annulé ou non supporté');
+                }
             };
         }
     }
+}
+
+// Fonction pour mettre à jour les balises meta Open Graph dynamiquement
+function updateMetaTags(titre, description, imageUrl) {
+    // Mettre à jour le titre de la page
+    document.title = titre + ' - Académie des créatifs';
+    
+    // S'assurer que l'URL de l'image est absolue (obligatoire pour Open Graph)
+    const baseUrl = window.location.origin;
+    const absoluteImageUrl = imageUrl.startsWith('http') ? imageUrl : baseUrl + imageUrl;
+    
+    console.log('🖼️ Image Open Graph:', absoluteImageUrl); // Debug
+    
+    // Fonction helper pour créer ou mettre à jour une balise meta
+    const setMetaTag = (property, content) => {
+        let meta = document.querySelector(`meta[property="${property}"]`) || 
+                   document.querySelector(`meta[name="${property}"]`);
+        
+        if (!meta) {
+            meta = document.createElement('meta');
+            if (property.startsWith('og:') || property.startsWith('twitter:')) {
+                meta.setAttribute('property', property);
+            } else {
+                meta.setAttribute('name', property);
+            }
+            document.head.appendChild(meta);
+        }
+        meta.setAttribute('content', content);
+    };
+    
+    // Open Graph (Facebook, LinkedIn, WhatsApp)
+    setMetaTag('og:title', titre);
+    setMetaTag('og:description', description);
+    setMetaTag('og:image', absoluteImageUrl);
+    setMetaTag('og:image:secure_url', absoluteImageUrl); // Important pour HTTPS
+    setMetaTag('og:image:width', '1200'); // Taille recommandée
+    setMetaTag('og:image:height', '630');
+    setMetaTag('og:image:type', 'image/jpeg');
+    setMetaTag('og:url', window.location.href);
+    setMetaTag('og:type', 'website');
+    setMetaTag('og:site_name', 'Académie des créatifs');
+    
+    // Twitter Cards
+    setMetaTag('twitter:card', 'summary_large_image');
+    setMetaTag('twitter:title', titre);
+    setMetaTag('twitter:description', description);
+    setMetaTag('twitter:image', absoluteImageUrl);
+    
+    // Description générale
+    setMetaTag('description', description);
 }
 
 // ============================================================

@@ -6,6 +6,24 @@
     <title>Détails Formation - Académie des créatifs</title>
     <base href="./" />
     <link rel="icon" href="Assets/logo_ico_hd.png" type="image/png" />
+    
+    <!-- Balises Meta Open Graph (seront mises à jour dynamiquement) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Académie des créatifs" />
+    <meta property="og:title" content="Formation - Académie des créatifs" />
+    <meta property="og:description" content="Découvrez nos formations professionnelles" />
+    <meta property="og:image" content="/Assets/logo_ico_hd.png" />
+    <meta property="og:url" content="" />
+    
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Formation - Académie des créatifs" />
+    <meta name="twitter:description" content="Découvrez nos formations professionnelles" />
+    <meta name="twitter:image" content="/Assets/logo_ico_hd.png" />
+    
+    <!-- Meta description générale -->
+    <meta name="description" content="Découvrez nos formations professionnelles en design, motion design et marketing digital." />
+    
     <link rel="stylesheet" href="details-style.css" />
     <link rel="stylesheet" href="style.css" />
     <link
@@ -22,10 +40,7 @@
         <div class="container">
           <div class="hero-content">
             <div class="back-btn">
-              <a
-                href="/"
-              
-              >
+              <a href="/">
                 <i class="fa-solid fa-arrow-left"></i> Retour
               </a>
             </div>
@@ -82,7 +97,7 @@
                 </div>
             </div>
 
-            <!-- MESSAGE DE STATUT (AJOUTÉ) -->
+            <!-- MESSAGE DE STATUT -->
             <div
               id="purchase-status-message"
               style="
@@ -193,22 +208,16 @@
 
     <!-- Script pour charger le courseId dynamiquement -->
     <script>
-      // Ce script récupère l'ID de la formation depuis l'URL
       document.addEventListener("DOMContentLoaded", function () {
-        // Exemple d'URL : /formation-details.html?id=123
         const urlParams = new URLSearchParams(window.location.search);
         const courseId = urlParams.get("id");
 
         if (courseId) {
-          // Stocke l'ID dans le bouton
           const purchaseBtn = document.getElementById("detail-btn-paiement");
           if (purchaseBtn) {
             purchaseBtn.dataset.courseId = courseId;
           }
-
-          // Stocke aussi dans une variable globale pour les autres scripts
           window.currentCourseId = courseId;
-
           console.log("Course ID chargé:", courseId);
         }
       });
