@@ -15,49 +15,41 @@ function loadComponent(id, file, callback) {
         .catch(error => console.error(error));
 }
 
-// Gestion du burger avec Overlay, Flou et Logo
+//gestion du burger
 function initializeBurgerMenu() {
     const burger = document.querySelector('.menu-toggle');
     const nav = document.querySelector('.nav-links');
-    const overlay = document.getElementById('menuOverlay');
-    // On récupère le logo (l'image dans le header)
-    const logo = document.querySelector('header#navbar img'); 
+    const closeIcon = document.querySelector('.close-icon'); // Ajout pour gérer la croix si besoin
 
-    if (!burger || !nav || !overlay) return;
+    if (!burger || !nav) return; // Sécurité
 
+    // Nettoyage des anciens écouteurs pour éviter les doublons si rechargé
     const newBurger = burger.cloneNode(true);
     burger.parentNode.replaceChild(newBurger, burger);
     
-    const closeMenu = () => {
-        nav.classList.remove('active');
-        newBurger.classList.remove('active');
-        overlay.classList.remove('active');
-        document.body.classList.remove('no-scroll');
-        // On retire le flou du logo à la fermeture
-        if (logo) logo.classList.remove('logo-blur'); 
-    };
-
     newBurger.addEventListener('click', (e) => {
         e.stopPropagation();
-        const isOpen = nav.classList.toggle('active');
-        newBurger.classList.toggle('active');
-        overlay.classList.toggle('active');
+        nav.classList.toggle('active');
+        newBurger.classList.toggle('active'); // Pour l'animation croix/barres
         document.body.classList.toggle('no-scroll');
-        
-        // On ajoute ou retire le flou du logo selon l'état
-        if (logo) logo.classList.toggle('logo-blur'); 
     });
 
-    overlay.addEventListener('click', closeMenu);
-
-    nav.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', closeMenu);
-    });
-
+    // Gestion de la fermeture (clic ailleurs)
     document.addEventListener('click', (e) => {
         if (nav.classList.contains('active') && !nav.contains(e.target) && !newBurger.contains(e.target)) {
-            closeMenu();
+            nav.classList.remove('active');
+            newBurger.classList.remove('active');
+            document.body.classList.remove('no-scroll');
         }
+    });
+    
+    // Gestion des liens
+    nav.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            nav.classList.remove('active');
+            newBurger.classList.remove('active');
+            document.body.classList.remove('no-scroll');
+        });
     });
 }
 

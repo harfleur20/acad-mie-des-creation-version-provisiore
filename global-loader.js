@@ -456,15 +456,24 @@ function updateLightboxContent() {
     const modalImg = document.getElementById('lightbox-img');
     const modalVid = document.getElementById('lightbox-video');
     
-    // On récupère le lien actuel
     const src = currentGalleryItems[currentGalleryIndex];
     const isVideo = src.toLowerCase().endsWith('.mp4') || src.toLowerCase().endsWith('.webm');
 
     if (isVideo) {
         modalImg.style.display = 'none';
         modalVid.style.display = 'block';
-        modalVid.src = src;
-        modalVid.play();
+        
+        // CORRECTION IPHONE : t=0.001 force l'affichage de la première image
+        modalVid.src = src + "#t=0.001";
+        
+        // Attributs indispensables pour Safari mobile
+        modalVid.setAttribute('playsinline', '');
+        modalVid.setAttribute('webkit-playsinline', '');
+        modalVid.setAttribute('preload', 'metadata');
+        
+        modalVid.play().catch(error => {
+            console.log("Lecture auto bloquée, l'image est affichée grâce au timer.");
+        });
     } else {
         modalVid.style.display = 'none';
         modalVid.pause();
