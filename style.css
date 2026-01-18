@@ -2001,6 +2001,7 @@ header#navbar.scrolled .desktop-btn {
 
 .popup-close:hover {
   background-color: #e7fdfc;
+  transform: rotate(-90deg);
 }
 
 /* Styles pour le contenu interne */
