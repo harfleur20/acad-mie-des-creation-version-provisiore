@@ -109,9 +109,7 @@ body.loaded footer {
   position: absolute;
   top: 50%;
   left: 50%;
-  max-width: 100%; /* max 50% de la largeur de l'écran */
-  width: 50px;
-  height: 50px;
+  max-width: 90%; 
   transform: translate(-50%, -50%);
 }
 
@@ -3302,7 +3300,7 @@ body.loaded #footer-placeholder {
   }
 }
 
-.gif-center {
+/* .gif-center {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -3310,7 +3308,7 @@ body.loaded #footer-placeholder {
   height: 70px;
   transform: translate(-50%, -50%);
   animation: pulse 2s infinite;
-}
+} */
 
 @keyframes pulse {
   0% {
